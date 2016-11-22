@@ -21,21 +21,26 @@ class Tmp extends Component {
     this.bevelEnabled = true;
     this.geometry;
     this.material ;
+    this.rgbTohex = this.rgbTohex.bind(this);
     this.loadFont = (words)=> {
       console.log("loadFont");
       var loader = new THREE.FontLoader();
       loader.load('js/optimer_bold.typeface.json', (font)=>{
         //this.geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
-        this.material =  new THREE.MeshBasicMaterial( { color:0xffffff } );
+
+
         Object.keys(words).forEach((word)=>{
           var geo  = new THREE.TextGeometry(word,{size: 25, font:font, height:2});
 
+          var color = new THREE.Color(words[word][0],words[word][1],words[word][2] );
+          console.log("color", color);
+          this.material =  new THREE.MeshBasicMaterial( { color:color } );
           var mesh = new THREE.Mesh( geo, this.material );
           console.log("word", word);
           console.log("index",(words[word][0]));
-          mesh.position.x = (words[word][0]);
-          mesh.position.y = (words[word][1]);//( Math.random() - 0.5 ) * 1000;
-          mesh.position.z = (words[word][2]);
+          mesh.position.x = ((words[word][0]-0.5)*window.innerWidth);
+          mesh.position.y = ((words[word][1]-0.5)*window.innerHeight);//( Math.random() - 0.5 ) * 1000;
+          mesh.position.z = ((words[word][2]-0.5)*500);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           this.scene.add( mesh );
@@ -58,8 +63,8 @@ class Tmp extends Component {
     this.createText = this.createText.bind(this);
     this.text = "three.js"
     this.mirror = true;
-    this.words = {"z":[0,0,250], "x":[250,0,0], "y":[0,250,0], "O":[0,0,0]};
-
+    this.words = {"z":[0,0,0.2], "x":[0.2,0,0], "y":[0,0.2,0], "O":[0,0,0], "hi":[0.1,0.3,0.2],"haha":[0,0,0.5],"cool":[0.9,0.6,0.7], "new center":[0.5,0.5,0.5]};
+    this.onWindowResize = this.onWindowResize.bind(this);
   }
 
   componentDidMount(){
@@ -70,7 +75,14 @@ class Tmp extends Component {
       this.init();
       this.animate();
   }
+  rgbTohex(r, g, b){
+     var bin = r << 16 | g << 8 | b;
+     return (function(h){
+      console.log("h",h);
+         return new Array(7-h.length).join("0")+h
+     })(bin.toString(16).toUpperCase())
 
+    }
  init() {
         console.log("INIT FUN");
 
@@ -83,9 +95,12 @@ class Tmp extends Component {
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         var container = document.getElementById( 'container' );
         container.appendChild( this.renderer.domElement );
-        this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+        this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
         this.camera.position.z = 500;
-        console.log("THREE", THREE);
+        // this.camera.position.y = 500;
+        // this.camera.position.x = 500;
+        //this.camera.lookAt(new THREE.Vector3(window.innerWidth/2,window.innerHeight/2,0));
+
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)//new THREE.OrbitControls( this.camera, this.renderer.domElement );
         //controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
         this.controls.enableDamping = true;
@@ -155,6 +170,7 @@ class Tmp extends Component {
         if ( !this.text ) return;
         //this.createText();
       }
+
 
     createText() {
         textGeo = new THREE.TextGeometry( this.text, {
