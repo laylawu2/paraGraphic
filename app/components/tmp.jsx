@@ -19,12 +19,28 @@ class Tmp extends Component {
     this.textMesh2;
     this.material;
     this.bevelEnabled = true;
+    this.geometry;
+    this.material ;
     this.loadFont = ()=> {
+      console.log("loadFont");
       var loader = new THREE.FontLoader();
       loader.load('js/optimer_bold.typeface.json', (response)=>{
         console.log("res~~~~", this.font);
         this.font = response;
          console.log("res2~~~~", this.font);
+
+        this.geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
+        this.material =  new THREE.MeshBasicMaterial( { color:0xffffff } );
+        for ( var i = 0; i < 500; i ++ ) {
+          var mesh = new THREE.Mesh( this.geometry, this.material );
+          mesh.position.x = ( Math.random() - 0.5 ) * 1000;
+          mesh.position.y = ( Math.random() - 0.5 ) * 1000;
+          mesh.position.z = ( Math.random() - 0.5 ) * 1000;
+          mesh.updateMatrix();
+          mesh.matrixAutoUpdate = false;
+          this.scene.add( mesh );
+        }
+
         this.refreshText();
       })
     }
@@ -33,6 +49,7 @@ class Tmp extends Component {
     this.createText = this.createText.bind(this);
     this.text = "three.js"
     this.mirror = true;
+    this.words = [];
 
   }
 
@@ -40,11 +57,13 @@ class Tmp extends Component {
     //this.props.onLoadPuppies();
     // this.plot();
 
+      this.loadFont();
       this.init();
       this.animate();
   }
 
  init() {
+        console.log("INIT FUN");
 
         var OrbitControls = require('three-orbit-controls')(THREE);
         this.scene = new THREE.Scene();
@@ -68,13 +87,13 @@ class Tmp extends Component {
         this.group.position.y = 100;
         this.scene.add(this.group);
 
-        this.loadFont.call(this);
         // world
-        console.log("font", this.font);
-        var geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
-        var material =  new THREE.MeshBasicMaterial( { color:0xffffff } );
+
+        // var geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
+        // var material =  new THREE.MeshBasicMaterial( { color:0xffffff } );
+        console.log("geometry", this.geometry);
         for ( var i = 0; i < 500; i ++ ) {
-          var mesh = new THREE.Mesh( geometry, material );
+          var mesh = new THREE.Mesh( this.geometry, this.material );
           mesh.position.x = ( Math.random() - 0.5 ) * 1000;
           mesh.position.y = ( Math.random() - 0.5 ) * 1000;
           mesh.position.z = ( Math.random() - 0.5 ) * 1000;
