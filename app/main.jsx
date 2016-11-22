@@ -9,7 +9,7 @@ import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import Tmp from './components/Tmp'
-
+import InputForm from './components/InputForm'
 
 
 const ExampleApp = connect(
@@ -30,9 +30,9 @@ render (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Jokes} />
+        <IndexRedirect to="/tmp" />
         <Route path="/tmp" component ={Tmp} />
+        <Route path="/input" component ={InputForm} />
       </Route>
 
     </Router>
