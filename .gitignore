@@ -1,3 +1,6 @@
+word2vec_explore/bigFiles
+word2vec_explore/node_modules
+
 # Ignore all node_modules
 node_modules/*
 
@@ -10,3 +13,4 @@ public/bundle.js.map
 
 # NPM errors
 npm-debug.log
+
