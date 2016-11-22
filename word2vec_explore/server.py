@@ -9,16 +9,15 @@ from testFunction import crazyMakin, printSomething
 from projections_with_Ashi import getPointsFromWords
 
 @app.route('/')
-def writeSomething():
-	crazyMakin()
-	stuff = printSomething()
-	return jsonify(stuff)
+def index():
+	return render_template('index.html')
 
-#google flask return JSON  flask.jsonify(DATAOBJ)
 
 @app.route('/api', methods=['POST'])
-def sendBackData():
+def getAndSendWordData():
 	data = request.get_data()
+	dataToReturn = getPointsFromWords(data)
+	return jsonify(dataToReturn)
 	
 
 

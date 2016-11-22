@@ -5,7 +5,7 @@ import re
 from nltk.corpus import stopwords
 from gensim.models import word2vec
 
-news = word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
 
 
 def text_to_words(textfield):
