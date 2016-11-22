@@ -21,25 +21,34 @@ class Tmp extends Component {
     this.bevelEnabled = true;
     this.geometry;
     this.material ;
-    this.loadFont = ()=> {
+    this.loadFont = (words)=> {
       console.log("loadFont");
       var loader = new THREE.FontLoader();
-      loader.load('js/optimer_bold.typeface.json', (response)=>{
-        console.log("res~~~~", this.font);
-        this.font = response;
-         console.log("res2~~~~", this.font);
-
-        this.geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
+      loader.load('js/optimer_bold.typeface.json', (font)=>{
+        //this.geometry = new THREE.TextGeometry("hello",{size: 20, font: this.font});
         this.material =  new THREE.MeshBasicMaterial( { color:0xffffff } );
-        for ( var i = 0; i < 500; i ++ ) {
-          var mesh = new THREE.Mesh( this.geometry, this.material );
-          mesh.position.x = ( Math.random() - 0.5 ) * 1000;
-          mesh.position.y = ( Math.random() - 0.5 ) * 1000;
-          mesh.position.z = ( Math.random() - 0.5 ) * 1000;
+        Object.keys(words).forEach((word)=>{
+          var geo  = new THREE.TextGeometry(word,{size: 25, font:font, height:2});
+
+          var mesh = new THREE.Mesh( geo, this.material );
+          console.log("word", word);
+          console.log("index",(words[word][0]));
+          mesh.position.x = (words[word][0]);
+          mesh.position.y = (words[word][1]);//( Math.random() - 0.5 ) * 1000;
+          mesh.position.z = (words[word][2]);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           this.scene.add( mesh );
-        }
+        })
+        // for ( var i = 0; i <  ; i ++ ) {
+        //   var mesh = new THREE.Mesh( this.geometry, this.material );
+        //   mesh.position.x = ( Math.random() - 0.5 ) * 1000;
+        //   mesh.position.y = ( Math.random() - 0.5 ) * 1000;
+        //   mesh.position.z = ( Math.random() - 0.5 ) * 1000;
+        //   mesh.updateMatrix();
+        //   mesh.matrixAutoUpdate = false;
+        //   this.scene.add( mesh );
+        // }
 
         this.refreshText();
       })
@@ -49,7 +58,7 @@ class Tmp extends Component {
     this.createText = this.createText.bind(this);
     this.text = "three.js"
     this.mirror = true;
-    this.words = [];
+    this.words = {"z":[0,0,250], "x":[250,0,0], "y":[0,250,0], "O":[0,0,0]};
 
   }
 
@@ -57,7 +66,7 @@ class Tmp extends Component {
     //this.props.onLoadPuppies();
     // this.plot();
 
-      this.loadFont();
+      this.loadFont(this.words);
       this.init();
       this.animate();
   }
