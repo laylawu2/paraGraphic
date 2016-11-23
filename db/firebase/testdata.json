@@ -1,0 +1,18 @@
+{
+    "-KUDHLoA79LzYXsXLNZM" : {
+      "x" : ["love", "hate"],
+      "y" : ["peace", "war"],
+      "z" : ["calm", "anger"]
+    },
+    "-KUDHPgsYqOVcC-Db7-W" : {
+      "x" : ["achieve", "fail"],
+      "y" : ["idle", "active"],
+      "z" : ["afraid", "confident"]
+    },
+    "-KUDHS9kUXPYWN8aqD6A" : {
+      "x" : ["cowardly", "brave"],
+      "y" : ["crazy", "sane"],
+      "z" : ["crooked", "straight"]
+    },
+
+}

@@ -8,6 +8,7 @@ import store from './store'
 import App from './components/App'
 import VisualizerContainer from './containers/VisualizerContainer'
 import { loadWords } from './reducers/visualizer'
+import InputForm from './components/InputForm'
 
 
 // dispatch thunk to get words data
@@ -21,7 +22,8 @@ render (
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
         <IndexRedirect to="/tmp" />
-        <Route path="/tmp" component ={ VisualizerContainer } onEnter={ onVisEnter } />
+        <Route path="tmp" component={ VisualizerContainer } onEnter={ onVisEnter } />
+        <Route path="input" component={ InputForm } />
       </Route>
     </Router>
   </Provider>,
