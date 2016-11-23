@@ -45,9 +45,9 @@ class Tmp extends Component {
       // this.props.y_label = ["love", "hate"];
       // this.props.z_label = ["clear", "confused"];
       ///load labels
-      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5);
+      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 10);
       //load words
-      this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 2);
+      this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 5);
       this.init();
       this.animate();
   }
@@ -81,11 +81,11 @@ class Tmp extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-    //this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
+    this.scene.fog = new THREE.FogExp2( 0x6ec1e5, 0.0002 );
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
-    //this.renderer.setClearColor( this.scene.fog.color );
+    this.renderer.setClearColor( this.scene.fog.color );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -102,14 +102,12 @@ class Tmp extends Component {
     this.controls.enableZoom = false;
 
     // lights
-    let light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 1, 1, 1 );
+    let light = new THREE.DirectionalLight(0xaaaaaa);
+    console.log("add light", light);
+    light.position.set(150, 350, 350);
     this.scene.add( light );
-    light = new THREE.DirectionalLight( 0x002288 );
-    light.position.set( -1, -1, -1 );
-    this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
-    this.scene.add( light );
+    //light2 = new THREE.AmbientLight( 0x0cff00 );
+    //this.scene.add( light2 );
 
     //info box to monitor code performance
     this.stats = new Stats();
