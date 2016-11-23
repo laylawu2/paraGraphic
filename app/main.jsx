@@ -5,7 +5,6 @@ import {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 
 import store from './store'
-import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import Tmp from './components/Tmp'
@@ -15,7 +14,6 @@ import InputForm from './components/InputForm'
 // const ExampleApp = connect(
 //   ({ auth }) => ({ user: auth })
 // )
-
 // (
 //   ({ user, children }) =>
 //     <div>
