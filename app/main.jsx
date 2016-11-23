@@ -29,7 +29,7 @@ import InputForm from './components/InputForm'
 render (
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={Tmp}>
+      <Route path="/">
         <IndexRedirect to="/tmp" />
         <Route path="/tmp" component ={Tmp} />
         <Route path="/input" component ={InputForm} />

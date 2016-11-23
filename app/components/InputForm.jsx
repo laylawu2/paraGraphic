@@ -60,7 +60,7 @@ export default class extends React.Component {
 
   postAndGetWordData(input) {                        // axios call to python server
     axios.post('http://localhost:5000/api', input)   // returns the plottable points 
-      .then(res => console.log(res))
+      .then(res => console.log('REEEESPONSEEEEE', res))
       .catch(err => console.error(err))
   }
 
