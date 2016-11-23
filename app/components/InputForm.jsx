@@ -1,6 +1,9 @@
 import React from 'react'
 import firebase from 'firebase'
 import axios from 'axios'
+
+import { loadLabels } from '../reducers/inputForm'
+
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -56,6 +59,8 @@ export default class extends React.Component {
     const newRef = myRef.push(userInput)     // send user input to database
     const id = newRef.key                    // this is the database key for entry just pushed
     this.postAndGetWordData(userInput)       // call function to post request to python server
+
+
   }
 
   postAndGetWordData(input) {                        // axios call to python server

@@ -8,7 +8,7 @@ import store from './store'
 import App from './components/App'
 import VisualizerContainer from './containers/VisualizerContainer'
 import { loadWords } from './reducers/visualizer'
-import InputForm from './components/InputForm'
+import InputFormContainer from './containers/InputFormContainer'
 
 
 // dispatch thunk to get words data
@@ -23,7 +23,7 @@ render (
       <Route path="/" component={ App }>
         <IndexRedirect to="/tmp" />
         <Route path="tmp" component={ VisualizerContainer } onEnter={ onVisEnter } />
-        <Route path="input" component={ InputForm } />
+        <Route path="input" component={ InputFormContainer } />
       </Route>
     </Router>
   </Provider>,
