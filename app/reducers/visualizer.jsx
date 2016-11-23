@@ -7,18 +7,6 @@ export const getWords = words => ({
   words
 });
 
-export const loadWords = () => {
-  return (dispatch) => {
-    // get words from backend
-    axios.get('/api/words')
-      .then(res => {
-        console.log("res.data", res.data);
-        const action = getWords(res.data);
-        return dispatch(action);
-      })
-      .catch(console.error);
-  };
-};
 
 export default (state={}, action) => {
   switch(action.type) {

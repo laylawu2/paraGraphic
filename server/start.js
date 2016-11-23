@@ -51,7 +51,6 @@ module.exports = app
     //console.log(req.body)
     axios.post('http://localhost:5000/api', req.body)    
       .then(response => {
-        console.log('in backend axios, response', response)
         res.send(response.data)})
       .catch(err => console.error(err))
   })
