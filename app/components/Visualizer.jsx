@@ -3,29 +3,33 @@ import React, { Component } from 'react';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
 
-class Tmp extends Component {
+export default class Visualizer extends Component {
   constructor(props) {
     super(props);
-    //variables for three js to set up
+
     this.stats;
     this.camera;
     this.controls;
     this.scene;
     this.renderer;
     this.animate = this.animate.bind(this);
-    this.mirror = true;
 
+    
+    this.mirror = true;
     /* Sample data */
-    this.words = {
-      "z":[0,0,0.2],
-      "x":[0.2,0,0],
-      "y":[0,0.2,0],
-      "O":[0,0,0],
-      "hi":[0.1,0.3,0.2],
-      "haha":[0,0,0.5],
-      "cool":[0.9,0.6,0.7],
-      "new center":[0.5,0.5,0.5]
-    };
+    // this.words = {
+    //   "z":[0,0,0.2], 
+    //   "x":[0.2,0,0], 
+    //   "y":[0,0.2,0], 
+    //   "O":[0,0,0], 
+    //   "hi":[0.1,0.3,0.2],
+    //   "haha":[0,0,0.5],
+    //   "cool":[0.9,0.6,0.7], 
+    //   "new center":[0.5,0.5,0.5]
+    // };
+    // console.log("props......", props.words)
+    // this.words = this.props.words;
+    
     // offset negative labels by -0.1 so they don't overlap with each other
     this.labels = {
       "HATE": [-0.1, 0, 0],
@@ -44,14 +48,15 @@ class Tmp extends Component {
       // this.props.x_label = ["happy", "sad"];
       // this.props.y_label = ["love", "hate"];
       // this.props.z_label = ["clear", "confused"];
-      ///load labels
-      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5);
-      //load words
-      this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 2);
+      console.log(this.props.words, this.props);
+      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5)
+      this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
       this.init();
       this.animate();
   }
-  /*load the words/label to scene*/
+
+
+  /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
     let loader = new THREE.FontLoader();
@@ -64,6 +69,7 @@ class Tmp extends Component {
         let color = new THREE.Color(words[word][0], words[word][1], words[word][2] );
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
+
         //set the position for every single word
         mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
@@ -75,9 +81,8 @@ class Tmp extends Component {
       })
     })
   }
- /*initial function*/
- init() {
 
+ init() {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
@@ -117,19 +122,22 @@ class Tmp extends Component {
 
     window.addEventListener( 'resize', this.onWindowResize, false );
   }
+
   // auto resize
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
-  //animation
+
+  // animation
   animate() {
     requestAnimationFrame( this.animate );
     this.controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
     this.stats.update();
     this.renderPlot();
   }
+
   //plot the scene and camera to the canvas
   renderPlot() {
     this.renderer.render( this.scene, this.camera );
@@ -143,9 +151,3 @@ class Tmp extends Component {
     )
   }
 }
-
-
-
-export default connect (
-null, null
-) (Tmp)
