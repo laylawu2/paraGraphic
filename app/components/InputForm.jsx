@@ -10,7 +10,8 @@ export default class extends React.Component {
       ymin: '',
       ymax: '',
       zmin: '',
-      zmax: ''
+      zmax: '',
+      text: ''
     }
     this.submitForm = this.submitForm.bind(this)
     this.setState = this.setState.bind(this)
@@ -39,19 +40,21 @@ export default class extends React.Component {
       ymin: e.target.ymin.value,
       ymax: e.target.ymax.value,
       zmin: e.target.zmin.value,
-      zmax: e.target.zmax.value
+      zmax: e.target.zmax.value,
+      text: e.target.text.value
     });
 
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
+    
 
     const myRef = firebase.database().ref('/')
     const userInput = {
       x: [this.state.xmin, this.state.xmax],
       y: [this.state.ymin, this.state.ymax],
       z: [this.state.zmin, this.state.zmax],
-      text: 'long strng of words'
+      text: this.state.text
     }
     const newRef = myRef.push(userInput)     // send user input to database
     const id = newRef.key                    // this is the database key for entry just pushed
@@ -59,8 +62,9 @@ export default class extends React.Component {
   }
 
   postAndGetWordData(input) {                        // axios call to python server
-    axios.post('http://localhost:5000/api', input)   // returns the plottable points 
-      .then(res => console.log(res))
+    axios.post('http://localhost:1337', input)   // returns the plottable points 
+      .then(res => console.log('REEEESPONSEEEEE', res))
+      // the above is working!!!! response.data is the object with words and coord values that we want
       .catch(err => console.error(err))
   }
 
@@ -82,6 +86,11 @@ export default class extends React.Component {
         <input type='text' name='zmin'></input>
         <input type='text' name='zmax'></input>
       </div>
+      <div className='form-group'>
+        <label>text to analyze: </label>
+        <input type='text' name='text'></input>
+      </div>
+
 
       <button type='submit'>See My Graph</button>
     </form>)

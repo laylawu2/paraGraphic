@@ -9,7 +9,7 @@ from gensim.models import word2vec
 news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
 
 
-# following class and function used for testing purposes only; do not run in actual app (I think...)
+# following class and function used for testing purposes only; do not run in actual app
 class MockModel(object):
 	def __contains__ (self, word):
 		return True
