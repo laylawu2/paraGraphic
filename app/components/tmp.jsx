@@ -27,24 +27,38 @@ class Tmp extends Component {
       "cool":[0.9,0.6,0.7], 
       "new center":[0.5,0.5,0.5]
     };
+    // offset negative labels by -0.1 so they don't overlap with each other
+    this.labels = {
+      "HATE": [-0.1, 0, 0],
+      "LOVE": [1, 0, 0],
+      "SAD": [0, -0.1, 0],
+      "HAPPY": [0, 1, 0],
+      "CONFUSED": [0, 0, -0.1],
+      "CLEAR": [0, 0, 0.99]
+    }
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
   }
 
   componentDidMount(){
-      this.loadWords(this.words);
+      // this.props.x_label = ["happy", "sad"];
+      // this.props.y_label = ["love", "hate"];
+      // this.props.z_label = ["clear", "confused"];
+      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5)
+      this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 2);
       this.init();
       this.animate();
   }
 
-  loadWords(words) {
+  loadWords(words, fontFile, size, height) {
     let loader = new THREE.FontLoader();
-    loader.load('js/optimer_bold.typeface.json', (font) => {
+    loader.load(fontFile, (font) => {
 
       Object.keys(words).forEach((word) => {
-        let geometry  = new THREE.TextGeometry(word,{size: 25, font:font, height:2});
-        let color = new THREE.Color(words[word][0],words[word][1],words[word][2] );
+
+        let geometry  = new THREE.TextGeometry(word,{size, font, height});
+        let color = new THREE.Color(words[word][0], words[word][1], words[word][2] );
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
@@ -73,7 +87,7 @@ class Tmp extends Component {
     container.appendChild( this.renderer.domElement );
     
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
-    this.camera.position.z = 500;
+    this.camera.position.z = 600;
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
