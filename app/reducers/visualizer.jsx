@@ -1,13 +1,4 @@
 import axios from 'axios'
-
-const reducer = (state=null, action) => {
-  switch(action.type) {
-    case GET_WORDS:
-      return action.words 
-  }
-  return state
-};
-
 const GET_WORDS = 'GET_WORDS';
 
 // action creator
@@ -21,6 +12,7 @@ export const loadWords = () => {
     // get words from backend
     axios.get('/api/words')
       .then(res => {
+        console.log("res.data", res.data);
         const action = getWords(res.data);
         return dispatch(action);
       })
@@ -28,4 +20,11 @@ export const loadWords = () => {
   };
 };
 
-export default reducer;
+export default (state={}, action) => {
+  switch(action.type) {
+    case GET_WORDS:
+    console.log("reducer", action.words);
+      return action.words 
+  }
+  return state
+};

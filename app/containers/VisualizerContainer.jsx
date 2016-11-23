@@ -9,6 +9,7 @@ return ({
 	words
 });
 }
+
 // const mapDispatchToProps = (dispatch) => ({
 
 // })

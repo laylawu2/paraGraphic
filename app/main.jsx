@@ -12,8 +12,8 @@ import { loadWords } from './reducers/visualizer'
 
 // dispatch thunk to get words data
 const onVisEnter = () => {
-  const thunk = loadWords();
-  store.dispatch(thunk);
+  // const thunk = loadWords();
+  store.dispatch(loadWords());
 }
 
 render (
@@ -23,7 +23,6 @@ render (
         <IndexRedirect to="/tmp" />
         <Route path="/tmp" component ={ VisualizerContainer } onEnter={ onVisEnter } />
       </Route>
-
     </Router>
   </Provider>,
   document.getElementById('main')

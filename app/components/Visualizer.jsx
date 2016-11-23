@@ -16,21 +16,9 @@ export default class Visualizer extends Component {
 
     
     this.mirror = true;
-    /* Sample data */
-    // this.words = {
-    //   "z":[0,0,0.2], 
-    //   "x":[0.2,0,0], 
-    //   "y":[0,0.2,0], 
-    //   "O":[0,0,0], 
-    //   "hi":[0.1,0.3,0.2],
-    //   "haha":[0,0,0.5],
-    //   "cool":[0.9,0.6,0.7], 
-    //   "new center":[0.5,0.5,0.5]
-    // };
-    // console.log("props......", props.words)
-    // this.words = this.props.words;
     
     // offset negative labels by -0.1 so they don't overlap with each other
+    // change this to this.props.labels after form is added
     this.labels = {
       "HATE": [-0.1, 0, 0],
       "LOVE": [1, 0, 0],
@@ -42,15 +30,10 @@ export default class Visualizer extends Component {
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount(){
-      // this.props.x_label = ["happy", "sad"];
-      // this.props.y_label = ["love", "hate"];
-      // this.props.z_label = ["clear", "confused"];
-      console.log(this.props.words, this.props);
-      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5)
-      this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
       this.init();
       this.animate();
   }
@@ -66,7 +49,7 @@ export default class Visualizer extends Component {
       Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2] );
+        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
@@ -86,11 +69,11 @@ export default class Visualizer extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-    //this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
+    this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
-    //this.renderer.setClearColor( this.scene.fog.color );
+    this.renderer.setClearColor( this.scene.fog.color );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -144,6 +127,9 @@ export default class Visualizer extends Component {
   }
 
   render () {
+    // load all words for each scene 
+    this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
+    this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
          <h1>Canvas</h1>
