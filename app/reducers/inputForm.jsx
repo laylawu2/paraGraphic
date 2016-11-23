@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const RECEIVE_LABELS = 'RECEIVE_LABELS'
+
 const processLabels = (labels) => {
 	let result = {},
 		coords = [[-0.1, 0, 0],
@@ -14,9 +16,9 @@ const processLabels = (labels) => {
 	return result;
 }
 
-const receiveLabels = lables => ({
-	type: 'RECEIVE_LABELS',
-	processLabels(labels)
+const receiveLabels = (labels) => ({
+	type: RECEIVE_LABELS,
+	labels: processLabels(labels)
 })
 
 export const loadLabels = data =>

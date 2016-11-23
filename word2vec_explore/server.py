@@ -26,6 +26,7 @@ from projections_with_Ashi import getPointsFromWords
 @app.route('/api', methods=['POST'])
 def getAndSendWordData():
 	data = request.json
+	print data
 	#get_data returns data as string.  Form should return parsed data if type is recognized. try running this!
 	dataToReturn = getPointsFromWords(data)
  	return Response(json.dumps(dataToReturn), content_type='application/json')

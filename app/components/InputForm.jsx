@@ -1,6 +1,8 @@
 import React from 'react'
 import firebase from 'firebase'
 import axios from 'axios'
+import {browserHistory} from 'react-router'
+
 
 import { loadLabels } from '../reducers/inputForm'
 
@@ -37,15 +39,16 @@ export default class extends React.Component {
   }
   submitForm(e){
     e.preventDefault()
-    this.setState({
+    const input = {
       xmin: e.target.xmin.value,
-      xmax: e.target.ymax.value,
+      xmax: e.target.xmax.value,
       ymin: e.target.ymin.value,
       ymax: e.target.ymax.value,
       zmin: e.target.zmin.value,
       zmax: e.target.zmax.value,
       text: e.target.text.value
-    });
+    };
+
 
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
@@ -54,24 +57,19 @@ export default class extends React.Component {
 
     const myRef = firebase.database().ref('/')
     const userInput = {
-      x: [this.state.xmin, this.state.xmax],
-      y: [this.state.ymin, this.state.ymax],
-      z: [this.state.zmin, this.state.zmax],
-      text: this.state.text
+      x: [input.xmin, input.xmax],
+      y: [input.ymin, input.ymax],
+      z: [input.zmin, input.zmax],
+      text: input.text
     }
-    const newRef = myRef.push(userInput)     // send user input to database
-    const id = newRef.key                    // this is the database key for entry just pushed
-    this.postAndGetWordData(userInput)       // call function to post request to python server
-
+    const newRef = myRef.push(userInput);     // send user input to database
+    console.log(userInput);
+    const id = newRef.key;                    // this is the database key for entry just pushed
+    this.props.postAndGetWordData(userInput)      // call function to post request to python server
+      .then(browserHistory.push('/tmp'))
 
   }
 
-  postAndGetWordData(input) {                        // axios call to python server
-    axios.post('http://localhost:1337', input)   // returns the plottable points 
-      .then(res => console.log('REEEESPONSEEEEE', res))
-      // the above is working!!!! response.data is the object with words and coord values that we want
-      .catch(err => console.error(err))
-  }
 
   render(){
     return(
