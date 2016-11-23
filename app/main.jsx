@@ -11,7 +11,10 @@ import { loadWords } from './reducers/visualizer'
 import InputFormContainer from './containers/InputFormContainer'
 
 
-// dispatch thunk to get words data
+
+
+
+// dispatch thunk to get words data 
 const onVisEnter = () => {
   // const thunk = loadWords();
   store.dispatch(loadWords());
