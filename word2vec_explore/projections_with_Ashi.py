@@ -5,11 +5,11 @@ import re
 from nltk.corpus import stopwords
 from gensim.models import word2vec
 
-#/Users/caraweber/Documents/capstone/capstone/word2vec_explore/
-
+# loads the pre-trained Google News model
 news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
-#news = word2vec.Word2Vec.load_word2vec_format('300features_40minwords_10context', binary=False)
 
+
+# following class and function used for testing purposes only; do not run in actual app (I think...)
 class MockModel(object):
 	def __contains__ (self, word):
 		return True
@@ -17,11 +17,12 @@ class MockModel(object):
 	def __getitem__ (self, word):
 		return np.random.rand(500).astype(np.float64)
 
-#news = MockModel()
-
 def get_model():
 	return news
 
+
+# takes in a long text string, removes markup, removes non-alphanumeric characters, splits into words
+# eliminates stopwords ("a", "and", "the", etc.) and words not in model (to avoid errors)
 def text_to_words(textfield, model):
 	textblock = BeautifulSoup(textfield, 'html.parser').get_text()
 	textblock = re.sub("[^a-zA-Z]", " ", textblock)
@@ -32,7 +33,25 @@ def text_to_words(textfield, model):
 
 
 
-def EDITproject3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
+# project3D: 
+# takes in the trained model, user-defined axis endpoints, and the list of words returned above
+# returns a large object where each key is a word (from the text entered by user) and each value is 
+# an array containing the x,y,z coordinates for that word 
+# 
+# example:  {'dark': [0.61010414, 0.46065113, 0.49404886],
+#            'despair': [0.61152101, 0.42039439, 0.38471106],
+#            'even': [0.51923549, 0.48055968, 0.68398511]}
+
+#
+# calculation is done by calculating the scalar projection of the target word vector along the axis
+# vector defined by the axis endpoint words (e.g. x-axis vector is defined by xmin and xmax)
+
+# see wikipedia on vector projections for better explanation of math involved
+
+# note: np.asscalar (lines 71-73 converts the number format of vector calculation result into something
+# regular python can parse)
+
+def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 	wordCoordinates={}
 
 	xminVec, xmaxVec = model[xmin], model[xmax]
@@ -48,50 +67,18 @@ def EDITproject3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 	ydenom = np.dot(yaxis, yaxis)
 	zdenom = np.dot(zaxis, zaxis)
 
-
 	for word in words:
 		coords = []
-		coords.append(np.dot(model[word] - xminVec, xaxis) / xdenom)
-		coords.append(np.dot(model[word] - yminVec, yaxis) / ydenom)
-		coords.append(np.dot(model[word] - zminVec, zaxis) / zdenom)
+		coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
+		coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
+		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
 		wordCoordinates[word] = coords
-
-# calculate the dot products for denominator of fractions ONCE (outside of loop)
-# use a list comprehension instead of 3 different coords.append things in loop
-# value, loop condition for value, filter (optional)
 
 	return wordCoordinates
 
 
 
-
-def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
-	wordCoordinates={}
-
-	xminVec, xmaxVec = model[xmin], model[xmax]
-	xaxis = xmaxVec - xminVec
-
-	yminVec, ymaxVec = model[ymin], model[ymax]
-	yaxis = ymaxVec - yminVec
-
-	zminVec, zmaxVec = model[zmin], model[zmax]
-	zaxis = zmaxVec - zminVec
-
-	for word in words:
-		coords = []
-		coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / np.dot(xaxis, xaxis)))
-		coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / np.dot(yaxis, yaxis)))
-		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / np.dot(zaxis, zaxis)))
-		wordCoordinates[word] = coords
-
-# calculate the dot products for denominator of fractions ONCE (outside of loop)
-# use a list comprehension instead of 3 different coords.append things in loop
-# value, loop condition for value, filter (optional)
-
-	return wordCoordinates
-
-
-
+# uses functions defined above to transform user input into set of words and coordinates
 def getPointsFromWords(userInputObj):
 
 	textfield = userInputObj['text']
@@ -110,6 +97,8 @@ def getPointsFromWords(userInputObj):
 	return words_with_coords
 
 
+# overview of how getPointsFromWords works:
+
 # for a request object with the following structure:  
 # 	{x: ['one', 'two'],
 #  	 y: ['another', 'pair'],
@@ -119,24 +108,3 @@ def getPointsFromWords(userInputObj):
 # grab those values, perform vector projections for each WORD in text field, send back (x,y,z)
 # coords. for every word.  
 
-
-
-
-
-
-
-
-
-# #NEED TO IMPORT A BUNCH MORE STUFF gensim, scipy, 
-
-# news = word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
-
-# def project(model, min, max, *words):
-#     minVec, maxVec = model[min], model[max]
-#     axis = maxVec - minVec
-#     return [(word, np.dot(model[word] - minVec, axis) / np.dot(axis, axis)) for word in words]
-
-# from scipy import spatial
-# #spatial.distance.cosine(
-# #    news['Albany'] - news['New_York'],
-# #    news['Sacramento'] - news['California'])

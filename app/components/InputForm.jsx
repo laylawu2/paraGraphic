@@ -17,6 +17,11 @@ export default class extends React.Component {
 
   }
   componentDidMount(){
+
+    // following code configures and initializes firebase database to work with app
+    // may eventually want to move this to React component for home page / landing page 
+    // or even index.html if possible -- firebase should be working as soon as app starts
+
     var config = {
       apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
       authDomain: "capstone-b9f6c.firebaseapp.com",
@@ -28,7 +33,6 @@ export default class extends React.Component {
   }
   submitForm(e){
     e.preventDefault()
-    console.log('e', e)
     this.setState({
       xmin: e.target.xmin.value,
       xmax: e.target.ymax.value,
@@ -37,7 +41,11 @@ export default class extends React.Component {
       zmin: e.target.zmin.value,
       zmax: e.target.zmax.value
     });
-    console.log('this.state', this.state)
+
+    // myRef is how we can access table in firebase
+    // userInput is an object derived from user's text entries which will be a) sent to database table
+    // and b) sent to python server to be converted into plottable points
+
     const myRef = firebase.database().ref('/')
     const userInput = {
       x: [this.state.xmin, this.state.xmax],
@@ -45,13 +53,13 @@ export default class extends React.Component {
       z: [this.state.zmin, this.state.zmax],
       text: 'long strng of words'
     }
-    const newRef = myRef.push(userInput)
-    const id = newRef.key
-    this.postAndGetWordData(userInput)
+    const newRef = myRef.push(userInput)     // send user input to database
+    const id = newRef.key                    // this is the database key for entry just pushed
+    this.postAndGetWordData(userInput)       // call function to post request to python server
   }
 
-  postAndGetWordData(input) {
-    axios.post('http://localhost:5000/api', input)
+  postAndGetWordData(input) {                        // axios call to python server
+    axios.post('http://localhost:5000/api', input)   // returns the plottable points 
       .then(res => console.log(res))
       .catch(err => console.error(err))
   }
