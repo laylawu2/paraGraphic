@@ -5,16 +5,63 @@ import re
 from nltk.corpus import stopwords
 from gensim.models import word2vec
 
+#/Users/caraweber/Documents/capstone/capstone/word2vec_explore/
+
 news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
+#news = word2vec.Word2Vec.load_word2vec_format('300features_40minwords_10context', binary=False)
 
+class MockModel(object):
+	def __contains__ (self, word):
+		return True
 
-def text_to_words(textfield):
-	textblock = BeautifulSoup(textfield).get_text()
-	textblock = re.sub("[^a-zA-Z]", " ", texblock)
-	words = review_text.lower().split()
+	def __getitem__ (self, word):
+		return np.random.rand(500).astype(np.float64)
+
+#news = MockModel()
+
+def get_model():
+	return news
+
+def text_to_words(textfield, model):
+	textblock = BeautifulSoup(textfield, 'html.parser').get_text()
+	textblock = re.sub("[^a-zA-Z]", " ", textblock)
+	words = textblock.lower().split()
 	stops = set(stopwords.words("english"))
-	words = [w for w in words if not w in stops]
+	words = [w for w in words if w in model and not w in stops]
 	return words
+
+
+
+def EDITproject3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
+	wordCoordinates={}
+
+	xminVec, xmaxVec = model[xmin], model[xmax]
+	xaxis = xmaxVec - xminVec
+
+	yminVec, ymaxVec = model[ymin], model[ymax]
+	yaxis = ymaxVec - yminVec
+
+	zminVec, zmaxVec = model[zmin], model[zmax]
+	zaxis = zmaxVec - zminVec
+
+	xdenom = np.dot(xaxis, xaxis)
+	ydenom = np.dot(yaxis, yaxis)
+	zdenom = np.dot(zaxis, zaxis)
+
+
+	for word in words:
+		coords = []
+		coords.append(np.dot(model[word] - xminVec, xaxis) / xdenom)
+		coords.append(np.dot(model[word] - yminVec, yaxis) / ydenom)
+		coords.append(np.dot(model[word] - zminVec, zaxis) / zdenom)
+		wordCoordinates[word] = coords
+
+# calculate the dot products for denominator of fractions ONCE (outside of loop)
+# use a list comprehension instead of 3 different coords.append things in loop
+# value, loop condition for value, filter (optional)
+
+	return wordCoordinates
+
 
 
 
@@ -32,9 +79,9 @@ def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 
 	for word in words:
 		coords = []
-		coords.append(np.dot(model[word] - xminVec, xaxis) / np.dot(xaxis, xaxis))
-		coords.append(np.dot(model[word] - yminVec, yaxis) / np.dot(yaxis, yaxis))
-		coords.append(np.dot(model[word] - zminVec, zaxis) / np.dot(zaxis, zaxis))
+		coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / np.dot(xaxis, xaxis)))
+		coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / np.dot(yaxis, yaxis)))
+		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / np.dot(zaxis, zaxis)))
 		wordCoordinates[word] = coords
 
 # calculate the dot products for denominator of fractions ONCE (outside of loop)
@@ -46,17 +93,18 @@ def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 
 
 def getPointsFromWords(userInputObj):
-	texfield = userInputObj['text']
-	wordsToPlot = text_to_words(textfield)
 
-	xmin = userInputObj['x'[0]]
-	xmax = userInputObj['x'[1]]
+	textfield = userInputObj['text']
+	wordsToPlot = text_to_words(textfield, news)
 
-	ymin = userInputObj['y'[0]]
-	ymax = userInputObj['y'[1]]
+	xmin = userInputObj['x'][0]
+	xmax = userInputObj['x'][1]
 
-	zmin = userInputObj['z'[0]]
-	zmax = userInputObj['z'[1]]
+	ymin = userInputObj['y'][0]
+	ymax = userInputObj['y'][1]
+
+	zmin = userInputObj['z'][0]
+	zmax = userInputObj['z'][1]
 
 	words_with_coords = project3D(news, xmin, xmax, ymin, ymax, zmin, zmax, wordsToPlot)
 	return words_with_coords
@@ -79,16 +127,16 @@ def getPointsFromWords(userInputObj):
 
 
 
-#NEED TO IMPORT A BUNCH MORE STUFF gensim, scipy, 
+# #NEED TO IMPORT A BUNCH MORE STUFF gensim, scipy, 
 
-news = word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+# news = word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
 
-def project(model, min, max, *words):
-    minVec, maxVec = model[min], model[max]
-    axis = maxVec - minVec
-    return [(word, np.dot(model[word] - minVec, axis) / np.dot(axis, axis)) for word in words]
+# def project(model, min, max, *words):
+#     minVec, maxVec = model[min], model[max]
+#     axis = maxVec - minVec
+#     return [(word, np.dot(model[word] - minVec, axis) / np.dot(axis, axis)) for word in words]
 
-from scipy import spatial
-#spatial.distance.cosine(
-#    news['Albany'] - news['New_York'],
-#    news['Sacramento'] - news['California'])
+# from scipy import spatial
+# #spatial.distance.cosine(
+# #    news['Albany'] - news['New_York'],
+# #    news['Sacramento'] - news['California'])

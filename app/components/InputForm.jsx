@@ -51,7 +51,7 @@ export default class extends React.Component {
   }
 
   postAndGetWordData(input) {
-    axios.post('/api', input)
+    axios.post('http://localhost:5000/api', input)
       .then(res => console.log(res))
       .catch(err => console.error(err))
   }

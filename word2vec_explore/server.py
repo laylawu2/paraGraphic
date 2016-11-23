@@ -1,11 +1,10 @@
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
+import json
 app = Flask(__name__)
 
-import sys
+#import sys
 
-
-from testFunction import crazyMakin, printSomething
 from projections_with_Ashi import getPointsFromWords
 
 @app.route('/')
@@ -13,11 +12,20 @@ def index():
 	return render_template('index.html')
 
 
+# @app.route('/')
+# def printsomething():
+# 	return 'adklfj'
+
+
 @app.route('/api', methods=['POST'])
 def getAndSendWordData():
-	data = request.get_data()
+	print 'hello'
+	data = request.json
+	#get_data returns data as string.  Form should return parsed data if type is recognized. try running this!
 	dataToReturn = getPointsFromWords(data)
-	return jsonify(dataToReturn)
+ 	return Response(json.dumps(dataToReturn), content_type='application/json')
+ 	
+
 	
 
 

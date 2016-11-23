@@ -12,24 +12,24 @@ import Tmp from './components/Tmp'
 import InputForm from './components/InputForm'
 
 
-const ExampleApp = connect(
-  ({ auth }) => ({ user: auth })
-)
+// const ExampleApp = connect(
+//   ({ auth }) => ({ user: auth })
+// )
 
-(
-  ({ user, children }) =>
-    <div>
-      <nav>
-        {user ? <WhoAmI/> : <Login/>}
-      </nav>
-      {children}
-    </div>
-)
+// (
+//   ({ user, children }) =>
+//     <div>
+//       <nav>
+//         {user ? <WhoAmI/> : <Login/>}
+//       </nav>
+//       {children}
+//     </div>
+// )
 
 render (
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={ExampleApp}>
+      <Route path="/" component={Tmp}>
         <IndexRedirect to="/tmp" />
         <Route path="/tmp" component ={Tmp} />
         <Route path="/input" component ={InputForm} />

@@ -31,8 +31,8 @@ module.exports = app
   .use(bodyParser.json())
 
   // Authentication middleware
-  .use(passport.initialize())
-  .use(passport.session())
+ // .use(passport.initialize())
+ // .use(passport.session())
   
   // Serve static files from ../public
   .use(express.static(resolve(__dirname, '..', 'public')))
