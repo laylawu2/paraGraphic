@@ -14,6 +14,8 @@ class Tmp extends Component {
     this.renderer;
     this.animate = this.animate.bind(this);
     this.mirror = true;
+    this.hemisphereLight;
+    this.shadowLight;
 
     /* Sample data */
     this.words = {
@@ -38,6 +40,7 @@ class Tmp extends Component {
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
+    this.createLights = this.createLights.bind(this);
   }
 
   componentDidMount(){
@@ -53,6 +56,7 @@ class Tmp extends Component {
   }
   /*load the words/label to scene*/
   loadWords(words, fontFile, size, height) {
+    console.log("Add words/labels");
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
@@ -72,8 +76,13 @@ class Tmp extends Component {
         mesh.matrixAutoUpdate = false;
         //append the word to scene
         this.scene.add( mesh );
+        // let light = new THREE.DirectionalLight(0xaaaaaa);
+        // console.log("add light", light);
+        // light.position.set(150, 350, 350);
+        // this.scene.add( light );
       })
     })
+
   }
  /*initial function*/
  init() {
@@ -101,11 +110,12 @@ class Tmp extends Component {
     this.controls.dampingFactor = 0.25;
     this.controls.enableZoom = false;
 
+    this.createLights();
     // lights
-    let light = new THREE.DirectionalLight(0xaaaaaa);
-    console.log("add light", light);
-    light.position.set(150, 350, 350);
-    this.scene.add( light );
+    // let light = new THREE.DirectionalLight(0xaaaaaa);
+    // console.log("add light", light);
+    // light.position.set(150, 350, 350);
+    // this.scene.add( light );
     //light2 = new THREE.AmbientLight( 0x0cff00 );
     //this.scene.add( light2 );
 
@@ -132,6 +142,41 @@ class Tmp extends Component {
   renderPlot() {
     this.renderer.render( this.scene, this.camera );
   }
+
+  createLights() {
+    console.log("Add Light")
+  // A hemisphere light is a gradient colored light;
+  // the first parameter is the sky color, the second parameter is the ground color,
+  // the third parameter is the intensity of the light
+  this.hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+
+  // A directional light shines from a specific direction.
+  // It acts like the sun, that means that all the rays produced are parallel.
+  this.shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+
+  // Set the direction of the light
+  this.shadowLight.position.set(150, 350, 350);
+
+  // Allow shadow casting
+  this.shadowLight.castShadow = true;
+
+  // define the visible area of the projected shadow
+  this.shadowLight.shadow.camera.left = -400;
+  this.shadowLight.shadow.camera.right = 400;
+  this.shadowLight.shadow.camera.top = 400;
+  this.shadowLight.shadow.camera.bottom = -400;
+  this.shadowLight.shadow.camera.near = 1;
+  this.shadowLight.shadow.camera.far = 1000;
+
+  // define the resolution of the shadow; the higher the better,
+  // but also the more expensive and less performant
+  this.shadowLight.shadow.mapSize.width = 2048;
+  this.shadowLight.shadow.mapSize.height = 2048;
+
+  // to activate the lights, just add them to the scene
+  this.scene.add(this.hemisphereLight);
+  this.scene.add(this.shadowLight);
+}
 
   render () {
     return (
