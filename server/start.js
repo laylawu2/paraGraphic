@@ -3,7 +3,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const {resolve} = require('path')
-const passport = require('passport')
+const axios = require('axios')
+//const passport = require('passport')
 
 // Bones has a symlink from node_modules/APP to the root of the app.
 // That means that we can require paths relative to the app root by
@@ -21,27 +22,38 @@ if (!pkg.isProduction && !pkg.isTesting) {
 
 module.exports = app
   // We'll store the whole session in a cookie
-  .use(require('cookie-session') ({
-    name: 'session',
-    keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
-  }))
+  // .use(require('cookie-session') ({
+  //   name: 'session',
+  //   keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
+  // }))
 
   // Body parsing middleware
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
 
   // Authentication middleware
-  .use(passport.initialize())
-  .use(passport.session())
+ // .use(passport.initialize())
+ // .use(passport.session())
   
   // Serve static files from ../public
   .use(express.static(resolve(__dirname, '..', 'public')))
 
   // Serve our api
-  .use('/api', require('./api'))
+  //.use('/api', require('./api'))
 
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
+
+
+  // post request receive from axios on front end should send another axios call to python backend, 
+  // receive that data
+  .post('/', (req, res, next) =>{
+    //console.log(req.body)
+    axios.post('http://localhost:5000/api', req.body)    
+      .then(response => {
+        res.send(response.data)})
+      .catch(err => console.error(err))
+  })
 
 if (module === require.main) {
   // Start listening only if we're the main module.

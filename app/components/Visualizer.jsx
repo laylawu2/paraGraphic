@@ -3,32 +3,28 @@ import React, { Component } from 'react';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
 
-class Tmp extends Component {
+export default class Visualizer extends Component {
   constructor(props) {
     super(props);
-    //variables for three js to set up
+
     this.stats;
     this.camera;
     this.controls;
     this.scene;
     this.renderer;
     this.animate = this.animate.bind(this);
+<<<<<<< HEAD:app/components/tmp.jsx
     this.mirror = true;
     this.hemisphereLight;
     this.shadowLight;
+=======
+>>>>>>> master:app/components/Visualizer.jsx
 
-    /* Sample data */
-    this.words = {
-      "z":[0,0,0.2],
-      "x":[0.2,0,0],
-      "y":[0,0.2,0],
-      "O":[0,0,0],
-      "hi":[0.1,0.3,0.2],
-      "haha":[0,0,0.5],
-      "cool":[0.9,0.6,0.7],
-      "new center":[0.5,0.5,0.5]
-    };
+    
+    this.mirror = true;
+    
     // offset negative labels by -0.1 so they don't overlap with each other
+    // change this to this.props.labels after form is added
     this.labels = {
       "HATE": [-0.1, 0, 0],
       "LOVE": [1, 0, 0],
@@ -40,6 +36,7 @@ class Tmp extends Component {
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
+<<<<<<< HEAD:app/components/tmp.jsx
     this.createLights = this.createLights.bind(this);
   }
 
@@ -51,10 +48,18 @@ class Tmp extends Component {
       this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 10);
       //load words
       this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 5);
+=======
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  componentDidMount(){
+>>>>>>> master:app/components/Visualizer.jsx
       this.init();
       this.animate();
   }
-  /*load the words/label to scene*/
+
+
+  /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     console.log("Add words/labels");
     //need to load the font first
@@ -65,9 +70,10 @@ class Tmp extends Component {
       Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2] );
+        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
+
         //set the position for every single word
         mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
@@ -84,13 +90,16 @@ class Tmp extends Component {
     })
 
   }
- /*initial function*/
- init() {
 
+ init() {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
+<<<<<<< HEAD:app/components/tmp.jsx
     this.scene.fog = new THREE.FogExp2( 0x6ec1e5, 0.0002 );
+=======
+    this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
+>>>>>>> master:app/components/Visualizer.jsx
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
@@ -125,19 +134,22 @@ class Tmp extends Component {
 
     window.addEventListener( 'resize', this.onWindowResize, false );
   }
+
   // auto resize
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
-  //animation
+
+  // animation
   animate() {
     requestAnimationFrame( this.animate );
     this.controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
     this.stats.update();
     this.renderPlot();
   }
+
   //plot the scene and camera to the canvas
   renderPlot() {
     this.renderer.render( this.scene, this.camera );
@@ -179,6 +191,9 @@ class Tmp extends Component {
 }
 
   render () {
+    // load all words for each scene 
+    this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
+    this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
          <h1>Canvas</h1>
@@ -186,9 +201,3 @@ class Tmp extends Component {
     )
   }
 }
-
-
-
-export default connect (
-null, null
-) (Tmp)
