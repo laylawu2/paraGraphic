@@ -39,6 +39,8 @@ export default class extends React.Component {
   }
   submitForm(e){
     e.preventDefault()
+
+    // make sure that labels are all upper case
     const input = {
       xmin: e.target.xmin.value.toUpperCase(),
       xmax: e.target.xmax.value.toUpperCase(),
@@ -63,11 +65,11 @@ export default class extends React.Component {
       text: input.text
     }
     const newRef = myRef.push(userInput);     // send user input to database
-    console.log("userInput", userInput);
-    const id = newRef.key;  
+    const id = newRef.key; 
+
     this.props.addLabels(userInput);              // this is the database key for entry just pushed
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
-      .then(browserHistory.push('/tmp'))
+      .then(browserHistory.push('/tmp'));         // redirect to visualizer
 
   }
 

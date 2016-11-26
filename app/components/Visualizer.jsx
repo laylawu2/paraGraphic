@@ -14,7 +14,6 @@ export default class Visualizer extends Component {
     this.renderer;
     this.animate = this.animate.bind(this);
 
-    
     this.mirror = true;
 
     this.onWindowResize = this.onWindowResize.bind(this);
@@ -118,7 +117,7 @@ export default class Visualizer extends Component {
   render () {
     // load all words for each scene 
     console.log("this.props", this.props);
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
