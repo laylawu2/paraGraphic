@@ -30,7 +30,7 @@ return (
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">examples <span className="caret"></span></a>
           <ul className="dropdown-menu">
-            <Link to="/s1">Action</Link>
+            <Link to="/s1">Accelerate Manifesto</Link>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" className="divider"></li>

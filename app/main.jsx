@@ -9,8 +9,9 @@ import store from './store'
 import App from './components/App'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
-import SampleContainer from './containers/SampleContainer'
-import {getWords, getCompText} from './reducers/visualizer'
+import SampleCompTextContainer from './containers/SampleCompTextContainer'
+import SampleOneTextContainer from './containers/SampleOneTextContainer'
+import {getWords, getCompText, getTitle} from './reducers/visualizer'
 import {loadLabelsLarge} from './reducers/inputForm'
 
 
@@ -51,7 +52,7 @@ return (dispatch) => {                               // axios call to python ser
         if(t2) {
 	        axios.post('http://localhost:1337', t2)
 	        .then(res => dispatch(getCompText(res.data)))
-	    }    
+	    }   
       })
       .catch(err => console.error(err))  
     }  
@@ -71,8 +72,8 @@ render (
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
         <IndexRedirect to="/tmp" />
-        <Route path="s1" component={ SampleContainer } onEnter={ons1Enter} />
-        <Route path="sample" component={ SampleContainer } onEnter={onSampleEnter} />
+        <Route path="s1" component={ SampleOneTextContainer } onEnter={ons1Enter} />
+        <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
       </Route>

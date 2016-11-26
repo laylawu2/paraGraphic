@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Sample from '../components/Sample'
+import SampleCompText from '../components/SampleCompText'
 
 const mapStateToProps = ({ labelsLarge, words, text2 }) => ({
 	labelsLarge, 
@@ -8,4 +8,4 @@ const mapStateToProps = ({ labelsLarge, words, text2 }) => ({
 	text2
 });
 
-export default connect(mapStateToProps)(Sample)
+export default connect(mapStateToProps)(SampleCompText)

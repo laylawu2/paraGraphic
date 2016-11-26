@@ -49,11 +49,11 @@ const processLabelsLarge = (labels) => {
 		// predefined coordinates for each label
 		// in order: xmin, xmax, ymin, ymax, zmin, zmax
 		coords = [[-0.1, 0, 0],
-			      [1.5, 0, 0],
+			      [1.3, 0, 0],
 			      [0, -0.1, 0],
-			      [0, 1.5, 0],
+			      [0, 1.3, 0],
 			      [0, 0, -0.1],
-			      [0, 0, 1.5]];
+			      [0, 0, 1.3]];
 
 	result[labels.x[0]] = coords[0];
 	result[labels.x[1]] = coords[1];
