@@ -40,12 +40,12 @@ export default class extends React.Component {
   submitForm(e){
     e.preventDefault()
     const input = {
-      xmin: e.target.xmin.value,
-      xmax: e.target.xmax.value,
-      ymin: e.target.ymin.value,
-      ymax: e.target.ymax.value,
-      zmin: e.target.zmin.value,
-      zmax: e.target.zmax.value,
+      xmin: e.target.xmin.value.toUpperCase(),
+      xmax: e.target.xmax.value.toUpperCase(),
+      ymin: e.target.ymin.value.toUpperCase(),
+      ymax: e.target.ymax.value.toUpperCase(),
+      zmin: e.target.zmin.value.toUpperCase(),
+      zmax: e.target.zmax.value.toUpperCase(),
       text: e.target.text.value
     };
 
@@ -63,8 +63,9 @@ export default class extends React.Component {
       text: input.text
     }
     const newRef = myRef.push(userInput);     // send user input to database
-    console.log(userInput);
-    const id = newRef.key;                    // this is the database key for entry just pushed
+    console.log("userInput", userInput);
+    const id = newRef.key;  
+    this.props.addLabels(userInput);              // this is the database key for entry just pushed
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
       .then(browserHistory.push('/tmp'))
 
@@ -73,7 +74,7 @@ export default class extends React.Component {
 
   render(){
     return(
-    <form onSubmit={this.submitForm}>
+    <form onSubmit={ this.submitForm }>
       <div className='form-group'>
         <label>X: </label>
         <input type='text' name='xmin'></input>

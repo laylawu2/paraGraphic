@@ -7,11 +7,10 @@ export const getWords = words => ({
   words
 });
 
-
+// reducer
 export default (state={}, action) => {
   switch(action.type) {
     case GET_WORDS:
-    console.log("reducer", action.words);
       return action.words 
   }
   return state

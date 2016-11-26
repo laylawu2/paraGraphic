@@ -16,17 +16,6 @@ export default class Visualizer extends Component {
 
     
     this.mirror = true;
-    
-    // offset negative labels by -0.1 so they don't overlap with each other
-    // change this to this.props.labels after form is added
-    this.labels = {
-      "HATE": [-0.1, 0, 0],
-      "LOVE": [1, 0, 0],
-      "SAD": [0, -0.1, 0],
-      "HAPPY": [0, 1, 0],
-      "CONFUSED": [0, 0, -0.1],
-      "CLEAR": [0, 0, 0.99]
-    }
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
@@ -128,7 +117,8 @@ export default class Visualizer extends Component {
 
   render () {
     // load all words for each scene 
-    this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
+    console.log("this.props", this.props);
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
