@@ -40,16 +40,13 @@ export default class extends React.Component {
   submitForm(e){
     e.preventDefault()
 
-    // make sure that labels are all upper case
-    const input = {
-      xmin: e.target.xmin.value.toUpperCase(),
-      xmax: e.target.xmax.value.toUpperCase(),
-      ymin: e.target.ymin.value.toUpperCase(),
-      ymax: e.target.ymax.value.toUpperCase(),
-      zmin: e.target.zmin.value.toUpperCase(),
-      zmax: e.target.zmax.value.toUpperCase(),
+    // get user's input
+    const userInput = {
+      x: [e.target.xmin.value, e.target.xmax.value],
+      y: [e.target.ymin.value, e.target.ymax.value],
+      z: [e.target.zmin.value, e.target.zmax.value],
       text: e.target.text.value
-    };
+    }
 
 
     // myRef is how we can access table in firebase
@@ -59,12 +56,8 @@ export default class extends React.Component {
     // axis labels need to be in lower case for python functionality
 
     const myRef = firebase.database().ref('/')
-    const userInput = {
-      x: [input.xmin.toLowerCase(), input.xmax.toLowerCase()],
-      y: [input.ymin.toLowerCase(), input.ymax.toLowerCase()],
-      z: [input.zmin.toLowerCase(), input.zmax.toLowerCase()],
-      text: input.text
-    }
+
+
     const newRef = myRef.push(userInput);     // send user input to database
     const id = newRef.key;                    // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!                                        
