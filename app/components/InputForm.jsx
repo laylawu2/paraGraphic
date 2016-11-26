@@ -40,11 +40,11 @@ export default class extends React.Component {
   submitForm(e){
     e.preventDefault()
 
-    // get user's input
+    // get user's input and trim white spaces
     const userInput = {
-      x: [e.target.xmin.value, e.target.xmax.value],
-      y: [e.target.ymin.value, e.target.ymax.value],
-      z: [e.target.zmin.value, e.target.zmax.value],
+      x: [e.target.xmin.value.trim(), e.target.xmax.value.trim()],
+      y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
+      z: [e.target.zmin.value.trim(), e.target.zmax.value.trim()],
       text: e.target.text.value
     }
 
