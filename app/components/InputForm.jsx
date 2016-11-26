@@ -56,18 +56,20 @@ export default class extends React.Component {
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
     
+    // axis labels need to be in lower case for python functionality
 
     const myRef = firebase.database().ref('/')
     const userInput = {
-      x: [input.xmin, input.xmax],
-      y: [input.ymin, input.ymax],
-      z: [input.zmin, input.zmax],
+      x: [input.xmin.toLowerCase(), input.xmax.toLowerCase()],
+      y: [input.ymin.toLowerCase(), input.ymax.toLowerCase()],
+      z: [input.zmin.toLowerCase(), input.zmax.toLowerCase()],
       text: input.text
     }
     const newRef = myRef.push(userInput);     // send user input to database
-    const id = newRef.key; 
+    const id = newRef.key;                    // this is the database key for entry just pushed
+    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!                                        
 
-    this.props.addLabels(userInput);              // this is the database key for entry just pushed
+    this.props.addLabels(userInput);              
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
       .then(browserHistory.push('/tmp'));         // redirect to visualizer
 
