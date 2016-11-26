@@ -3,6 +3,16 @@
 }
 
 
+#myNavBar {
+  background-color: #1c334a;
+  border: none;
+  border-radius: 0px;
+  color: #F8F8F8;
+  font-family: 'Roboto';
+}
+
+
+
 body {
                 color: #000;
                 font-family:Monospace;

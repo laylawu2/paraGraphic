@@ -66,6 +66,7 @@ export default class extends React.Component {
     }
     const newRef = myRef.push(userInput);     // send user input to database
     const id = newRef.key; 
+    console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
 
     this.props.addLabels(userInput);              // this is the database key for entry just pushed
     this.props.postAndGetWordData(userInput)      // call function to post request to python server

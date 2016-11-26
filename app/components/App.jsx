@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Navbar from './Navbar'
 
 
 export default (
 
   ({ children }) =>
     <div>
-      {children}
+    	<Navbar/>
+      	{children}
     </div>
 )
