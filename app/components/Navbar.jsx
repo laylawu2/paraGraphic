@@ -30,11 +30,11 @@ return (
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">examples <span className="caret"></span></a>
           <ul className="dropdown-menu">
-            <li><a href="#">Action</a></li>
+            <Link to="/s1">Action</Link>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" className="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <Link to="/sample">Obama 2008 inaug. v Trump 2016 RNC accept.</Link>
           </ul>
         </li>
       </ul>
