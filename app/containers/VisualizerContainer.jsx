@@ -2,16 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Visualizer from '../components/Visualizer'
 
-const mapStateToProps = ({ words }) => {
-
-	console.log("mapstatetoprops", words)
-return ({
+const mapStateToProps = ({ labels, words }) => ({
+	labels, 
 	words
 });
-}
-
-// const mapDispatchToProps = (dispatch) => ({
-
-// })
 
 export default connect(mapStateToProps)(Visualizer)
