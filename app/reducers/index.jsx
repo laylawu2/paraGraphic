@@ -5,7 +5,6 @@ import { text2Reducer, titleReducer, compareReducer, fullscreenReducer } from '.
 
 const rootReducer = combineReducers({
 	text2: text2Reducer,
-	labelsLarge: labelReducerLarge,
 	title: titleReducer,
 	compare: compareReducer,
 	fullscreen: fullscreenReducer,

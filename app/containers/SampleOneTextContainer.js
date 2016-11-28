@@ -5,6 +5,7 @@ import axios from 'axios'
 import {getWords, getCompText, setCompare, fullscreen} from '../reducers/visualizer'
 import {loadLabelsLarge} from '../reducers/inputForm'
 
+
 const accel = {
   x: ["leisure", "work"],
   y: ["climate", "economy"],
@@ -47,8 +48,8 @@ return (dispatch) => {                               // axios call to python ser
 
 
 
-const mapStateToProps = ({ labelsLarge, words, title, text2, compare, fullscreen }) => ({
-	labelsLarge, 
+const mapStateToProps = ({ labels, words, title, text2, compare, fullscreen }) => ({
+	labels, 
 	words,
 	title,
 	text2,
