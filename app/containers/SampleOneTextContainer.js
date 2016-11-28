@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import SampleOneText from '../components/SampleOneText'
 import axios from 'axios'
 import {getWords, getCompText, setCompare, fullscreen} from '../reducers/visualizer'
-import {loadLabelsLarge} from '../reducers/inputForm'
+import {loadLabels} from '../reducers/inputForm'
 
 
 const accel = {
@@ -33,7 +33,7 @@ const fetchSample = (t1, t2) => {
 return (dispatch) => {                               // axios call to python server
     axios.post('http://localhost:1337', t1)     // returns the plottable points 
       .then(res => { dispatch(getWords(res.data))
-        dispatch(loadLabelsLarge(t1));
+        dispatch(loadLabels(t1));
         if(t2) {
           axios.post('http://localhost:1337', t2)
           .then(res =>{
