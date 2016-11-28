@@ -14,12 +14,12 @@ const processLabels = (labels) => {
 			      [0, 0, -0.1],
 			      [0, 0, 0.99]];
 
-	result[labels.x[0]] = coords[0];
-	result[labels.x[1]] = coords[1];
-	result[labels.y[0]] = coords[2];
-	result[labels.y[1]] = coords[3];
-	result[labels.z[0]] = coords[4];
-	result[labels.z[1]] = coords[5];
+	result[labels.x[0].toUpperCase()] = coords[0];
+	result[labels.x[1].toUpperCase()] = coords[1];
+	result[labels.y[0].toUpperCase()] = coords[2];
+	result[labels.y[1].toUpperCase()] = coords[3];
+	result[labels.z[0].toUpperCase()] = coords[4];
+	result[labels.z[1].toUpperCase()] = coords[5];
 	return result;
 }
 

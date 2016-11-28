@@ -9,25 +9,15 @@ import { loadLabels } from '../reducers/inputForm'
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
-      xmin: '',
-      xmax: '',
-      ymin: '',
-      ymax: '',
-      zmin: '',
-      zmax: '',
-      text: ''
-    }
-    this.submitForm = this.submitForm.bind(this)
-    this.setState = this.setState.bind(this)
 
+    this.submitForm = this.submitForm.bind(this)
   }
+
   componentDidMount(){
 
     // following code configures and initializes firebase database to work with app
     // may eventually want to move this to React component for home page / landing page 
     // or even index.html if possible -- firebase should be working as soon as app starts
-
     var config = {
       apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
       authDomain: "capstone-b9f6c.firebaseapp.com",
@@ -35,45 +25,40 @@ export default class extends React.Component {
       storageBucket: "capstone-b9f6c.appspot.com",
       messagingSenderId: "583702777619"
     };
+
     firebase.initializeApp(config);
   }
+
   submitForm(e){
     e.preventDefault()
 
-    // make sure that labels are all upper case
-    const input = {
-      xmin: e.target.xmin.value.toUpperCase(),
-      xmax: e.target.xmax.value.toUpperCase(),
-      ymin: e.target.ymin.value.toUpperCase(),
-      ymax: e.target.ymax.value.toUpperCase(),
-      zmin: e.target.zmin.value.toUpperCase(),
-      zmax: e.target.zmax.value.toUpperCase(),
+    // get user's input and trim white spaces
+    const userInput = {
+      x: [e.target.xmin.value.trim(), e.target.xmax.value.trim()],
+      y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
+      z: [e.target.zmin.value.trim(), e.target.zmax.value.trim()],
       text: e.target.text.value
-    };
-
+    }
 
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
-    
 
-    const myRef = firebase.database().ref('/')
-    const userInput = {
-      x: [input.xmin, input.xmax],
-      y: [input.ymin, input.ymax],
-      z: [input.zmin, input.zmax],
-      text: input.text
-    }
+    const myRef = firebase.database().ref('/');
     const newRef = myRef.push(userInput);     // send user input to database
+
     const id = newRef.key; 
     console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
 
-    this.props.addLabels(userInput);              // this is the database key for entry just pushed
+                  // this is the database key for entry just pushed
+    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!                                        
+
+
+    this.props.addLabels(userInput);              
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
       .then(browserHistory.push('/tmp'));         // redirect to visualizer
 
   }
-
 
   render(){
     return(
@@ -97,8 +82,6 @@ export default class extends React.Component {
         <label>text to analyze: </label>
         <input type='text' name='text'></input>
       </div>
-
-
       <button type='submit'>See My Graph</button>
     </form>)
   }
