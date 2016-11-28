@@ -25,7 +25,7 @@ render () {
       <div className="myNavBar collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul className="nav navbar-nav navbar-right">
           <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">examples <span className="caret"></span></a>
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span className="caret"></span></a>
             <ul className="dropdown-menu">
               <li><Link to="/s1">Accelerate Manifesto</Link></li>
               <li><Link to="/sample">Obama 2008 inaug. v Trump 2016 RNC accept.</Link></li>
