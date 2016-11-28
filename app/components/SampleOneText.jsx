@@ -33,7 +33,7 @@ export default class Sample extends Component {
     loader.load(fontFile, (font) => {
 
       //for every word create an object called Mesh
-      Object.keys(words).forEach((word) => {
+      words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
         //let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
@@ -60,7 +60,7 @@ export default class Sample extends Component {
   loadTextWords(words) {
    
      //for every word create an object called Mesh
-      Object.keys(words).forEach((word) => {
+      words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
         let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
