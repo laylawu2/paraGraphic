@@ -41,9 +41,6 @@ export default class Visualizer extends Component {
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-
         //set the position for every single word
         mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
@@ -60,11 +57,11 @@ export default class Visualizer extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
+    //this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setClearColor( this.scene.fog.color );
+    //this.renderer.setClearColor( this.scene.fog.color );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -118,13 +115,12 @@ export default class Visualizer extends Component {
   }
 
   render () {
-    // load all words for each scene 
+    // load all words for each scene
     console.log("this.props", this.props);
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
-         <h1>Canvas</h1>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const RECEIVE_LABELS = 'RECEIVE_LABELS'
-
+const RECEIVE_INFO = 'RECEIVE_INFO'
 const processLabels = (labels) => {
 	console.log("labels", labels);
 	let result = {},
@@ -33,12 +33,12 @@ export const loadLabels = (labels) => ({
 export default (state={}, action) => {
   switch(action.type) {
     case RECEIVE_LABELS:
-      return action.labels 
+      return action.labels
   }
   return state
 };
 
-//  messing around with using different dimensions for the axes: 
+//  messing around with using different dimensions for the axes:
 
 
 const RECEIVE_LABELS_LARGE = 'RECEIVE_LABELS_LARGE'
@@ -74,7 +74,22 @@ export const loadLabelsLarge = (labels) => ({
 export const labelReducerLarge = (state={}, action) => {
   switch(action.type) {
     case RECEIVE_LABELS_LARGE:
-      return action.labels 
+      return action.labels
+  }
+  return state
+};
+
+// action creator
+export const loadInfofunc = (loadinfo) => ({
+    type: RECEIVE_INFO,
+    loadinfo: loadinfo
+})
+
+// reducer
+export const loadinfoReducer = (state={}, action) => {
+  switch(action.type) {
+    case RECEIVE_INFO:
+      return action.loadinfo
   }
   return state
 };

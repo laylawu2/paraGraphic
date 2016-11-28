@@ -5,15 +5,16 @@ const GET_TITLE = 'GET_TITLE';
 
 // action creator
 export const getWords = words => ({
-  type: GET_WORDS, 
+  type: GET_WORDS,
   words
 });
 
 // reducer
 export default (state={}, action) => {
+
   switch(action.type) {
     case GET_WORDS:
-      return action.words 
+      return action.words
   }
   return state
 };
@@ -25,7 +26,7 @@ export const getCompText = text2 => ({
 	text2
 })
 
-//reducer 
+//reducer
 export const text2Reducer = (state={}, action) => {
 	switch(action.type) {
 		case GET_COMP_TEXT:
@@ -35,16 +36,16 @@ export const text2Reducer = (state={}, action) => {
 }
 
 //action creater for titles for sample models
-export const getTitle = title => {
+export const getTitle = (graphtitle) => ({
 	type: GET_TITLE,
-	title
-}
+	graphtitle
+})
 
 //reducer
 export const titleReducer = (state={}, action) => {
 	switch(action.type) {
 		case GET_TITLE:
-			return action.title
+			return action.graphtitle
 	}
 	return state
 }
