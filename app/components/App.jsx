@@ -8,6 +8,6 @@ export default (
   ({ children }) =>
     <div>
     	<Navbar/>
-      	{children}
+      	{ children }
     </div>
 )
