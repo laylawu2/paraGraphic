@@ -46,8 +46,13 @@ export default class extends React.Component {
 
     const myRef = firebase.database().ref('/');
     const newRef = myRef.push(userInput);     // send user input to database
-    const id = newRef.key;                    // this is the database key for entry just pushed
+
+    const id = newRef.key; 
+    console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
+
+                  // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!                                        
+
 
     this.props.addLabels(userInput);              
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
