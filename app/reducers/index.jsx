@@ -4,7 +4,7 @@ import {labels} from './inputForm'
 
 
 const rootReducer = combineReducers({
- // labels:
+  //labels: require('./inputForm').default,
   words: require('./visualizer').default
 })
 

@@ -13,16 +13,16 @@ export default class Visualizer extends Component {
     this.scene;
     this.renderer;
     this.animate = this.animate.bind(this);
-<<<<<<< HEAD:app/components/tmp.jsx
     this.mirror = true;
     this.hemisphereLight;
     this.shadowLight;
-=======
->>>>>>> master:app/components/Visualizer.jsx
+    this.hemisphereLight;
+    this.shadowLight;
 
-    
+
+
     this.mirror = true;
-    
+
     // offset negative labels by -0.1 so they don't overlap with each other
     // change this to this.props.labels after form is added
     this.labels = {
@@ -36,24 +36,13 @@ export default class Visualizer extends Component {
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
-<<<<<<< HEAD:app/components/tmp.jsx
     this.createLights = this.createLights.bind(this);
-  }
-
-  componentDidMount(){
-      // this.props.x_label = ["happy", "sad"];
-      // this.props.y_label = ["love", "hate"];
-      // this.props.z_label = ["clear", "confused"];
-      ///load labels
-      this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 10);
-      //load words
-      this.loadWords(this.words, 'js/optimer_regular.typeface.json', 25, 5);
-=======
+    this.wordsColor = this.wordsColor.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount(){
->>>>>>> master:app/components/Visualizer.jsx
+
       this.init();
       this.animate();
   }
@@ -69,15 +58,26 @@ export default class Visualizer extends Component {
       //for every word create an object called Mesh
       Object.keys(words).forEach((word) => {
         //properties for word
-        let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
-        let material =  new THREE.MeshBasicMaterial( { color:color } );
+      let geometry  = new THREE.TextGeometry(word,{size, font, height});
+
+        //var diffuseColor = new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 );
+
+      let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+
+       //let color = new THREE.Color().setHSL(words[word][0], 0.5, words[word][2] * 1.5 );
+        //let material =  new THREE.MeshBasicMaterial( { color:color } );
+        //let material = new THREE.MultiMaterial();
+
+       var material = new THREE.MeshLambertMaterial( {
+          color: color,
+          reflectivity: 0.5
+        } );
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
         mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5) * 500);
+        mesh.position.z = ((words[word][2] - 0.5) * 400);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -95,12 +95,8 @@ export default class Visualizer extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-<<<<<<< HEAD:app/components/tmp.jsx
-    this.scene.fog = new THREE.FogExp2( 0x6ec1e5, 0.0002 );
-=======
-    this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
->>>>>>> master:app/components/Visualizer.jsx
-
+    this.scene.fog = new THREE.FogExp2( 0xf3b59c, 0.0009 );
+    //this.scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor( this.scene.fog.color );
@@ -160,38 +156,44 @@ export default class Visualizer extends Component {
   // A hemisphere light is a gradient colored light;
   // the first parameter is the sky color, the second parameter is the ground color,
   // the third parameter is the intensity of the light
-  this.hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+    this.hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
 
   // A directional light shines from a specific direction.
   // It acts like the sun, that means that all the rays produced are parallel.
-  this.shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+    this.shadowLight = new THREE.DirectionalLight(0xffffff, .9);
 
   // Set the direction of the light
-  this.shadowLight.position.set(150, 350, 350);
+    this.shadowLight.position.set(500, 500, 500);
 
   // Allow shadow casting
-  this.shadowLight.castShadow = true;
+    this.shadowLight.castShadow = true;
 
   // define the visible area of the projected shadow
-  this.shadowLight.shadow.camera.left = -400;
-  this.shadowLight.shadow.camera.right = 400;
-  this.shadowLight.shadow.camera.top = 400;
-  this.shadowLight.shadow.camera.bottom = -400;
-  this.shadowLight.shadow.camera.near = 1;
-  this.shadowLight.shadow.camera.far = 1000;
+    this.shadowLight.shadow.camera.left = -400;
+    this.shadowLight.shadow.camera.right = 400;
+    this.shadowLight.shadow.camera.top = 400;
+    this.shadowLight.shadow.camera.bottom = -400;
+    this.shadowLight.shadow.camera.near = 1;
+    this.shadowLight.shadow.camera.far = 1000;
 
   // define the resolution of the shadow; the higher the better,
   // but also the more expensive and less performant
-  this.shadowLight.shadow.mapSize.width = 2048;
-  this.shadowLight.shadow.mapSize.height = 2048;
+    this.shadowLight.shadow.mapSize.width = 2048;
+    this.shadowLight.shadow.mapSize.height = 2048;
 
   // to activate the lights, just add them to the scene
-  this.scene.add(this.hemisphereLight);
-  this.scene.add(this.shadowLight);
-}
+    this.scene.add(this.hemisphereLight);
+    this.scene.add(this.shadowLight);
+  }
+  wordsColor(){
+    var loader = new THREE.JSONLoader();
+    loader.load( "js/cubecolors.js", this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5) );
+
+  }
 
   render () {
-    // load all words for each scene 
+    // load all words for each scene
+    //this.wordsColor();
     this.loadWords(this.labels, 'js/optimer_bold.typeface.json', 35, 5); // change to this.props.labels
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
