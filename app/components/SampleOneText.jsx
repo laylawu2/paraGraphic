@@ -80,11 +80,9 @@ export default class Sample extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-    //this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
-    //this.renderer.setClearColor( this.scene.fog.color );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -93,7 +91,7 @@ export default class Sample extends Component {
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
     this.camera.position.z = 800;
-    // this.camera.translateZ( -180 );
+    this.camera.translateZ( -180 );
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -140,8 +138,8 @@ export default class Sample extends Component {
 
   render () {
     // load all words for each scene 
-    console.log("this.props", this.props);
-    this.loadWords(this.props.labelsLarge, 'js/optimer_bold.typeface.json', 35, 5); 
+    console.log("this.props-------------", this.props);
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
     this.loadTextWords(this.props.words);
     return (
       <div id = "container">
