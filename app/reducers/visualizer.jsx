@@ -2,6 +2,8 @@ import axios from 'axios';
 const GET_WORDS = 'GET_WORDS';
 const GET_COMP_TEXT ='GET_COMP_TEXT';
 const GET_TITLE = 'GET_TITLE';
+const SET_COMPARE = 'SET_COMPARE';
+const TOGGLE_FULLSCREEN = 'TOGGLE_FULLSCREEN';
 
 // action creator
 export const getWords = words => ({
@@ -49,6 +51,34 @@ export const titleReducer = (state={}, action) => {
 	return state
 }
 
+//action creater for changing compare (boolean) value
+export const setCompare = compare => ({
+	type: SET_COMPARE,
+	compare
+})
 
+//reducer
+export const compareReducer = (state={compare: false}, action) => {
+	switch(action.type) {
+		case SET_COMPARE:
+		return action.compare
+	}
+	return state
+}
+
+//action creater to toggle fullscreen (boolean) value
+export const fullscreenToggle = fullscreen => ({
+	type: TOGGLE_FULLSCREEN,
+	fullscreen
+})
+
+//reducer
+export const fullscreenReducer = (state={}, action) => {
+	switch(action.type){
+		case TOGGLE_FULLSCREEN:
+		return action.fullscreen
+	}
+	return state
+}
 
 

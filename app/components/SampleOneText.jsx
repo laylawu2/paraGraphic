@@ -11,19 +11,21 @@ export default class Sample extends Component {
     this.camera;
     this.controls;
     this.scene;
-    this.renderer;
+    this.renderer;  
     this.animate = this.animate.bind(this);
 
     this.mirror = true;
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
+    this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount(){
       this.init();
       this.animate();
+      this.props.getCompareSample();
   }
 
   /* load the words/label to scene */
@@ -36,14 +38,14 @@ export default class Sample extends Component {
       words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        //let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
         let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0]) * window.innerWidth);
-        mesh.position.y = ((words[word][1]) * window.innerHeight);
-        mesh.position.z = ((words[word][2]) * 500);
+        mesh.position.x = ((words[word][0] - .5) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - .5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - .5) * 500);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -57,22 +59,31 @@ export default class Sample extends Component {
 
 
   /* load the words/label to scene */
-  loadTextWords(words) {
+  loadTextWords(compareBool, words, color) {
    
      //for every word create an object called Mesh
       words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+
+        if(!compareBool){
+          let varColor = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+          color = varColor
+        }
+
         let material =  new THREE.MeshLambertMaterial( { color: color} );
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.5)* 2.7 * window.innerWidth);
-        mesh.position.y = ((words[word][1] - 0.5)* 2.7 * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5)* 2.7 * 500);
+        mesh.position.x = ((words[word][0] - 0.5)* window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5)* window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.5)* 500);
+        // note re. above positions:  so far the differences between words aren't much -- multiplying
+        // each coord. value above by 2.5 or so spreads them out a bit to make the rendered view a bit 
+        // more interesting ...  though perhaps training a new model will also help with this?
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
+        mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
         //append the word to scene
         this.scene.add( mesh );
       })
@@ -95,7 +106,7 @@ export default class Sample extends Component {
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
     //the view from the user
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.z = 800;
 
     //orbit around some object
@@ -111,8 +122,8 @@ export default class Sample extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
-    this.scene.add( light );
+    //light = new THREE.AmbientLight( 0x222222 );
+    //this.scene.add( light );
 
     //info box to monitor code performance
     this.stats = new Stats();
@@ -143,12 +154,18 @@ export default class Sample extends Component {
 
   render () {
     // load all words for each scene 
-    console.log("this.props", this.props);
     this.loadWords(this.props.labelsLarge, 'js/optimer_bold.typeface.json', 35, 5); 
-    this.loadTextWords(this.props.words);
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
     return (
-      <div id = "container">
+      <div id="container">
          <h5>TITLE HERE</h5>
+         <button onClick={()=>toggleFullscreen(this.props.fullscreen)}> toggle fullscreen </button>
       </div>
     )
   }
