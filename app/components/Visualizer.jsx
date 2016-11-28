@@ -87,7 +87,7 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
+    light = new THREE.AmbientLight( 0x000000 );
     this.scene.add( light );
 
     //info box to monitor code performance
