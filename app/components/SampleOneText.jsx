@@ -41,9 +41,9 @@ export default class Sample extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0]) * window.innerWidth);
-        mesh.position.y = ((words[word][1]) * window.innerHeight);
-        mesh.position.z = ((words[word][2]) * 500);
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.7) * 500);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -51,10 +51,6 @@ export default class Sample extends Component {
       })
     })
   }
-
-
-
-
 
   /* load the words/label to scene */
   loadTextWords(words) {
@@ -68,9 +64,9 @@ export default class Sample extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.5)* 2.7 * window.innerWidth);
-        mesh.position.y = ((words[word][1] - 0.5)* 2.7 * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5)* 2.7 * 500);
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.7) * 700);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -97,6 +93,7 @@ export default class Sample extends Component {
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
     this.camera.position.z = 800;
+    // this.camera.translateZ( -180 );
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -115,8 +112,8 @@ export default class Sample extends Component {
     this.scene.add( light );
 
     //info box to monitor code performance
-    this.stats = new Stats();
-    container.appendChild( this.stats.dom );
+    // this.stats = new Stats();
+    // container.appendChild( this.stats.dom );
 
     window.addEventListener( 'resize', this.onWindowResize, false );
   }
@@ -132,7 +129,7 @@ export default class Sample extends Component {
   animate() {
     requestAnimationFrame( this.animate );
     this.controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
-    this.stats.update();
+    // this.stats.update();
     this.renderPlot();
   }
 
