@@ -28,6 +28,15 @@ export default class Sample extends Component {
       this.props.getCompareSample();
   }
 
+  componentDidUpdate(){
+    {
+          const canv = document.getElementsByTagName("canvas")
+          console.log(canv, "CANVVVVVVVV");
+          canv[0] &&
+          canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+         }
+  }
+
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
@@ -159,12 +168,12 @@ export default class Sample extends Component {
     else {
       this.loadTextWords(false, this.props.words);
     }
-
+   
     return (
       <div id="container">
          <h5>TITLE HERE</h5>
-         <button onClick={()=>toggleFullscreen(this.props.fullscreen)}> toggle fullscreen </button>
       </div>
     )
-  }
+ }    
+  
 }

@@ -66,19 +66,6 @@ export const compareReducer = (state={compare: false}, action) => {
 	return state
 }
 
-//action creater to toggle fullscreen (boolean) value
-export const fullscreenToggle = fullscreen => ({
-	type: TOGGLE_FULLSCREEN,
-	fullscreen
-})
 
-//reducer
-export const fullscreenReducer = (state={}, action) => {
-	switch(action.type){
-		case TOGGLE_FULLSCREEN:
-		return action.fullscreen
-	}
-	return state
-}
 
 
