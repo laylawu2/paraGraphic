@@ -84,7 +84,7 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
+    light = new THREE.AmbientLight( 0x000000 );
     this.scene.add( light );
 
     //info box to monitor code performance
@@ -116,11 +116,12 @@ export default class Visualizer extends Component {
 
   render () {
     // load all words for each scene
-    console.log("this.props", this.props);
+    console.log("this.props inside visualizer render", this.props);
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
     return (
       <div id = "container">
+        <h1>{ this.props.graphtitle }</h1>
       </div>
     )
   }

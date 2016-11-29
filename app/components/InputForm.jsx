@@ -72,6 +72,7 @@ export default class extends React.Component {
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
     console.log("title----",e.target.graphtitle.value);
+    addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
       //.then(browserHistory.push('/tmp'));         // redirect to visualizer
