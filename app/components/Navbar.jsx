@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {Link} from 'react-router'
 
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
 
 render () {
   return (
@@ -28,8 +28,12 @@ render () {
           <li className="dropdown">
             <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span className="caret"></span></a>
             <ul className="dropdown-menu">
-              <li><Link to="/s1">Accelerate Manifesto</Link></li>
-              <li><Link to={`/${this.props.title}`}></Link></li>
+              {
+                this.props.titles && this.props.titles.map((title, idx) => (
+                  <li key={idx}><Link to={`/${title}`}>{title}</Link></li>
+                ))
+              }
+
             </ul>
           </li>
         </ul>
@@ -40,6 +44,6 @@ render () {
   }
 }
 
-const mapState = ({title}) => ({title})
+const mapState = ({titles}) => ({titles})
 
-connect(mapState, null)(Navbar)
+export default connect(mapState, null)(Navbar)

@@ -29,9 +29,9 @@ const drumpf = {
 
 
 
-const fetchSample = (t1, t2) => {       
+const fetchSample = (t1, t2) => {
 return (dispatch) => {                               // axios call to python server
-    axios.post('http://localhost:1337', t1)     // returns the plottable points 
+    axios.post('http://localhost:1337', t1)     // returns the plottable points
       .then(res => { dispatch(getWords(res.data))
         dispatch(loadLabels(t1));
         if(t2) {
@@ -40,16 +40,16 @@ return (dispatch) => {                               // axios call to python ser
           	dispatch(getCompText(res.data));
           	dispatch(setCompare("true"));
           })
-      }   
+      }
       })
-      .catch(err => console.error(err))  
-    }  
+      .catch(err => console.error(err))
+    }
 }
 
 
 
 const mapStateToProps = ({ labels, words, title, text2, compare}) => ({
-	labels, 
+	labels,
 	words,
 	title,
 	text2,
