@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import store from './store'
 import App from './components/App'
+import Home from './components/Home'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
 import SampleCompTextContainer from './containers/SampleCompTextContainer'
@@ -14,6 +15,8 @@ import SampleOneTextContainer from './containers/SampleOneTextContainer'
 import {getWords, getCompText, getTitle} from './reducers/visualizer'
 import {loadLabelsLarge} from './reducers/inputForm'
 import RetrieveData from './components/Retrieve'
+import { loadLabels } from './reducers/inputForm'
+
 
 // load an example to start
 
@@ -48,7 +51,7 @@ const fetchSample = (t1, t2) => {
 return (dispatch) => {                               // axios call to python server
     axios.post('http://localhost:1337', t1)     // returns the plottable points
       .then(res => { dispatch(getWords(res.data))
-        dispatch(loadLabelsLarge(t1));
+        dispatch(loadLabels(t1));
         if(t2) {
 	        axios.post('http://localhost:1337', t2)
 	        .then(res => dispatch(getCompText(res.data)))
@@ -71,7 +74,8 @@ render (
   <Provider store={ store }>
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
-        <IndexRedirect to="/tmp" />
+        <IndexRedirect to="/home" />
+        <Route path="home" component={ Home } />
         <Route path="s1" component={ SampleOneTextContainer } onEnter={ons1Enter} />
         <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />

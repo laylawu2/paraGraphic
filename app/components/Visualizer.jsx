@@ -41,6 +41,9 @@ export default class Visualizer extends Component {
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
         //set the position for every single word
         mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
@@ -84,7 +87,7 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
+    light = new THREE.AmbientLight( 0x000000 );
     this.scene.add( light );
 
     //info box to monitor code performance
