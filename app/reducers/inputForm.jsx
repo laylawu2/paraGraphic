@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const RECEIVE_LABELS = 'RECEIVE_LABELS'
-
+const RECEIVE_INFO = 'RECEIVE_INFO'
 const processLabels = (labels) => {
 	console.log("labels", labels);
 	let result = {},
@@ -20,7 +20,6 @@ const processLabels = (labels) => {
 	result[labels.y[1].toUpperCase()] = coords[3];
 	result[labels.z[0].toUpperCase()] = coords[4];
 	result[labels.z[1].toUpperCase()] = coords[5];
-	console.log(result, ",,,,,,,,,,,,,,,,,,,,,");
 	return result;
 }
 
@@ -34,7 +33,22 @@ export const loadLabels = (labels) => ({
 export default (state={}, action) => {
   switch(action.type) {
     case RECEIVE_LABELS:
-      return action.labels 
+      return action.labels
   }
   return state
+};
+
+// action creator
+export const loadInfofunc = (loadinfo) => ({
+    type: RECEIVE_INFO,
+    loadinfo
+})
+
+// reducer
+export const loadinfoReducer = (state = {}, action) => {
+	switch(action.type) {
+		case RECEIVE_INFO:
+			return action.loadinfo
+	}
+	return state;
 };
