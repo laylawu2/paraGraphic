@@ -20,9 +20,8 @@ const styles = {
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {x: "Love&Hate", y:"Love&Hate", z:"Love&Hate"};
+    this.state = {xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: []};
     this.submitForm = this.submitForm.bind(this)
-    this.labels =["Love&Hate", "Happy&Sad", "Good&Bad", "Best&Worst", "Clever&Stupid"]
   }
 
   componentDidMount(){
@@ -43,21 +42,26 @@ export default class extends React.Component {
 
   submitForm(e){
     e.preventDefault()
+
     const { clearScene, addTitle,addLabels, postAndGetWordData } = this.props;
-    // get user's input and trim white spaces
-    // var x = e.target.x.value.split('&');
-    // var y = e.target.y.value.split('&');
-    // var z = e.target.z.value.split('&');
-    var x = this.state.x.split('&');
-    var y = this.state.y.split('&');
-    var z = this.state.z.split('&');
+
+    var xmin = e.target.xmin.value.split(" ");
+    var xmax = e.target.xmax.value.split(" ");
+    var ymin = e.target.ymin.value.split(" ");
+    var ymax = e.target.ymax.value.split(" ");
+    var zmin = e.target.zmin.value.split(" ");
+    var zmax = e.target.zmax.value.split(" ");
+
     const userInput = {
-      x: [x[0], x[1]],
-      y: [y[0], y[1]],
-      z: [z[0], z[1]],
+      x: [xmin, xmax],
+      y: [ymin, ymax],
+      z: [zmin, zmax],
       text: e.target.text.value,
       title: e.target.graphtitle.value
     }
+
+    console.log(userInput, "USER INPUT OBBBBBJEEEEECCCCCTTTTTTTT")
+
     // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
@@ -82,46 +86,36 @@ export default class extends React.Component {
       // .then(browserHistory.push('/tmp'));         // redirect to visualizer
     
   }
-  handleChangex = (event, index, value) => this.setState({x:value});
-  handleChangey = (event, index, value) => this.setState({y:value});
-  handleChangez = (event, index, value) => this.setState({z:value});
+
 
   render(){
     return(
-    <form  onSubmit={this.submitForm }>
-      <h1>USER INPUT</h1>
+    <form className='form-inline' onSubmit={this.submitForm }>
+      <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
       <div className='form-group'>
 
-        <TextField hintText="TITLE" name='graphtitle'/>
+        <TextField hintText="please enter a title for your graph" name='graphtitle'/>
       </div>
-      <div className='form-group'>
-        <SelectField floatingLabelText="X Lable" value={this.state.x} name="x" onChange={this.handleChangex} >
-          {
-            this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText={label}/>
-            ))
-          }
-        </SelectField>
+      <div>
+        <p>
+          Below, enter the key words that will mark the endpoints for the axes on your graphs.  You 
+          can enter just one word per endpoint, but you will probably get better results if you enter
+          several related words for each endpoint.
+        </p>
       </div>
-      <div className='form-group'>
-        <SelectField floatingLabelText="Y Lable" value={this.state.y} name="y" onChange={this.handleChangey} >
-          {
-            this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText={label}/>
-            ))
-          }
-        </SelectField>
+      <div className='form-group full-width'>
+        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin'/>
+        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax'/>
       </div>
-      <div className='form-group'>
-        <SelectField floatingLabelText="Z Lable" value={this.state.z} name="z" onChange={this.handleChangez} >
-          {
-            this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText={label}/>
-            ))
-          }
-        </SelectField>
+      <div className='form-group full-width'>
+        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin'/>
+        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax'/>
       </div>
-      <div className='form-group'>
+        <div className='form-group full-width'>
+        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin'/>
+        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax'/>
+      </div>
+      <div className='form-group full-width'>
         <TextField
           name='text'
           floatingLabelText="TEXT TO ANALYZE"
@@ -132,7 +126,9 @@ export default class extends React.Component {
           style = {{overflow: scroll}}
         />
       </div>
-      <RaisedButton type="submit" label="SUBMIT" style={styles} />
+      <div>
+        <RaisedButton type="submit" label="SUBMIT" style={styles} />
+      </div>
     </form>)
   }
 
