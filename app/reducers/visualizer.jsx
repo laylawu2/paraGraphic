@@ -3,7 +3,6 @@ const GET_WORDS = 'GET_WORDS';
 const GET_COMP_TEXT ='GET_COMP_TEXT';
 const GET_TITLE = 'GET_TITLE';
 const SET_COMPARE = 'SET_COMPARE';
-const TOGGLE_FULLSCREEN = 'TOGGLE_FULLSCREEN';
 
 // action creator
 export const getWords = words => ({
