@@ -95,7 +95,7 @@ export default class Sample extends Component {
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
     //the view from the user
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.z = 800;
 
     //orbit around some object
@@ -111,8 +111,8 @@ export default class Sample extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x222222 );
-    this.scene.add( light );
+    //light = new THREE.AmbientLight( 0x222222 );
+    //this.scene.add( light );
 
     //info box to monitor code performance
     this.stats = new Stats();
@@ -143,7 +143,6 @@ export default class Sample extends Component {
 
   render () {
     // load all words for each scene 
-    console.log("this.props", this.props);
     this.loadWords(this.props.labelsLarge, 'js/optimer_bold.typeface.json', 35, 5); 
     this.loadTextWords(this.props.words, 0x00ffff);
     this.loadTextWords(this.props.text2, 0xff3300);

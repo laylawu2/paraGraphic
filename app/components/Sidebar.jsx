@@ -13,13 +13,12 @@ export default class extends React.Component {
 
     }
 
-
     render(){
         const {loadinfo, Infofunc} = this.props
         return(
             <div >
                 {/* ternary to decide which of input or info to load*/}
-                {loadinfo?
+                { loadinfo?
                     <div>
                         <h1>INFO FOR OUR APP</h1>
                         <p>with this app, you can... </p>
@@ -32,9 +31,7 @@ export default class extends React.Component {
                         <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                     </div>
                 }
-
             </div>
         )
-
     }
 }

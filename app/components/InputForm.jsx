@@ -23,9 +23,6 @@ export default class extends React.Component {
     this.state = {x: "Love&Hate", y:"Love&Hate", z:"Love&Hate"};
     this.submitForm = this.submitForm.bind(this)
     this.labels =["Love&Hate", "Happy&Sad", "Good&Bad", "Best&Worst", "Clever&Stupid"]
-
-
-
   }
 
   componentDidMount(){
@@ -75,6 +72,7 @@ export default class extends React.Component {
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
     console.log("title----",e.target.graphtitle.value);
+    addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
       //.then(browserHistory.push('/tmp'));         // redirect to visualizer
@@ -85,20 +83,18 @@ export default class extends React.Component {
   handleChangez = (event, index, value) => this.setState({z:value});
 
   render(){
-    //onSubmit={(this.submitForm }
-       // <input type='text' name='graphtitle'></input>
     return(
-
     <form  onSubmit={this.submitForm }>
       <h1>USER INPUT</h1>
       <div className='form-group'>
-        <TextField hintText="TITLE" name='graphtitle'  underlineFocusStyle={styles.underlineStyle}/>
+
+        <TextField hintText="TITLE" name='graphtitle'/>
       </div>
       <div className='form-group'>
         <SelectField floatingLabelText="X Lable" value={this.state.x} name="x" onChange={this.handleChangex} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>
@@ -107,7 +103,7 @@ export default class extends React.Component {
         <SelectField floatingLabelText="Y Lable" value={this.state.y} name="y" onChange={this.handleChangey} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>
@@ -116,7 +112,7 @@ export default class extends React.Component {
         <SelectField floatingLabelText="Z Lable" value={this.state.z} name="z" onChange={this.handleChangez} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>

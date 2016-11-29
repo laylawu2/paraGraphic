@@ -1,41 +1,45 @@
-#myCanvas{
-    border:1px solid #d3d3d3;
+/* variables for reuse */
+:root {
+  --primary-color: #3F51B5;
+  --secondary-color: #283593; /* darker version of primary color */
+  --accent-color: #4DD0E1;
+  --primary-text-color: white;
+  --link-text-color: white;
 }
 
+a {
+    color: var(--link-text-color);
+}
 
 .myNavBar {
-  background-color: #1c334a;
+  background-color: var(--primary-color);
   border: none;
-  border-radius: 0px;
-  color: #cc0000;
-  font-family: 'Roboto';
-}
-.myNabBar a {
-  background-color: #1c334a;
-  border: none;
-  border-radius: 0px;
-  color: #cc0000;
+  color: var(--primary-text-color);
   font-family: 'Roboto';
 }
 
-
+#container h5{
+  position: absolute;
+  margin-right: 50px;
+  margin-top: 50px
+  color: red;
+}
 
 body {
-                color: #cc0000;
-                font-family:Monospace;
-                font-size:13px;
-                text-align:center;
-                font-weight: bold;
-                background-color: black;
-                margin: 0px;
-                overflow: hidden;
-            }
-            #info {
-                color:#000;
-                position: absolute;
-                top: 0px; width: 100%;
-                padding: 5px;
-            }
-            a {
-                color: red;
-            }
+  color: var(--primary-text-color);
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+  background-color: black;
+  margin: 0px;
+  overflow: hidden;
+}
+
+#info {
+  color: var(--primary-text-color);
+  position: absolute;
+  top: 0px; 
+  width: 100%;
+  padding: 5px;
+
+}
