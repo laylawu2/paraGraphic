@@ -56,28 +56,29 @@ const onAppEnter = () => {
 }
 
 const onSingleLinkEnter = (nextState) => {
-  firebase.database().ref('/').once('value').then(function(snapshot) {
-    data = snapshot.val()
-    //
-    for (var groupID in data) {
-      title = data[groupID].title
-      if (title === nextState.params.title){
-      entry = data[groupID]
-      }
-    }
-    console.log('entry', entry)
+  firebase.database().ref()
+    .orderByChild('title')
+    .startAt(nextState.params.title)
+    .limitToLast(1)
+    .once('child_added').then(function(snapshot) {
+    entry = snapshot.val()
+    console.log('onSingleLinkEnter loaded entry:', entry)
+    store.dispatch(loadLabels(entry));
+    console.log(JSON.stringify(entry, 0, 2))
+
+    console.log('about to post', entry)
     axios.post('http://localhost:1337', entry)
     .then(res => {
       console.log('res in main', res.data)
-      // store.dispatch(getWords(res.data))
-      // store.dispatch(loadLabels(entry));
-      if(t2) {
-        axios.post('http://localhost:1337', t2)
-        .then(res =>{
-          dispatch(getCompText(res.data));
-          dispatch(setCompare("true"));
-        })
-      }
+      store.dispatch(getWords({foo: [1, 2, 3], bar: [2, 3, 4]}))
+
+      // if(t2) {
+      //   axios.post('http://localhost:1337', t2)
+      //   .then(res =>{
+      //     dispatch(getCompText(res.data));
+      //     dispatch(setCompare("true"));
+      //   })
+      // }
     })
     .catch(err => console.error(err))
   })
