@@ -30,11 +30,9 @@ a {
 }
 
 body {
-  color: var(--primary-text-color);
   font-size: 13px;
   text-align: center;
   font-weight: bold;
-  background-color: black;
   margin: 0px;
   overflow: hidden;
 }

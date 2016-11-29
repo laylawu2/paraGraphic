@@ -25,7 +25,7 @@ export default class Sample extends Component {
   componentDidMount(){
       this.init();
       this.animate();
-      this.props.getCompareSample();
+      this.props.getSample();
   }
 
   componentDidUpdate(){
@@ -107,7 +107,7 @@ export default class Sample extends Component {
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
-    let container = document.getElementById( 'container' );
+    let container = document.getElementById( 'container' ); //make ref 
     container.appendChild( this.renderer.domElement );
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -159,7 +159,7 @@ export default class Sample extends Component {
 
   render () {
     // load all words for each scene 
-
+    // clear scene before doing this! look at three docs
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words, 0x00ffff);
@@ -170,7 +170,7 @@ export default class Sample extends Component {
     }
    
     return (
-      <div id="container">
+      <div id="container"> {/* make this a ref */}
          <h5>TITLE HERE</h5>
       </div>
     )
