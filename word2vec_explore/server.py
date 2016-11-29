@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # import our nice vector functions from other file
 
-from projections_with_Ashi import getPointsFromWords
+from projections_with_Ashi import getPoints
 
 
 # load index.html on get request to localhost:5000 - OR NOT -
@@ -26,7 +26,7 @@ from projections_with_Ashi import getPointsFromWords
 @app.route('/api', methods=['POST'])
 def getAndSendWordData():
 	data = request.json
-	dataToReturn = getPointsFromWords(data)
+	dataToReturn = getPoints(data)
  	return Response(json.dumps(dataToReturn), content_type='application/json')
  	
 

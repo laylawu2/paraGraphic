@@ -48,19 +48,20 @@ def text_to_words(textfield, model):
 
 # see wikipedia on vector projections for better explanation of math involved
 
-# note: np.asscalar (lines 71-73 converts the number format of vector calculation result into something
+# note: np.asscalar (lines 73-75 converts the number format of vector calculation result into something
 # regular python can parse)
+
 
 def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 	wordCoordinates={}
 
-	xminVec, xmaxVec = model[xmin], model[xmax]
+	xminVec, xmaxVec = xmin, xmax
 	xaxis = xmaxVec - xminVec
 
-	yminVec, ymaxVec = model[ymin], model[ymax]
+	yminVec, ymaxVec = ymin, ymax
 	yaxis = ymaxVec - yminVec
 
-	zminVec, zmaxVec = model[zmin], model[zmax]
+	zminVec, zmaxVec = zmin, zmax
 	zaxis = zmaxVec - zminVec
 
 	xdenom = np.dot(xaxis, xaxis)
@@ -78,20 +79,31 @@ def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 
 
 
+# avgWordVec takes in an array of words and finds the average of the vectors for those words
+# used so that user can enter a group of related words for axis endpoint labels rather than just 
+# one word
+
+
+def avgWordVec(arrayOfStrings):
+    vecs = [news[w] for w in arrayOfStrings if w in news]
+    return reduce(lambda sum, word: sum + word, vecs, np.zeros(news.vector_size))/len(vecs)
+
+
+
 # uses functions defined above to transform user input into set of words and coordinates
-def getPointsFromWords(userInputObj):
+def getPoints(userInputObj):
 
 	textfield = userInputObj['text']
 	wordsToPlot = text_to_words(textfield, news)
 
-	xmin = userInputObj['x'][0]
-	xmax = userInputObj['x'][1]
+	xmin = avgWordVec(userInputObj['x'][0])
+	xmax = avgWordVec(userInputObj['x'][1])
 
-	ymin = userInputObj['y'][0]
-	ymax = userInputObj['y'][1]
+	ymin = avgWordVec(userInputObj['y'][0])
+	ymax = avgWordVec(userInputObj['y'][1])
 
-	zmin = userInputObj['z'][0]
-	zmax = userInputObj['z'][1]
+	zmin = avgWordVec(userInputObj['z'][0])
+	zmax = avgWordVec(userInputObj['z'][1])
 
 	words_with_coords = project3D(news, xmin, xmax, ymin, ymax, zmin, zmax, wordsToPlot)
 	return words_with_coords
@@ -100,11 +112,21 @@ def getPointsFromWords(userInputObj):
 # overview of how getPointsFromWords works:
 
 # for a request object with the following structure:  
-# 	{x: ['one', 'two'],
-#  	 y: ['another', 'pair'],
-#  	 z: ['third', 'set'],
+
+# for a request object with the following structure:  
+# 	{x: [['one','three','five'], ['two','four','six','eight']],
+#  	 y: [['another', 'silly', 'pair'], ['of','so','many','words']],
+#  	 z: [['third', 'set', 'of'],['words','as','string','to','average']]
 #  	 text: 'article entered as string'}
+
 
 # grab those values, perform vector projections for each WORD in text field, send back (x,y,z)
 # coords. for every word.  
+
+
+
+
+
+
+
 
