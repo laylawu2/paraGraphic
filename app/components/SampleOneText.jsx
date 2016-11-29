@@ -23,18 +23,17 @@ export default class Sample extends Component {
   }
 
   componentDidMount(){
-      this.init();
-      this.animate();
-      this.props.getCompareSample();
+    console.log("sample one text component did mount")
+    this.init();
+    this.animate();
+    this.props.getCompareSample();
   }
 
   componentDidUpdate(){
-    {
-          const canv = document.getElementsByTagName("canvas")
-          console.log(canv, "CANVVVVVVVV");
-          canv[0] &&
-          canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
-         }
+    const canv = document.getElementsByTagName("canvas")
+    console.log(canv, "CANVVVVVVVV");
+    canv[0] &&
+    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
   }
 
   /* load the words/label to scene */

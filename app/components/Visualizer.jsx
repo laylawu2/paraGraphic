@@ -18,12 +18,14 @@ export default class Visualizer extends Component {
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
+    this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount() {
       this.init();
       this.animate();
+      // this.props.getCompareSample();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,7 +37,6 @@ export default class Visualizer extends Component {
   }
 
   componentDidUpdate() {
-
     const canv = document.getElementsByTagName("canvas")
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
@@ -49,17 +50,17 @@ export default class Visualizer extends Component {
     loader.load(fontFile, (font) => {
 
       //for every word create an object called Mesh
-      Object.keys(words).forEach((word) => {
+      words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
         let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
-        let material =  new THREE.MeshBasicMaterial( { color:color } );
+        let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5) * 500);
+        mesh.position.z = ((words[word][2] - 0.7) * 500);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -67,6 +68,36 @@ export default class Visualizer extends Component {
       })
     })
   }
+
+  /* load the words/label to scene */
+  loadTextWords(compareBool, words, color) {
+   
+     //for every word create an object called Mesh
+      words && Object.keys(words).forEach((word) => {
+        //properties for word
+        let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
+
+        if(!compareBool){
+          let varColor = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+          color = varColor
+        }
+
+        let material =  new THREE.MeshLambertMaterial( { color: color} );
+        let mesh = new THREE.Mesh( geometry, material );
+
+        //set the position for every single word
+
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.7) * 700);
+
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
+        //append the word to scene
+        this.scene.add( mesh );
+      })
+    }
 
  init() {
     console.log("INIT FUN");
@@ -80,15 +111,17 @@ export default class Visualizer extends Component {
 
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
+    
     //the view from the user
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
-    this.camera.position.z = 600;
+    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
+    this.camera.position.z = 800;
+    this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.25;
-    this.controls.enableZoom = false;
+    this.controls.enableZoom = true;
 
     // lights
     let light = new THREE.DirectionalLight( 0xffffff );
@@ -97,8 +130,8 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    light = new THREE.AmbientLight( 0x000000 );
-    this.scene.add( light );
+    // light = new THREE.AmbientLight( 0x000000 );
+    // this.scene.add( light );
 
     //info box to monitor code performance
     // this.stats = new Stats();
@@ -132,9 +165,15 @@ export default class Visualizer extends Component {
     console.log("this scene in render", this.scene);
     console.log("this.props inside visualizer render", this.props);
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-    this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    } else {
+      this.loadTextWords(false, this.props.words);
+    }
+
     return (
-      <div id = "container">
+      <div id="container">
         <h1>{ this.props.graphtitle }</h1>
       </div>
     )

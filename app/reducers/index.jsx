@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { loadinfoReducer } from './inputForm'
-import { text2Reducer, titleReducer, compareReducer } from './visualizer'
+import { text2Reducer, titleReducer, compareReducer, wordsReducer } from './visualizer'
 
 
 const rootReducer = combineReducers({
@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
 	graphtitle: titleReducer,
 	compare: compareReducer,
 	labels: require('./inputForm').default,
-	words: require('./visualizer').default,
+	words: wordsReducer,
 	loadinfo: loadinfoReducer
 })
 

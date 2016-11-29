@@ -11,7 +11,7 @@ export const getWords = words => ({
 });
 
 // reducer
-export default (state={}, action) => {
+export const wordsReducer = (state={}, action) => {
 
   switch(action.type) {
     case GET_WORDS:
@@ -19,7 +19,6 @@ export default (state={}, action) => {
   }
   return state
 };
-
 
 //action creater for comparison text
 export const getCompText = text2 => ({
