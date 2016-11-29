@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import SampleOneText from '../components/SampleOneText'
 import axios from 'axios'
-import {getWords, getCompText, setCompare, fullscreen} from '../reducers/visualizer'
+import {getWords, getCompText, setCompare} from '../reducers/visualizer'
 import {loadLabels} from '../reducers/inputForm'
 
 
@@ -48,19 +48,17 @@ return (dispatch) => {                               // axios call to python ser
 
 
 
-const mapStateToProps = ({ labels, words, title, text2, compare, fullscreen }) => ({
+const mapStateToProps = ({ labels, words, title, text2, compare}) => ({
 	labels, 
 	words,
 	title,
 	text2,
-	compare,
-	fullscreen
+	compare
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	getSample: () => dispatch(fetchSample(accel)),
 	getCompareSample: () => dispatch(fetchSample(inputBo, drumpf)),
-	toggleFullscreen: (full) => dispatch(fullscreen(full? false : true)) 
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SampleOneText)
