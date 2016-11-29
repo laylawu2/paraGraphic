@@ -32,13 +32,19 @@ export default class Visualizer extends Component {
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
-
+      console.log("here",words);
       //for every word create an object called Mesh
-      Object.keys(words).forEach((word) => {
+      let x = 0, y = 0 , z = 0;
+      Object.keys(words).forEach((word, idx) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        // console.log(words);
-        let color = new THREE.Color((words[word][0]-0.3)*10, (words[word][1]-0.5)*10, (words[word][2]-0.4)*10);
+        //let color = new THREE.Color((words[word][0]-0.3)*10, (words[word][1]-0.5)*10, (words[word][2]-0.4)*10);
+        if(idx == 0){
+          x = words[word][0];
+          y = words[word][1];
+          z = words[word][2];
+        }
+        let color = new THREE.Color((words[word][0]-x)*10, (words[word][1]-y)*10, (words[word][2]-z)*10);
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
