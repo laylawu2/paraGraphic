@@ -127,8 +127,8 @@ export default class extends React.Component {
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
           fullWidth ={true}
-          rows={5}
-          rowsMax={5}
+          rows={6}
+          rowsMax={6}
           style = {{overflow: scroll}}
         />
       </div>
