@@ -17,19 +17,19 @@ export default class extends React.Component {
     render(){
         const {loadinfo, Infofunc} = this.props
         return(
-            <div>
+            <div >
                 {/* ternary to decide which of input or info to load*/}
                 {loadinfo?
                     <div>
                         <h1>INFO FOR OUR APP</h1>
                         <p>with this app, you can... </p>
 
-                        <RaisedButton type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
+                        <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
                     </div>
                     :
                     <div>
                         <InputFormContainer/>
-                        <RaisedButton type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
+                        <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                     </div>
                 }
 

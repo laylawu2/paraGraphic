@@ -3,17 +3,20 @@ import React from 'react'
 import firebase from 'firebase'
 import axios from 'axios'
 import {browserHistory} from 'react-router'
-
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm'
-const style = {
-  margin: 12,
-};
 
+const styles = {
+  margin: 12,
+  underlineStyle: {
+    borderColor: orange500,
+  }
+};
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -89,10 +92,8 @@ export default class extends React.Component {
     <form  onSubmit={this.submitForm }>
       <h1>USER INPUT</h1>
       <div className='form-group'>
-        <TextField hintText="TITLE" name='graphtitle'/>
-
+        <TextField hintText="TITLE" name='graphtitle'  underlineFocusStyle={styles.underlineStyle}/>
       </div>
-
       <div className='form-group'>
         <SelectField floatingLabelText="X Lable" value={this.state.x} name="x" onChange={this.handleChangex} >
           {
@@ -125,11 +126,13 @@ export default class extends React.Component {
           name='text'
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
-          rows={4}
+          fullWidth ={true}
+          rows={5}
+          rowsMax={5}
+          style = {{overflow: scroll}}
         />
       </div>
-      <RaisedButton type="submit" label="SUBMIT" style={style} />
-
+      <RaisedButton type="submit" label="SUBMIT" style={styles} />
     </form>)
   }
 
