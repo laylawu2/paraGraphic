@@ -7,7 +7,7 @@ export default class Visualizer extends Component {
   constructor(props) {
     super(props);
 
-    this.stats;
+    // this.stats;
     this.camera;
     this.controls;
     this.scene;
@@ -88,8 +88,8 @@ export default class Visualizer extends Component {
     this.scene.add( light );
 
     //info box to monitor code performance
-    this.stats = new Stats();
-    container.appendChild( this.stats.dom );
+    // this.stats = new Stats();
+    // container.appendChild( this.stats.dom );
 
     window.addEventListener( 'resize', this.onWindowResize, false );
   }
@@ -105,7 +105,7 @@ export default class Visualizer extends Component {
   animate() {
     requestAnimationFrame( this.animate );
     this.controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
-    this.stats.update();
+    // this.stats.update();
     this.renderPlot();
   }
 
