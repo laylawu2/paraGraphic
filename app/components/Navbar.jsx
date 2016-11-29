@@ -18,7 +18,7 @@ render () {
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
         </button>
-        <a className="navbar-brand" href="#">VisualText</a>
+        <a className="navbar-brand" href="#">paraGraphic</a>
       </div>
 
       {/*<!-- Collect the nav links, forms, and other content for toggling -->*/}
