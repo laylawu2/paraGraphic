@@ -20,15 +20,15 @@ export default class extends React.Component {
                 {/* ternary to decide which of input or info to load*/}
                 { loadinfo?
                     <div>
-                        <h1>INFO FOR OUR APP</h1>
-                        <p>with this app, you can... </p>
-
-                        <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
+                        <InputFormContainer/>
+                        <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
                     </div>
                     :
                     <div>
-                        <InputFormContainer/>
-                        <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
+                        <h1>INFO FOR OUR APP</h1>
+                        <p>with this app, you can... </p>
+
+                        <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                     </div>
                 }
             </div>

@@ -43,7 +43,7 @@ export default class extends React.Component {
 
   submitForm(e){
     e.preventDefault()
-    const { addTitle,addLabels, postAndGetWordData} = this.props;
+    const { clearScene, addTitle,addLabels, postAndGetWordData } = this.props;
     // get user's input and trim white spaces
     // var x = e.target.x.value.split('&');
     // var y = e.target.y.value.split('&');
@@ -72,11 +72,15 @@ export default class extends React.Component {
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
     console.log("title----",e.target.graphtitle.value);
+    console.log("insdie submit function", this.props.clearSceneBool);
+    clearScene(true);
+    // console.log("insdie submit function after", this.props.clearSceneBool);
+    // clearScene(false);
     addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
-      //.then(browserHistory.push('/tmp'));         // redirect to visualizer
-
+      // .then(browserHistory.push('/tmp'));         // redirect to visualizer
+    
   }
   handleChangex = (event, index, value) => this.setState({x:value});
   handleChangey = (event, index, value) => this.setState({y:value});

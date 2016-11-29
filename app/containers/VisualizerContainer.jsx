@@ -1,11 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Visualizer from '../components/Visualizer'
+import axios from 'axios'
 
-const mapStateToProps = ({ labels, words, graphtitle }) => ({
+import Visualizer from '../components/Visualizer'
+import { getWords, getCompText, setCompare } from '../reducers/visualizer'
+import { loadLabels } from '../reducers/inputForm'
+import { cleanScene } from '../reducers/visualizer'
+
+
+const mapStateToProps = ({ labels, words, graphtitle, text2, compare, clearSceneBool, loadinfo }) => ({
 	labels, 
 	words,
-	graphtitle
+	graphtitle,
+	text2,
+	compare,
+	clearSceneBool, 
+	loadinfo
 });
 
-export default connect(mapStateToProps)(Visualizer)
+const mapDispatchToProps = (dispatch) => ({
+	clearScene: (toClear) => {
+    console.log("mapDispatchToProps". toClear)
+    dispatch(cleanScene(toClear));
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Visualizer)
