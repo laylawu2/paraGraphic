@@ -13,8 +13,8 @@ import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
 import SampleCompTextContainer from './containers/SampleCompTextContainer'
 import SampleOneTextContainer from './containers/SampleOneTextContainer'
-import {getWords, getCompText, getTitle} from './reducers/visualizer'
-import {loadLabelsLarge} from './reducers/inputForm'
+import { getWords, getCompText, getTitle } from './reducers/visualizer'
+import { loadLabels } from './reducers/inputForm'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -53,7 +53,7 @@ const fetchSample = (t1, t2) => {
 return (dispatch) => {                               // axios call to python server
     axios.post('http://localhost:1337', t1)     // returns the plottable points
       .then(res => { dispatch(getWords(res.data))
-        dispatch(loadLabelsLarge(t1));
+        dispatch(loadLabels(t1));
         if(t2) {
 	        axios.post('http://localhost:1337', t2)
 	        .then(res => dispatch(getCompText(res.data)))
