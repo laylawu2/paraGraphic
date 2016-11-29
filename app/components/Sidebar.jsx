@@ -18,7 +18,7 @@ export default class extends React.Component {
         return(
             <div>
                 {/* ternary to decide which of input or info to load*/}
-                {loadinfo?
+                { loadinfo?
                     <div>
                         <h1>INFO FOR OUR APP</h1>
                         <p>with this app, you can... </p>

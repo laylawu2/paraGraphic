@@ -85,14 +85,12 @@ export default class extends React.Component {
       <h1>USER INPUT</h1>
       <div className='form-group'>
         <TextField hintText="TITLE" name='graphtitle'/>
-
       </div>
-
       <div className='form-group'>
         <SelectField floatingLabelText="X Lable" value={this.state.x} name="x" onChange={this.handleChangex} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>
@@ -101,7 +99,7 @@ export default class extends React.Component {
         <SelectField floatingLabelText="Y Lable" value={this.state.y} name="y" onChange={this.handleChangey} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>
@@ -110,7 +108,7 @@ export default class extends React.Component {
         <SelectField floatingLabelText="Z Lable" value={this.state.z} name="z" onChange={this.handleChangez} >
           {
             this.labels.map((label,idx) => (
-              <MenuItem key={idx} value={label} primaryText= {label}/>
+              <MenuItem key={idx} value={label} primaryText={label}/>
             ))
           }
         </SelectField>
