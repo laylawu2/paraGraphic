@@ -20,9 +20,6 @@ export default class extends React.Component {
     this.state = {x: "Love&Hate", y:"Love&Hate", z:"Love&Hate"};
     this.submitForm = this.submitForm.bind(this)
     this.labels =["Love&Hate", "Happy&Sad", "Good&Bad", "Best&Worst", "Clever&Stupid"]
-
-
-
   }
 
   componentDidMount(){
@@ -83,10 +80,7 @@ export default class extends React.Component {
   handleChangez = (event, index, value) => this.setState({z:value});
 
   render(){
-    //onSubmit={(this.submitForm }
-       // <input type='text' name='graphtitle'></input>
     return(
-
     <form  onSubmit={this.submitForm }>
       <h1>USER INPUT</h1>
       <div className='form-group'>

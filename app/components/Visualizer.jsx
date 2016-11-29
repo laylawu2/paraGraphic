@@ -57,11 +57,9 @@ export default class Visualizer extends Component {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
-    //this.scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
-    //this.renderer.setClearColor( this.scene.fog.color );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 

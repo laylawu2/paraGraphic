@@ -13,7 +13,6 @@ export default class extends React.Component {
 
     }
 
-
     render(){
         const {loadinfo, Infofunc} = this.props
         return(
@@ -32,9 +31,7 @@ export default class extends React.Component {
                         <RaisedButton type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                     </div>
                 }
-
             </div>
         )
-
     }
 }

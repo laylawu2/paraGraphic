@@ -10,9 +10,10 @@ const mapDispatchToProps = dispatch => ({
 	addLabels: (labels) => {
 		dispatch(loadLabels(labels));
 	},
-    addTitle: (graphtitle)=>{
-        dispatch(getTitle(graphtitle));
-    },
+  
+  addTitle: (graphtitle)=>{
+      dispatch(getTitle(graphtitle));
+  },
 
 	postAndGetWordData: (input) => {                        // axios call to python server
     return axios.post('http://localhost:1337', input)    	// returns the plottable points

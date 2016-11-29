@@ -7,14 +7,16 @@
   --link-text-color: white;
 }
 
+a {
+    color: var(--link-text-color);
+}
+
 .myNavBar {
   background-color: var(--primary-color);
   border: none;
-  border-radius: 0px;
   color: var(--primary-text-color);
   font-family: 'Roboto';
 }
-
 
 #container h5{
  position: absolute;
@@ -39,8 +41,4 @@ body {
     width: 100%;
     padding: 5px;
 
-}
-
-a {
-    color: var(--link-text-color);
 }

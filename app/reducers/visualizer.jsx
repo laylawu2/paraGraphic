@@ -65,7 +65,3 @@ export const compareReducer = (state={compare: false}, action) => {
 	}
 	return state
 }
-
-
-
-

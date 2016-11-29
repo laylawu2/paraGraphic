@@ -22,7 +22,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // load an example to start
 
-//onEnter for SampleContainer --
+// onEnter for SampleContainer --
 // for now, dispatching hard-coded input object to load sample rendering --
 // switch to loading data via a retrieval from firebase repository
 
