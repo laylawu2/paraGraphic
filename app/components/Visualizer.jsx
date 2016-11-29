@@ -37,7 +37,8 @@ export default class Visualizer extends Component {
       Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
+        console.log(words);
+        let color = new THREE.Color((words[word][0]-0.3)*10, (words[word][1]-0.5)*10, (words[word][2]-0.4)*10);
         let material =  new THREE.MeshBasicMaterial( { color:color } );
         let mesh = new THREE.Mesh( geometry, material );
 
