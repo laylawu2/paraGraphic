@@ -20,21 +20,28 @@ export default class Visualizer extends Component {
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    
+  
   }
 
   componentDidMount() {
       this.init();
       this.animate();
+    //   console.log("the scene before", this.scene);
+    // this.scene && this.scene.children.forEach((object) => {
+    //     this.scene.remove(object);
+    // });
+    // console.log("the scene after", this.scene);
       // this.props.getCompareSample();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("the scene before", this.scene);
-    this.scene.children.forEach((object) => {
-        this.scene.remove(object);
-    });
-    console.log("the scene after", this.scene);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("the scene before", this.scene);
+  //   this.scene.children.forEach((object) => {
+  //       this.scene.remove(object);
+  //   });
+  //   console.log("the scene after", this.scene);
+  // }
 
   componentDidUpdate() {
     const canv = document.getElementsByTagName("canvas")
@@ -48,7 +55,7 @@ export default class Visualizer extends Component {
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
-
+      console.log("here",words);
       //for every word create an object called Mesh
       words && Object.keys(words).forEach((word) => {
         //properties for word
@@ -71,15 +78,27 @@ export default class Visualizer extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
-   
+    
+      let x = 0, y = 0, z = 0;
      //for every word create an object called Mesh
-      words && Object.keys(words).forEach((word) => {
+      words && Object.keys(words).forEach((word, idx) => {
         //properties for word
         let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
 
+
         if(!compareBool){
-          let varColor = new THREE.Color(words[word][0], words[word][1], words[word][2]);
-          color = varColor
+          // console.log("herwerwerwer");
+          if(idx == 0){
+            x = words[word][0];
+            y = words[word][1];
+            z = words[word][2];
+          }
+          // console.log(x, y, z, idx);
+
+          color = new THREE.Color((words[word][0]-x)*10, 
+            (words[word][1]-y)*10, 
+            (words[word][2]-z)*10);
+
         }
 
         let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -130,7 +149,7 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    // light = new THREE.AmbientLight( 0x000000 );
+    // light = new THREE.AmbientLight( 0xffffff );
     // this.scene.add( light );
 
     //info box to monitor code performance
@@ -161,15 +180,28 @@ export default class Visualizer extends Component {
   }
 
   render () {
-    // load all words for each scene
-    console.log("this scene in render", this.scene);
-    console.log("this.props inside visualizer render", this.props);
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
-    } else {
-      this.loadTextWords(false, this.props.words);
+    if(this.scene) {
+      console.log("load info in visualizer", this.props.loadinfo);
+      if(this.props.clearSceneBool) {
+        console.log("the scene before", this.scene);
+        this.scene.children.forEach((object) => {
+          this.scene.remove(object);
+        });
+        this.props.clearScene(false);
+        console.log("the scene after", this.scene);
+      } else {
+        console.log("load words and labelse")
+      // load all words for each scene
+      console.log("this scene in render", this.scene);
+      console.log("this.props inside visualizer render", this.props);
+      this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
+      if(this.props.compare === "true")  {
+        this.loadTextWords(true, this.props.words, 0x00ffff);
+        this.loadTextWords(true, this.props.text2, 0xff3300);
+      } else {
+        this.loadTextWords(false, this.props.words);
+      }
+    }
     }
 
     return (

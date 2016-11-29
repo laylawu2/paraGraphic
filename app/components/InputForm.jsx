@@ -3,17 +3,20 @@ import React from 'react'
 import firebase from 'firebase'
 import axios from 'axios'
 import {browserHistory} from 'react-router'
-
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm'
-const style = {
-  margin: 12,
-};
 
+const styles = {
+  margin: 12,
+  underlineStyle: {
+    borderColor: orange500,
+  }
+};
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -40,7 +43,7 @@ export default class extends React.Component {
 
   submitForm(e){
     e.preventDefault()
-    const { addTitle,addLabels, postAndGetWordData} = this.props;
+    const { clearScene, addTitle,addLabels, postAndGetWordData } = this.props;
     // get user's input and trim white spaces
     // var x = e.target.x.value.split('&');
     // var y = e.target.y.value.split('&');
@@ -69,11 +72,15 @@ export default class extends React.Component {
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
     console.log("title----",e.target.graphtitle.value);
+    console.log("insdie submit function", this.props.clearSceneBool);
+    clearScene(true);
+    // console.log("insdie submit function after", this.props.clearSceneBool);
+    // clearScene(false);
     addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
-      //.then(browserHistory.push('/tmp'));         // redirect to visualizer
-
+      // .then(browserHistory.push('/tmp'));         // redirect to visualizer
+    
   }
   handleChangex = (event, index, value) => this.setState({x:value});
   handleChangey = (event, index, value) => this.setState({y:value});
@@ -84,6 +91,7 @@ export default class extends React.Component {
     <form  onSubmit={this.submitForm }>
       <h1>USER INPUT</h1>
       <div className='form-group'>
+
         <TextField hintText="TITLE" name='graphtitle'/>
       </div>
       <div className='form-group'>
@@ -118,11 +126,13 @@ export default class extends React.Component {
           name='text'
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
-          rows={4}
+          fullWidth ={true}
+          rows={6}
+          rowsMax={6}
+          style = {{overflow: scroll}}
         />
       </div>
-      <RaisedButton type="submit" label="SUBMIT" style={style} />
-
+      <RaisedButton type="submit" label="SUBMIT" style={styles} />
     </form>)
   }
 

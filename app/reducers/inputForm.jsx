@@ -45,7 +45,7 @@ export const loadInfofunc = (loadinfo) => ({
 })
 
 // reducer
-export const loadinfoReducer = (state = {}, action) => {
+export const loadinfoReducer = (state = false, action) => {
 	switch(action.type) {
 		case RECEIVE_INFO:
 			return action.loadinfo

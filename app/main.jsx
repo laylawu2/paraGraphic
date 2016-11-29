@@ -79,9 +79,6 @@ render (
       <Route path="/" component={ App }>
         <IndexRedirect to="/home" />
         <Route path="home" component={ Home } />
-        <Route path="sidebar" component={ SidebarContainer } />
-        <Route path="s1" component={ SampleOneTextContainer } onEnter={ons1Enter} />
-        <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
       </Route>
