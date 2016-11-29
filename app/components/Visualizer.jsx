@@ -21,11 +21,26 @@ export default class Visualizer extends Component {
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
       this.init();
       this.animate();
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log("the scene before", this.scene);
+    this.scene.children.forEach((object) => {
+        this.scene.remove(object);
+    });
+    console.log("the scene after", this.scene);
+  }
+
+  componentDidUpdate() {
+
+    const canv = document.getElementsByTagName("canvas")
+    console.log(canv, "CANVVVVVVVV");
+    canv[0] &&
+    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+  }
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -114,6 +129,7 @@ export default class Visualizer extends Component {
 
   render () {
     // load all words for each scene
+    console.log("this scene in render", this.scene);
     console.log("this.props inside visualizer render", this.props);
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
     this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
