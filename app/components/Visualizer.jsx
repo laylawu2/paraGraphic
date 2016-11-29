@@ -32,7 +32,6 @@ export default class Visualizer extends Component {
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
-      console.log("here",words);
       //for every word create an object called Mesh
       let x = 0, y = 0 , z = 0;
       Object.keys(words).forEach((word, idx) => {
