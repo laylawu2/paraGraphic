@@ -7,40 +7,37 @@
   --link-text-color: white;
 }
 
+a {
+    color: var(--link-text-color);
+}
+
 .myNavBar {
   background-color: var(--primary-color);
   border: none;
-  border-radius: 0px;
   color: var(--primary-text-color);
   font-family: 'Roboto';
 }
 
-
 #container h5{
- position: absolute;
- margin-right: 50px;
- margin-top: 50px
- color: red;
+  position: absolute;
+  margin-right: 50px;
+  margin-top: 50px
+  color: red;
+}
 
 body {
-    color: var(--primary-text-color);
-    font-size: 13px;
-    text-align: center;
-    font-weight: bold;
-    background-color: black;
-    margin: 0px;
-    overflow: hidden;
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+  margin: 0px;
+  overflow: hidden;
 }
 
 #info {
-    color: var(--primary-text-color);
-    position: absolute;
-    top: 0px; 
-    width: 100%;
-    padding: 5px;
+  color: var(--primary-text-color);
+  position: absolute;
+  top: 0px; 
+  width: 100%;
+  padding: 5px;
 
-}
-
-a {
-    color: var(--link-text-color);
 }
