@@ -68,9 +68,9 @@ export default class Sample extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.5)* 2.7 * window.innerWidth);
-        mesh.position.y = ((words[word][1] - 0.5)* 2.7 * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5)* 2.7 * 500);
+        mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.5) * 500);
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -143,7 +143,7 @@ export default class Sample extends Component {
 
   render () {
     // load all words for each scene 
-    this.loadWords(this.props.labelsLarge, 'js/optimer_bold.typeface.json', 35, 5); 
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
     this.loadTextWords(this.props.words, 0x00ffff);
     this.loadTextWords(this.props.text2, 0xff3300);
     return (

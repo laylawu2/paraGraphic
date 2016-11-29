@@ -1,28 +1,49 @@
+'use strict';
 import React from 'react'
 import axios from 'axios'
 import {browserHistory} from 'react-router'
 import firebase from 'firebase'
 
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm'
 
+const styles = {
+  margin: 12,
+  underlineStyle: {
+    borderColor: orange500,
+  }
+};
 export default class extends React.Component {
   constructor(props) {
     super(props)
-
+    this.state = {x: "Love&Hate", y:"Love&Hate", z:"Love&Hate"};
     this.submitForm = this.submitForm.bind(this)
+    this.labels =["Love&Hate", "Happy&Sad", "Good&Bad", "Best&Worst", "Clever&Stupid"]
   }
 
   submitForm(e){
     e.preventDefault()
-
+    const { addTitle,addLabels, postAndGetWordData} = this.props;
     // get user's input and trim white spaces
+    // var x = e.target.x.value.split('&');
+    // var y = e.target.y.value.split('&');
+    // var z = e.target.z.value.split('&');
+    var x = this.state.x.split('&');
+    var y = this.state.y.split('&');
+    var z = this.state.z.split('&');
     const userInput = {
-      x: [e.target.xmin.value.trim(), e.target.xmax.value.trim()],
-      y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
-      z: [e.target.zmin.value.trim(), e.target.zmax.value.trim()],
-      text: e.target.text.value
+      x: [x[0], x[1]],
+      y: [y[0], y[1]],
+      z: [z[0], z[1]],
+      text: e.target.text.value,
+      title: e.target.graphtitle.value
     }
-
+    // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
@@ -35,37 +56,72 @@ export default class extends React.Component {
 
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
+<<<<<<< HEAD
 
 
     this.props.addLabels(userInput);
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
       .then(browserHistory.push('/tmp'));         // redirect to visualizer
+=======
+    console.log("title----",e.target.graphtitle.value);
+    addTitle(e.target.graphtitle.value);
+    addLabels(userInput);
+    postAndGetWordData(userInput)      // call function to post request to python server
+      //.then(browserHistory.push('/tmp'));         // redirect to visualizer
+>>>>>>> master
 
   }
+  handleChangex = (event, index, value) => this.setState({x:value});
+  handleChangey = (event, index, value) => this.setState({y:value});
+  handleChangez = (event, index, value) => this.setState({z:value});
 
   render(){
     return(
-    <form onSubmit={ this.submitForm }>
+    <form  onSubmit={this.submitForm }>
+      <h1>USER INPUT</h1>
       <div className='form-group'>
-        <label>X: </label>
-        <input type='text' name='xmin'></input>
-        <input type='text' name='xmax'></input>
+
+        <TextField hintText="TITLE" name='graphtitle'/>
       </div>
       <div className='form-group'>
-        <label>Y: </label>
-        <input type='text' name='ymin'></input>
-        <input type='text' name='ymax'></input>
+        <SelectField floatingLabelText="X Lable" value={this.state.x} name="x" onChange={this.handleChangex} >
+          {
+            this.labels.map((label,idx) => (
+              <MenuItem key={idx} value={label} primaryText={label}/>
+            ))
+          }
+        </SelectField>
       </div>
       <div className='form-group'>
-        <label>Z: </label>
-        <input type='text' name='zmin'></input>
-        <input type='text' name='zmax'></input>
+        <SelectField floatingLabelText="Y Lable" value={this.state.y} name="y" onChange={this.handleChangey} >
+          {
+            this.labels.map((label,idx) => (
+              <MenuItem key={idx} value={label} primaryText={label}/>
+            ))
+          }
+        </SelectField>
       </div>
       <div className='form-group'>
-        <label>text to analyze: </label>
-        <input type='text' name='text'></input>
+        <SelectField floatingLabelText="Z Lable" value={this.state.z} name="z" onChange={this.handleChangez} >
+          {
+            this.labels.map((label,idx) => (
+              <MenuItem key={idx} value={label} primaryText={label}/>
+            ))
+          }
+        </SelectField>
       </div>
-      <button type='submit'>See My Graph</button>
+      <div className='form-group'>
+        <TextField
+          name='text'
+          floatingLabelText="TEXT TO ANALYZE"
+          multiLine={true}
+          fullWidth ={true}
+          rows={6}
+          rowsMax={6}
+          style = {{overflow: scroll}}
+        />
+      </div>
+      <RaisedButton type="submit" label="SUBMIT" style={styles} />
     </form>)
   }
 

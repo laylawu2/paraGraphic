@@ -8,6 +8,7 @@ import firebase from 'firebase'
 import store from './store'
 import App from './components/App'
 import Home from './components/Home'
+import SidebarContainer from './containers/SidebarContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
 import SampleCompTextContainer from './containers/SampleCompTextContainer'
@@ -32,6 +33,14 @@ firebase.initializeApp(config);
 // load an example to start
 
 //onEnter for SampleContainer --
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+
+// load an example to start
+
+// onEnter for SampleContainer --
 // for now, dispatching hard-coded input object to load sample rendering --
 // switch to loading data via a retrieval from firebase repository
 
@@ -82,18 +91,18 @@ const ons1Enter = () => {
 
 
 render (
+<MuiThemeProvider >
   <Provider store={ store }>
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
         <IndexRedirect to="/home" />
         <Route path="home" component={ Home } />
-        <Route path="s1" component={ SampleOneTextContainer } onEnter={ons1Enter} />
-        <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
         <Route path='retrieve' component={RetrieveData}/>
       </Route>
     </Router>
-  </Provider>,
+  </Provider>
+  </MuiThemeProvider>,
   document.getElementById('main')
 )
