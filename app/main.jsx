@@ -13,13 +13,13 @@ import SampleCompTextContainer from './containers/SampleCompTextContainer'
 import SampleOneTextContainer from './containers/SampleOneTextContainer'
 import {getWords, getCompText, getTitle} from './reducers/visualizer'
 import {loadLabelsLarge} from './reducers/inputForm'
+import RetrieveData from './components/Retrieve'
 
+// load an example to start
 
-// load an example to start 
-
-//onEnter for SampleContainer -- 
+//onEnter for SampleContainer --
 // for now, dispatching hard-coded input object to load sample rendering --
-// switch to loading data via a retrieval from firebase repository 
+// switch to loading data via a retrieval from firebase repository
 
 const inputBo = {
       x: ["despair", "joy"],
@@ -44,18 +44,18 @@ const accel = {
 }
 
 
-const fetchSample = (t1, t2) => {       
+const fetchSample = (t1, t2) => {
 return (dispatch) => {                               // axios call to python server
-    axios.post('http://localhost:1337', t1)     // returns the plottable points 
+    axios.post('http://localhost:1337', t1)     // returns the plottable points
       .then(res => { dispatch(getWords(res.data))
         dispatch(loadLabelsLarge(t1));
         if(t2) {
 	        axios.post('http://localhost:1337', t2)
 	        .then(res => dispatch(getCompText(res.data)))
-	    }   
+	    }
       })
-      .catch(err => console.error(err))  
-    }  
+      .catch(err => console.error(err))
+    }
 }
 
 const onSampleEnter = () => {
@@ -76,6 +76,7 @@ render (
         <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
+        <Route path='retrieve' component={RetrieveData}
       </Route>
     </Router>
   </Provider>,
