@@ -4,7 +4,7 @@ import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
 import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import axios from 'axios'
-
+import firebase from 'firebase'
 import store from './store'
 import App from './components/App'
 import Home from './components/Home'
@@ -17,7 +17,18 @@ import {loadLabelsLarge} from './reducers/inputForm'
 import RetrieveData from './components/Retrieve'
 import { loadLabels } from './reducers/inputForm'
 
+// following code configures and initializes firebase database to work with app
+// may eventually want to move this to React component for home page / landing page
+// or even index.html if possible -- firebase should be working as soon as app starts
+var config = {
+  apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
+  authDomain: "capstone-b9f6c.firebaseapp.com",
+  databaseURL: "https://capstone-b9f6c.firebaseio.com",
+  storageBucket: "capstone-b9f6c.appspot.com",
+  messagingSenderId: "583702777619"
+};
 
+firebase.initializeApp(config);
 // load an example to start
 
 //onEnter for SampleContainer --
@@ -80,7 +91,7 @@ render (
         <Route path="sample" component={ SampleCompTextContainer } onEnter={onSampleEnter} />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
-        <Route path='retrieve' component={RetrieveData}
+        <Route path='retrieve' component={RetrieveData}/>
       </Route>
     </Router>
   </Provider>,

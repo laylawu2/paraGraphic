@@ -1,8 +1,7 @@
 import React from 'react'
-import firebase from 'firebase'
 import axios from 'axios'
 import {browserHistory} from 'react-router'
-
+import firebase from 'firebase'
 
 import { loadLabels } from '../reducers/inputForm'
 
@@ -11,22 +10,6 @@ export default class extends React.Component {
     super(props)
 
     this.submitForm = this.submitForm.bind(this)
-  }
-
-  componentDidMount(){
-
-    // following code configures and initializes firebase database to work with app
-    // may eventually want to move this to React component for home page / landing page 
-    // or even index.html if possible -- firebase should be working as soon as app starts
-    var config = {
-      apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
-      authDomain: "capstone-b9f6c.firebaseapp.com",
-      databaseURL: "https://capstone-b9f6c.firebaseio.com",
-      storageBucket: "capstone-b9f6c.appspot.com",
-      messagingSenderId: "583702777619"
-    };
-
-    firebase.initializeApp(config);
   }
 
   submitForm(e){
@@ -47,14 +30,14 @@ export default class extends React.Component {
     const myRef = firebase.database().ref('/');
     const newRef = myRef.push(userInput);     // send user input to database
 
-    const id = newRef.key; 
+    const id = newRef.key;
     console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
 
                   // this is the database key for entry just pushed
-    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!                                        
+    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
 
 
-    this.props.addLabels(userInput);              
+    this.props.addLabels(userInput);
     this.props.postAndGetWordData(userInput)      // call function to post request to python server
       .then(browserHistory.push('/tmp'));         // redirect to visualizer
 
