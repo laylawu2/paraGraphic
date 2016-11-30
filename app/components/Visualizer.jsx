@@ -54,9 +54,9 @@ export default class Visualizer extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth *2);
-        mesh.position.y = ((words[word][1] - 0.7) * window.innerHeight *2 );
-        mesh.position.z = ((words[word][2] - 0.7) * window.innerWidth);
+        mesh.position.x = words[word][0] - 0.7;
+        mesh.position.y = words[word][1] - 0.7;
+        mesh.position.z = words[word][2] - 0.7;
 
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
@@ -73,7 +73,7 @@ export default class Visualizer extends Component {
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
-      let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
+      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
       if(!compareBool){
         if(idx == 0){
@@ -92,9 +92,9 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth *2);
-      mesh.position.y = ((words[word][1] - 0.7) * window.innerHeight *2 );
-      mesh.position.z = ((words[word][2] - 0.7) * window.innerWidth);
+      mesh.position.x = words[word][0] - 0.7;
+      mesh.position.y = words[word][1] - 0.7;
+      mesh.position.z = words[word][2] - 0.7;
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
@@ -120,9 +120,10 @@ export default class Visualizer extends Component {
     this.scene = new THREE.Scene();
 
     //the view from the userwindow.innerWidth / window.innerHeight
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.z = window.innerWidth;
-    this.camera.translateZ(-180);
+    this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
+    this.camera.position.z = 1.3;
+    //window.innerWidth;
+    //this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -143,7 +144,7 @@ export default class Visualizer extends Component {
     // container.appendChild( this.stats.dom );
 
     // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 50, 5);
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words, 0x00ffff);
