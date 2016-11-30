@@ -180,7 +180,7 @@ export default class Sample extends Component {
    
     return (
       <div id="container"> {/* make this a ref */}
-         <h5>TITLE HERE</h5>
+         <h3>Obama 2008 inaug. v Trump 2016 RNC accept.</h3>
       </div>
     )
  }    
