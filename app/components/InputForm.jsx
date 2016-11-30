@@ -43,7 +43,7 @@ export default class extends React.Component {
   submitForm(e) {
     e.preventDefault()
 
-    const { clearScene, addTitle,addLabels, postAndGetWordData } = this.props;
+    const { addTitle,addLabels, postAndGetWordData } = this.props;
 
     var xmin = e.target.xmin.value.split(" ");
     var xmax = e.target.xmax.value.split(" ");
@@ -76,10 +76,7 @@ export default class extends React.Component {
                   // this is the database key for entry just pushed
     //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
     console.log("title----",e.target.graphtitle.value);
-    console.log("insdie submit function", this.props.clearSceneBool);
-    clearScene(true);
-    // console.log("insdie submit function after", this.props.clearSceneBool);
-    // clearScene(false);
+
     addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server

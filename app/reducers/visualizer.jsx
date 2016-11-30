@@ -64,20 +64,3 @@ export const compareReducer = (state={compare: false}, action) => {
 	}
 	return state
 }
-
-//action creater for changing compare (boolean) value
-export const cleanScene = (clearScene) => {
-	console.log("cleascene bool value", clearScene)
-	return ({
-	type: "CLEAR_SCENE",
-	clearScene
-})
-}
-//reducer
-export const clearSceneReducer = (state=false, action) => {
-	switch(action.type) {
-		case "CLEAR_SCENE":
-		return action.clearScene
-	}
-	return state
-}
