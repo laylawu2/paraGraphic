@@ -11,7 +11,6 @@ import Home from './components/Home'
 import SidebarContainer from './containers/SidebarContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
-import SampleOneTextContainer from './containers/SampleOneTextContainer'
 import {getWords, getCompText, getTitle, getTitles} from './reducers/visualizer'
 import {loadLabelsLarge} from './reducers/inputForm'
 import { loadLabels } from './reducers/inputForm'
@@ -36,14 +35,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 var data, title, entry, t2;
-var titlesFromDb=[];
 const onAppEnter = () => {
   firebase.database().ref('/').once('value').then(function(snapshot) {
     data = snapshot.val()
+    var titlesFromDb=[];
+
     for (var groupID in data) {
       title = data[groupID].title
       if (title) {
-        titlesFromDb.push(title)
+        titlesFromDb.push({title, key: groupID})
       }
     }
     store.dispatch(getTitles(titlesFromDb))
@@ -54,7 +54,7 @@ const onAppEnter = () => {
   // }
 }
 
-const onSingleLinkEnter = (nextState) => {
+const onSingleLinkEnterWithTitle = (nextState) => {
   firebase.database().ref()
     .orderByChild('title')
     .startAt(nextState.params.title)
@@ -83,6 +83,31 @@ const onSingleLinkEnter = (nextState) => {
   })
 }
 
+// npm install debug
+// const debug = require('debug')('main')
+
+const onSingleLinkEnterWithKey = (next, replace, done) =>
+  firebase.database().ref()
+    .child(next.params.key)
+    .once('value')
+    .then(snap => {
+      entry = snap.val()
+      console.log('onSingleLinkEnter withKey:', next.params.key, 'loaded entry:', entry)
+      if (!entry) {
+        console.log('entry was null, will redirect')
+        // Key not found, redirect
+        replace({}, '/')
+        return done()
+      }
+
+      store.dispatch(loadLabels(entry));
+
+      axios.post('http://localhost:1337', entry)
+        .then(res => store.dispatch(getWords(res.data)))
+        .then(() => done())
+        .catch(() => replace('/'))
+    })
+
 render(
   <MuiThemeProvider >
     <Provider store={ store }>
@@ -92,7 +117,7 @@ render(
           <Route path="home" component={ Home } />
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
-          <Route path=":title" component={ SampleOneTextContainer } onEnter={ onSingleLinkEnter }/>
+          <Route path=":key" component={ Home } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>
     </Provider>

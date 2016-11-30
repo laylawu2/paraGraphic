@@ -26,25 +26,6 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-<<<<<<< HEAD
-  submitForm(e){
-=======
-  componentDidMount() {
-
-    // following code configures and initializes firebase database to work with app
-    // may eventually want to move this to React component for home page / landing page
-    // or even index.html if possible -- firebase should be working as soon as app starts
-    var config = {
-      apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
-      authDomain: "capstone-b9f6c.firebaseapp.com",
-      databaseURL: "https://capstone-b9f6c.firebaseio.com",
-      storageBucket: "capstone-b9f6c.appspot.com",
-      messagingSenderId: "583702777619"
-    };
-
-    firebase.initializeApp(config);
-  }
-
   submitForm(e) {
 
     e.preventDefault()
@@ -63,7 +44,8 @@ export default class extends React.Component {
       y: [ymin, ymax],
       z: [zmin, zmax],
       text: e.target.text.value,
-      title: e.target.graphtitle.value
+      title: e.target.graphtitle.value,
+      ts: firebase.database.ServerValue.TIMESTAMP,
     }
 
     // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
@@ -71,16 +53,37 @@ export default class extends React.Component {
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
 
-    const myRef = firebase.database().ref('/');
-    const newRef = myRef.push(userInput);     // send user input to database
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_']
+    const randStr = (length=5) =>
+      Array(length)
+        .fill(0)
+        .map((x, i) => letters[Math.floor(Math.random() * letters.length)])
+        .join('')
+
+    const write = (input, charsToAppend=0) => {
+      const key = charsToAppend
+        ? `${input.title}_${randStr(charsToAppend)}`
+        : input.title
+      const myRef = firebase.database().ref(key);
+      return myRef
+        .transaction(existing => existing === null? input : undefined)
+        .then(({committed, snapshot}) => {
+          if (!committed) {
+            return write(input, charsToAppend + 1)
+          }
+          return key
+        })
+    }
+
+    //const newRef = myRef.push(userInput);     // send user input to database
+
+    const newRef = write(userInput).catch(console.error)
 
     const id = newRef.key;
     console.log("ID FROM FIREBASE", id);
     // this is the database key for entry just pushed
-
-    this.props.addLabels(userInput);
-    this.props.postAndGetWordData(userInput)      // call function to post request to python server
-      .then(browserHistory.push('/tmp'));         // redirect to visualizer
 
     console.log("title----",e.target.graphtitle.value);
     addTitle(e.target.graphtitle.value);

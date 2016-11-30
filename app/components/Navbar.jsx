@@ -30,7 +30,7 @@ render () {
             <ul className="dropdown-menu">
               {
                 this.props.titles && this.props.titles.map((title, idx) => (
-                  <li key={idx}><Link to={`/${title}`}>{title}</Link></li>
+                  <li key={idx}><Link to={`/${title.key}`}><span>{title.title}</span></Link></li>
                 ))
               }
 
