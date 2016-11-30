@@ -182,7 +182,7 @@ export default class Sample extends Component {
    
     return (
       <div id="container"> {/* make this a ref */}
-         <h3>Accelerate Manifesto</h3>
+         <h1 id="graph-title">Accelerate Manifesto</h1>
       </div>
     )
  }    

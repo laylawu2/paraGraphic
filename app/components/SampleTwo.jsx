@@ -181,7 +181,7 @@ export default class Sample extends Component {
   render () {
     return (
       <div id="container"> {/* make this a ref */}
-         <h3>Obama 2008 inaug. v Trump 2016 RNC accept.</h3>
+         <h1 id="graph-title">Obama 2008 inaug. v Trump 2016 RNC accept.</h1>
       </div>
     )
  }    

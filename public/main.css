@@ -1,7 +1,7 @@
 /* variables for reuse */
 :root {
-  --primary-color: #3F51B5;
-  --secondary-color: #283593; /* darker version of primary color */
+  --primary-color: #006064;
+  --secondary-color: #00BCD4; /* lighter version of primary color */
   --accent-color: #4DD0E1;
   --primary-text-color: white;
   --link-text-color: white;
@@ -25,14 +25,13 @@ a {
 #graph-title {
   position: absolute;
   margin: 80px;
-  color: red;
+  color: #FF6F00;
 }
 
 /* need to overwrite material-ui inline styles */
 #fs-button {
   position: absolute !important;
-  width: auto !important;
-  margin-right: 0;
+  width: auto !important; /* only for raised button */
 }
 
 body {

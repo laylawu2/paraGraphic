@@ -1,8 +1,17 @@
 import {connect} from 'react-redux'
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
+import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
+
+const styles = {
+  height: 50,
+  width: 50,
+  color: amber50
+}
 
 export default class Visualizer extends Component {
   constructor(props) {
@@ -182,7 +191,14 @@ export default class Visualizer extends Component {
       <div id="container">
     {/* This needs to be changed to get actual sample title */}
       <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
-         <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      {/*<FlatButton
+              id="fs-button"
+              icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } onClick={ this.goFullscreen }
+            />*/}
       </div>
     )
   }
