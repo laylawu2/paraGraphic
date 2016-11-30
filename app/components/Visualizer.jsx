@@ -1,7 +1,17 @@
 import {connect} from 'react-redux'
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
+import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
+
+const styles = {
+  height: 50,
+  width: 50,
+  color: amber50
+}
 
 export default class Visualizer extends Component {
   constructor(props) {
@@ -32,13 +42,14 @@ export default class Visualizer extends Component {
 
   componentDidUpdate() {
     this.init(); // clear scene before adding new words/labels to it
+  }
 
+  goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
+    canv[0].webkitRequestFullscreen();
   }
-
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -54,9 +65,9 @@ export default class Visualizer extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
-        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.7) * 500);
+        mesh.position.x = words[word][0] - 0.7;
+        mesh.position.y = words[word][1] - 0.7;
+        mesh.position.z = words[word][2] - 0.7;
 
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
@@ -73,7 +84,7 @@ export default class Visualizer extends Component {
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
-      let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
+      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
       if(!compareBool){
         if(idx == 0){
@@ -82,8 +93,8 @@ export default class Visualizer extends Component {
           z = words[word][2];
         }
 
-        color = new THREE.Color((words[word][0]-x)*10, 
-        (words[word][1]-y)*10, 
+        color = new THREE.Color((words[word][0]-x)*10,
+        (words[word][1]-y)*10,
         (words[word][2]-z)*10);
       }
 
@@ -92,9 +103,9 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
-      mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-      mesh.position.z = ((words[word][2] - 0.7) * 700);
+      mesh.position.x = words[word][0] - 0.7;
+      mesh.position.y = words[word][1] - 0.7;
+      mesh.position.z = words[word][2] - 0.7;
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
@@ -119,10 +130,11 @@ export default class Visualizer extends Component {
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
 
-    //the view from the user
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.z = 800;
-    this.camera.translateZ(-180);
+    //the view from the userwindow.innerWidth / window.innerHeight
+    this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
+    this.camera.position.z = 1.3;
+    //window.innerWidth;
+    //this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -143,13 +155,13 @@ export default class Visualizer extends Component {
     // container.appendChild( this.stats.dom );
 
     // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
     if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
+      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.words.text2, 0xff3300);
     } else {
-      this.loadTextWords(false, this.props.words);
+      this.loadTextWords(false, this.props.words.text1);
     }
   }
 
@@ -174,9 +186,19 @@ export default class Visualizer extends Component {
   }
 
   render () {
+
     return (
       <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+    {/* This needs to be changed to get actual sample title */}
+      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      {/*<FlatButton
+              id="fs-button"
+              icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } onClick={ this.goFullscreen }
+            />*/}
       </div>
     )
   }
