@@ -7,6 +7,10 @@
   --link-text-color: white;
 }
 
+html {
+  overflow: scroll;
+}
+
 a {
     color: var(--link-text-color);
 }
