@@ -36,31 +36,26 @@ export default class Visualizer extends Component {
   }
 
 
+
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
-      console.log("here",words);
+
       //for every word create an object called Mesh
-      let x = 0, y = 0 , z = 0;
-      Object.keys(words).forEach((word, idx) => {
+      words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        //let color = new THREE.Color((words[word][0]-0.3)*10, (words[word][1]-0.5)*10, (words[word][2]-0.4)*10);
-        if(idx == 0){
-          x = words[word][0];
-          y = words[word][1];
-          z = words[word][2];
-        }
-        let color = new THREE.Color((words[word][0]-x)*10, (words[word][1]-y)*10, (words[word][2]-z)*10);
-        let material =  new THREE.MeshBasicMaterial( { color:color } );
+        let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = ((words[word][0] - 0.5) * window.innerWidth);
+
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.5) * 500);
+        mesh.position.z = ((words[word][2] - 0.7) * 500);
+
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
         //append the word to scene
@@ -68,6 +63,47 @@ export default class Visualizer extends Component {
       })
     })
   }
+
+  /* load the words/label to scene */
+  loadTextWords(compareBool, words, color) {
+
+    let x = 0, y = 0, z = 0;
+   
+     //for every word create an object called Mesh
+      words && Object.keys(words).forEach((word, idx) => {
+        //properties for word
+        let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
+
+        if(!compareBool){
+
+          if(idx == 0){             
+          x = words[word][0];             
+          y = words[word][1];             
+          z = words[word][2];   }
+                           
+          color = new THREE.Color((words[word][0]-x)*10, 
+            (words[word][1]-y)*10,             
+            (words[word][2]-z)*10);          
+
+        }
+
+        let material =  new THREE.MeshLambertMaterial( { color: color} );
+        let mesh = new THREE.Mesh( geometry, material );
+
+        //set the position for every single word
+
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.7) * 700);
+
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
+        //append the word to scene
+        this.scene.add( mesh );
+      })
+    }
+
 
  init() {
     console.log("INIT FUN");
@@ -82,7 +118,7 @@ export default class Visualizer extends Component {
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
     //the view from the user
-    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 100, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.z = 600;
 
     //orbit around some object
@@ -129,10 +165,17 @@ export default class Visualizer extends Component {
   }
 
   render () {
-    // load all words for each scene
-    console.log("this.props inside visualizer render", this.props);
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-    this.loadWords(this.props.words, 'js/optimer_regular.typeface.json', 25, 2);
+     // load all words for each scene 
+    // clear scene before doing this! look at three docs
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
+
     return (
       <div id = "container">
         <h1>{ this.props.graphtitle }</h1>
