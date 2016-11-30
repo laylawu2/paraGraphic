@@ -25,7 +25,9 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
+    this.initRenderer();
       this.init();
+
       this.animate();
     //   console.log("the scene before", this.scene);
     // this.scene && this.scene.children.forEach((object) => {
@@ -44,6 +46,8 @@ export default class Visualizer extends Component {
   // }
 
   componentDidUpdate() {
+    this.init();
+
     const canv = document.getElementsByTagName("canvas")
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
@@ -78,6 +82,7 @@ export default class Visualizer extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
+    console.log("inside load text words", compareBool, words, color);
     
       let x = 0, y = 0, z = 0;
      //for every word create an object called Mesh
@@ -105,7 +110,7 @@ export default class Visualizer extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-
+        /**** change range in camera ****/
         mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
         mesh.position.z = ((words[word][2] - 0.7) * 700);
@@ -118,10 +123,7 @@ export default class Visualizer extends Component {
       })
     }
 
- init() {
-    console.log("INIT FUN");
-    // create the scene to contain 3d modules
-    this.scene = new THREE.Scene();
+    initRenderer() {
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
@@ -130,6 +132,13 @@ export default class Visualizer extends Component {
 
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
+    }
+
+ init() {
+    console.log("INIT FUN");
+    // create the scene to contain 3d modules
+    this.scene = new THREE.Scene();
+
     
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -156,7 +165,17 @@ export default class Visualizer extends Component {
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
 
+    // should only be attached once
     window.addEventListener( 'resize', this.onWindowResize, false );
+
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
+      
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    } else {
+      this.loadTextWords(false, this.props.words);
+    }
   }
 
   // auto resize
@@ -180,29 +199,44 @@ export default class Visualizer extends Component {
   }
 
   render () {
-    if(this.scene) {
-      console.log("load info in visualizer", this.props.loadinfo);
-      if(this.props.clearSceneBool) {
-        console.log("the scene before", this.scene);
-        this.scene.children.forEach((object) => {
-          this.scene.remove(object);
-        });
-        this.props.clearScene(false);
-        console.log("the scene after", this.scene);
-      } else {
+    let counter = 0;
+    // if(this.scene) {
+    //   // console.log("load info in visualizer", this.props.loadinfo);
+    //   // if(this.props.clearSceneBool) {
+    //   //   console.log("the scene before", this.scene);
+    //   //   for(let i = this.scene.children.length; i >= 0; --i) {
+    //   //     obj = this.scene.children[i];
+    //   //     if(obj.type === "Mesh") {
+    //   //       obj.material.dispose();
+    //   //       obj.geometry.dispose();
+    //   //       this.scene.remove(obj);
+    //   //     }
+    //   //   }
+
+
+    //     // this.scene.children.forEach((object) => {
+    //     //   if(object.type === "Mesh") {
+    //     //     ++counter;
+    //     //   // console.log("object is .........", object);
+    //     //     object.material.dispose();
+    //     //     object.geometry.dispose();
+
+    //     //     this.scene.remove(object);
+    //     //   } else {
+    //     //     console.log(" otherwise this is not deleted", object.type);
+    //     //   }
+    //     // });
+
+    //     // this.props.clearScene(false);
+    //     console.log("the scene after", this.scene, counter);
+    //   } else {
         console.log("load words and labelse")
       // load all words for each scene
       console.log("this scene in render", this.scene);
       console.log("this.props inside visualizer render", this.props);
-      this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-      if(this.props.compare === "true")  {
-        this.loadTextWords(true, this.props.words, 0x00ffff);
-        this.loadTextWords(true, this.props.text2, 0xff3300);
-      } else {
-        this.loadTextWords(false, this.props.words);
-      }
-    }
-    }
+
+    // }
+    
 
     return (
       <div id="container">

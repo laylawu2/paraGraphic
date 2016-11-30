@@ -24,7 +24,7 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
 
     // following code configures and initializes firebase database to work with app
     // may eventually want to move this to React component for home page / landing page
@@ -40,7 +40,7 @@ export default class extends React.Component {
     firebase.initializeApp(config);
   }
 
-  submitForm(e){
+  submitForm(e) {
     e.preventDefault()
 
     const { clearScene, addTitle,addLabels, postAndGetWordData } = this.props;
@@ -88,7 +88,7 @@ export default class extends React.Component {
   }
 
 
-  render(){
+  render() {
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
       <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
