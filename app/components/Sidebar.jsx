@@ -19,6 +19,11 @@ export default class extends React.Component {
             <div >
                 {/* ternary to decide which of input or info to load*/}
                 { loadinfo?
+                    <div>
+                        <InputFormContainer/>
+                        <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
+                    </div>
+                    :
                     <div className="infoDiv">
                         <h1>paraGraphic</h1>
                         <br/>
@@ -42,15 +47,8 @@ export default class extends React.Component {
                             Check out our examples or visualizations made by others in the drop-down list
                             on the navbar, or select "input" to enter a text of your choosing!  
                         </p>
-
-
-                        <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
-                    </div>
-                    :
-                    <div>
-                        <InputFormContainer/>
-                        <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
-                    </div>
+                        <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
+                        </div>
                 }
             </div>
         )

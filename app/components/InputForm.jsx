@@ -17,6 +17,7 @@ const styles = {
     borderColor: orange500,
   }
 };
+
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -24,7 +25,7 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
 
     // following code configures and initializes firebase database to work with app
     // may eventually want to move this to React component for home page / landing page
@@ -40,9 +41,10 @@ export default class extends React.Component {
     firebase.initializeApp(config);
   }
 
-  submitForm(e){
+  submitForm(e) {
     e.preventDefault()
-    const { addTitle,addLabels, postAndGetWordData} = this.props;
+
+    const { addTitle,addLabels, postAndGetWordData } = this.props;
 
     var xmin = e.target.xmin.value.split(" ");
     var xmax = e.target.xmax.value.split(" ");
@@ -51,7 +53,6 @@ export default class extends React.Component {
     var zmin = e.target.zmin.value.split(" ");
     var zmax = e.target.zmax.value.split(" ");
 
-
     const userInput = {
       x: [xmin, xmax],
       y: [ymin, ymax],
@@ -59,8 +60,6 @@ export default class extends React.Component {
       text: e.target.text.value,
       title: e.target.graphtitle.value
     }
-
-    console.log(userInput, "USER INPUT OBBBBBJEEEEECCCCCTTTTTTTT")
 
     // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
     // myRef is how we can access table in firebase
@@ -71,20 +70,20 @@ export default class extends React.Component {
     const newRef = myRef.push(userInput);     // send user input to database
 
     const id = newRef.key;
-    console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
+    console.log("ID FROM FIREBASE", id);
+    // this is the database key for entry just pushed
 
-                  // this is the database key for entry just pushed
-    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
-    console.log("title----",e.target.graphtitle.value);
+    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
+
+    // dispatch all input for values
     addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
-      //.then(browserHistory.push('/tmp'));         // redirect to visualizer
-
+    
   }
 
 
-  render(){
+  render() {
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
       <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>

@@ -11,7 +11,7 @@ export const getWords = words => ({
 });
 
 // reducer
-export default (state={}, action) => {
+export const wordsReducer = (state={}, action) => {
 
   switch(action.type) {
     case GET_WORDS:
@@ -19,7 +19,6 @@ export default (state={}, action) => {
   }
   return state
 };
-
 
 //action creater for comparison text
 export const getCompText = text2 => ({
@@ -52,16 +51,16 @@ export const titleReducer = (state="", action) => {
 }
 
 //action creater for changing compare (boolean) value
-export const setCompare = compare => ({
+export const setCompare = (compare) => ({
 	type: SET_COMPARE,
 	compare
 })
 
 //reducer
-export const compareReducer = (state={compare: false}, action) => {
+export const compareReducer = (state=false, action) => {
 	switch(action.type) {
 		case SET_COMPARE:
-		return action.compare
+			return action.compare
 	}
 	return state
 }
