@@ -25,7 +25,7 @@ export default class Sample extends Component {
   componentDidMount(){
       this.init();
       this.animate();
-      this.props.getSample();
+      this.props.getCompareSample();
   }
 
   componentDidUpdate(){
