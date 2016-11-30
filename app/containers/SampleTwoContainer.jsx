@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SampleOneText from '../components/SampleOneText'
+import SampleTwo from '../components/SampleTwo'
 import axios from 'axios'
 import {getWords, getCompText, setCompare} from '../reducers/visualizer'
 import {loadLabels} from '../reducers/inputForm'
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
 	getCompareSample: () => dispatch(fetchSample(inputBo, drumpf)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SampleOneText)
+export default connect(mapStateToProps, mapDispatchToProps)(SampleTwo)

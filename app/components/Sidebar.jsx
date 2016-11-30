@@ -2,14 +2,13 @@ import React from 'react'
 import InputForm from './InputForm'
 import InputFormContainer from '../containers/InputFormContainer'
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import RaisedButton from 'material-ui/RaisedButton';
 // we will also need a component for info
 export default class extends React.Component {
     constructor(props) {
         super(props)
         this.info = true;
-        injectTapEventPlugin();
+        // injectTapEventPlugin();
 
     }
 

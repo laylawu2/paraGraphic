@@ -23,21 +23,18 @@ export default class Sample extends Component {
   }
 
   componentDidMount(){
-    console.log("sample one text component did mount")
-    this.init();
-    this.animate();
-    this.props.getSample();
-    
-
-    window.addEventListener( 'resize', this.onWindowResize, false );
-
+      this.init();
+      this.animate();
+      this.props.getCompareSample();
   }
 
   componentDidUpdate(){
-    const canv = document.getElementsByTagName("canvas")
-    console.log(canv, "CANVVVVVVVV");
-    canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+    {
+          const canv = document.getElementsByTagName("canvas")
+          console.log(canv, "CANVVVVVVVV");
+          canv[0] &&
+          canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+         }
   }
 
   /* load the words/label to scene */
@@ -145,14 +142,8 @@ export default class Sample extends Component {
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
-    }
-    else {
-      this.loadTextWords(false, this.props.words);
-    }
+
+    window.addEventListener( 'resize', this.onWindowResize, false );
   }
 
   // auto resize
@@ -178,11 +169,18 @@ export default class Sample extends Component {
   render () {
     // load all words for each scene 
     // clear scene before doing this! look at three docs
-
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
    
     return (
       <div id="container"> {/* make this a ref */}
-         <h3>Accelerate Manifesto</h3>
+         <h3>Obama 2008 inaug. v Trump 2016 RNC accept.</h3>
       </div>
     )
  }    
