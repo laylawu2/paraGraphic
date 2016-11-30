@@ -20,46 +20,30 @@ export default class Visualizer extends Component {
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    
-  
   }
 
   componentDidMount() {
     this.initRenderer();
-      this.init();
+    this.init();
+    this.animate();
 
-      this.animate();
-    //   console.log("the scene before", this.scene);
-    // this.scene && this.scene.children.forEach((object) => {
-    //     this.scene.remove(object);
-    // });
-    // console.log("the scene after", this.scene);
-      // this.props.getCompareSample();
+    window.addEventListener( 'resize', this.onWindowResize, false );
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("the scene before", this.scene);
-  //   this.scene.children.forEach((object) => {
-  //       this.scene.remove(object);
-  //   });
-  //   console.log("the scene after", this.scene);
-  // }
 
   componentDidUpdate() {
-    this.init();
+    this.init(); // clear scene before adding new words/labels to it
 
-    const canv = document.getElementsByTagName("canvas")
+    const canv = document.getElementsByTagName("canvas");
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
   }
-  
+
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
     let loader = new THREE.FontLoader();
     loader.load(fontFile, (font) => {
-      console.log("here",words);
       //for every word create an object called Mesh
       words && Object.keys(words).forEach((word) => {
         //properties for word
@@ -76,54 +60,49 @@ export default class Visualizer extends Component {
         mesh.matrixAutoUpdate = false;
         //append the word to scene
         this.scene.add( mesh );
-      })
-    })
+      });
+    });
   }
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
-    console.log("inside load text words", compareBool, words, color);
-    
-      let x = 0, y = 0, z = 0;
-     //for every word create an object called Mesh
-      words && Object.keys(words).forEach((word, idx) => {
-        //properties for word
-        let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
 
+    let x = 0, y = 0, z = 0;
+    //for every word create an object called Mesh
+    words && Object.keys(words).forEach((word, idx) => {
+    //properties for word
+      let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
 
-        if(!compareBool){
-          // console.log("herwerwerwer");
-          if(idx == 0){
-            x = words[word][0];
-            y = words[word][1];
-            z = words[word][2];
-          }
-          // console.log(x, y, z, idx);
-
-          color = new THREE.Color((words[word][0]-x)*10, 
-            (words[word][1]-y)*10, 
-            (words[word][2]-z)*10);
-
+      if(!compareBool){
+        if(idx == 0){
+          x = words[word][0];
+          y = words[word][1];
+          z = words[word][2];
         }
 
-        let material =  new THREE.MeshLambertMaterial( { color: color} );
-        let mesh = new THREE.Mesh( geometry, material );
+        color = new THREE.Color((words[word][0]-x)*10, 
+        (words[word][1]-y)*10, 
+        (words[word][2]-z)*10);
+      }
 
-        //set the position for every single word
-        /**** change range in camera ****/
-        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
-        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-        mesh.position.z = ((words[word][2] - 0.7) * 700);
+      let material =  new THREE.MeshLambertMaterial( { color: color} );
+      let mesh = new THREE.Mesh( geometry, material );
 
-        mesh.updateMatrix();
-        mesh.matrixAutoUpdate = false;
-        mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
-        //append the word to scene
-        this.scene.add( mesh );
-      })
-    }
+      //set the position for every single word
+      /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
+      mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+      mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+      mesh.position.z = ((words[word][2] - 0.7) * 700);
 
-    initRenderer() {
+      mesh.updateMatrix();
+      mesh.matrixAutoUpdate = false;
+      mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
+      //append the word to scene
+      this.scene.add( mesh );
+    })
+  }
+
+  initRenderer() {
 
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
@@ -132,14 +111,13 @@ export default class Visualizer extends Component {
 
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
-    }
+  }
 
- init() {
+  init() {
     console.log("INIT FUN");
     // create the scene to contain 3d modules
     this.scene = new THREE.Scene();
 
-    
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.z = 800;
@@ -158,18 +136,14 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
-    // light = new THREE.AmbientLight( 0xffffff );
-    // this.scene.add( light );
 
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
 
-    // should only be attached once
-    window.addEventListener( 'resize', this.onWindowResize, false );
-
+    // load everything onto the scene
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-      
+
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words, 0x00ffff);
       this.loadTextWords(true, this.props.text2, 0xff3300);
@@ -199,45 +173,6 @@ export default class Visualizer extends Component {
   }
 
   render () {
-    let counter = 0;
-    // if(this.scene) {
-    //   // console.log("load info in visualizer", this.props.loadinfo);
-    //   // if(this.props.clearSceneBool) {
-    //   //   console.log("the scene before", this.scene);
-    //   //   for(let i = this.scene.children.length; i >= 0; --i) {
-    //   //     obj = this.scene.children[i];
-    //   //     if(obj.type === "Mesh") {
-    //   //       obj.material.dispose();
-    //   //       obj.geometry.dispose();
-    //   //       this.scene.remove(obj);
-    //   //     }
-    //   //   }
-
-
-    //     // this.scene.children.forEach((object) => {
-    //     //   if(object.type === "Mesh") {
-    //     //     ++counter;
-    //     //   // console.log("object is .........", object);
-    //     //     object.material.dispose();
-    //     //     object.geometry.dispose();
-
-    //     //     this.scene.remove(object);
-    //     //   } else {
-    //     //     console.log(" otherwise this is not deleted", object.type);
-    //     //   }
-    //     // });
-
-    //     // this.props.clearScene(false);
-    //     console.log("the scene after", this.scene, counter);
-    //   } else {
-        console.log("load words and labelse")
-      // load all words for each scene
-      console.log("this scene in render", this.scene);
-      console.log("this.props inside visualizer render", this.props);
-
-    // }
-    
-
     return (
       <div id="container">
         <h1>{ this.props.graphtitle }</h1>
