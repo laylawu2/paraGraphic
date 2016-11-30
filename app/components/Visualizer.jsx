@@ -53,7 +53,7 @@ export default class Visualizer extends Component {
     canv[0] &&
     canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
   }
-
+  
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
