@@ -17,6 +17,7 @@ const styles = {
     borderColor: orange500,
   }
 };
+
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -60,8 +61,6 @@ export default class extends React.Component {
       title: e.target.graphtitle.value
     }
 
-    console.log(userInput, "USER INPUT OBBBBBJEEEEECCCCCTTTTTTTT")
-
     // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
     // myRef is how we can access table in firebase
     // userInput is an object derived from user's text entries which will be a) sent to database table
@@ -71,16 +70,15 @@ export default class extends React.Component {
     const newRef = myRef.push(userInput);     // send user input to database
 
     const id = newRef.key;
-    console.log("ID FROM FIRRREEEEBBBAAASSSEEEEEEEE", id)
+    console.log("ID FROM FIREBASE", id);
+    // this is the database key for entry just pushed
 
-                  // this is the database key for entry just pushed
-    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY!
-    console.log("title----",e.target.graphtitle.value);
+    //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
 
+    // dispatch all input for values
     addTitle(e.target.graphtitle.value);
     addLabels(userInput);
     postAndGetWordData(userInput)      // call function to post request to python server
-      // .then(browserHistory.push('/tmp'));         // redirect to visualizer
     
   }
 

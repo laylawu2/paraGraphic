@@ -57,10 +57,10 @@ export const setCompare = (compare) => ({
 })
 
 //reducer
-export const compareReducer = (state={compare: false}, action) => {
+export const compareReducer = (state=false, action) => {
 	switch(action.type) {
 		case SET_COMPARE:
-		return action.compare
+			return action.compare
 	}
 	return state
 }

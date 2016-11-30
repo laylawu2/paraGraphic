@@ -21,7 +21,6 @@ const processLabels = (labels) => {
 	result[labels.y[1][0].toUpperCase()] = coords[3];
 	result[labels.z[0][0].toUpperCase()] = coords[4];
 	result[labels.z[1][0].toUpperCase()] = coords[5];
-	console.log(result, ",,,,,,,,,,,,,,,,,,,,,");
 	return result;
 }
 
