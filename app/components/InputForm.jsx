@@ -58,6 +58,7 @@ export default class extends React.Component {
       y: [ymin, ymax],
       z: [zmin, zmax],
       text: e.target.text.value,
+      text2: e.target.text2.value,
       title: e.target.graphtitle.value
     }
 
@@ -111,9 +112,18 @@ export default class extends React.Component {
         <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax'/>
       </div>
       <div className='form-group full-width'>
-        <TextField
+        <TextField className='axis-labels'
           name='text'
           floatingLabelText="TEXT TO ANALYZE"
+          multiLine={true}
+          fullWidth ={true}
+          rows={6}
+          rowsMax={6}
+          style = {{overflow: scroll}}
+        />
+          <TextField className='axis-labels'
+          name='text2'
+          floatingLabelText="OPTIONAL: comparison text"
           multiLine={true}
           fullWidth ={true}
           rows={6}
