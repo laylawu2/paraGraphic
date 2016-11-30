@@ -26,6 +26,15 @@ export default class Visualizer extends Component {
       this.animate();
   }
 
+  componentDidUpdate(){
+    {
+          const canv = document.getElementsByTagName("canvas")
+          console.log(canv, "CANVVVVVVVV");
+          canv[0] &&
+          canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+         }
+  }
+
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
