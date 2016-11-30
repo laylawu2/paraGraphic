@@ -11,7 +11,6 @@ import Home from './components/Home'
 import SidebarContainer from './containers/SidebarContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
-import SampleCompTextContainer from './containers/SampleCompTextContainer'
 import SampleOneTextContainer from './containers/SampleOneTextContainer'
 import {getWords, getCompText, getTitle, getTitles} from './reducers/visualizer'
 import {loadLabelsLarge} from './reducers/inputForm'
@@ -70,7 +69,7 @@ const onSingleLinkEnter = (nextState) => {
     axios.post('http://localhost:1337', entry)
     .then(res => {
       console.log('res in main', res.data)
-      store.dispatch(getWords({foo: [1, 2, 3], bar: [2, 3, 4]}))
+      store.dispatch(getWords(res.data))
 
       // if(t2) {
       //   axios.post('http://localhost:1337', t2)
@@ -93,7 +92,7 @@ render(
           <Route path="home" component={ Home } />
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
-          <Route path=":title" component={ VisualizerContainer } onEnter={ onSingleLinkEnter }/>
+          <Route path=":title" component={ SampleOneTextContainer } onEnter={ onSingleLinkEnter }/>
         </Route>
       </Router>
     </Provider>
