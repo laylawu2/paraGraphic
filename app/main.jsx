@@ -11,9 +11,8 @@ import Home from './components/Home'
 import SidebarContainer from './containers/SidebarContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
-import {getWords, getCompText, getTitle, getTitles} from './reducers/visualizer'
-import {loadLabelsLarge} from './reducers/inputForm'
-import { loadLabels } from './reducers/inputForm'
+import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
+import {loadLabels, loadInfofunc} from './reducers/inputForm'
 
 // following code configures and initializes firebase database to work with app
 // may eventually want to move this to React component for home page / landing page
@@ -36,7 +35,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 var data, title, entry, t2;
 const onAppEnter = () => {
-  firebase.database().ref('/').once('value').then(function(snapshot) {
+  firebase.database().ref('/')
+    .limitToLast(20)
+    .once('value')
+    .then(function(snapshot) {
     data = snapshot.val()
     var titlesFromDb=[];
 
@@ -54,34 +56,35 @@ const onAppEnter = () => {
   // }
 }
 
-const onSingleLinkEnterWithTitle = (nextState) => {
-  firebase.database().ref()
-    .orderByChild('title')
-    .startAt(nextState.params.title)
-    .limitToLast(1)
-    .once('child_added').then(function(snapshot) {
-    entry = snapshot.val()
-    console.log('onSingleLinkEnter loaded entry:', entry)
-    store.dispatch(loadLabels(entry));
-    console.log(JSON.stringify(entry, 0, 2))
+// const onSingleLinkEnterWithTitle = (nextState) => {
+//   firebase.database().ref()
+//     .orderByChild('title')
+//     .startAt(nextState.params.title)
+//     .limitToLast(1)
+//     .once('child_added').then(function(snapshot) {
+//     entry = snapshot.val()
+//     console.log('onSingleLinkEnter loaded entry:', entry)
 
-    console.log('about to post', entry)
-    axios.post('http://localhost:1337', entry)
-    .then(res => {
-      console.log('res in main', res.data)
-      store.dispatch(getWords(res.data))
+//     store.dispatch(loadLabels(entry));
 
-      // if(t2) {
-      //   axios.post('http://localhost:1337', t2)
-      //   .then(res =>{
-      //     dispatch(getCompText(res.data));
-      //     dispatch(setCompare("true"));
-      //   })
-      // }
-    })
-    .catch(err => console.error(err))
-  })
-}
+
+//     console.log('about to post', entry)
+//     axios.post('http://localhost:1337', entry)
+//     .then(res => {
+// //      console.log('res in main', res.data)
+//       store.dispatch(getWords(res.data))
+
+//       if(t2) {
+//         axios.post('http://localhost:1337', t2)
+//         .then(res =>{
+//           dispatch(getCompText(res.data));
+//           dispatch(setCompare("true"));
+//         })
+//       }
+//     })
+//     .catch(err => console.error(err))
+//   })
+// }
 
 // npm install debug
 // const debug = require('debug')('main')
@@ -92,6 +95,7 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>
     .once('value')
     .then(snap => {
       entry = snap.val()
+
       console.log('onSingleLinkEnter withKey:', next.params.key, 'loaded entry:', entry)
       if (!entry) {
         console.log('entry was null, will redirect')
@@ -100,10 +104,16 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>
         return done()
       }
 
-      store.dispatch(loadLabels(entry));
+      store.dispatch(loadInfofunc(true))
+      store.dispatch(getEntry(entry))
+      store.dispatch(loadLabels(entry))
+
 
       axios.post('http://localhost:1337', entry)
-        .then(res => store.dispatch(getWords(res.data)))
+        .then(res => {
+          console.log('res.data', res.data);
+          store.dispatch(getWords(res.data))
+        })
         .then(() => done())
         .catch(() => replace('/'))
     })

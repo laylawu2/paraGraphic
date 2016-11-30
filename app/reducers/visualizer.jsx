@@ -4,6 +4,7 @@ const GET_COMP_TEXT ='GET_COMP_TEXT';
 const GET_TITLE = 'GET_TITLE';
 const SET_COMPARE = 'SET_COMPARE';
 const GET_TITLES = 'GET_TITLES'
+const GET_ENTRY = 'GET_ENTRY'
 // action creator
 export const getWords = words => ({
   type: GET_WORDS,
@@ -74,6 +75,19 @@ export const titlesReducer = (state=[], action) => {
   switch(action.type) {
     case GET_TITLES:
       return action.titlesFromDb
+  }
+  return state
+}
+
+export const getEntry = (entry) => ({
+  type: GET_ENTRY,
+  entry
+})
+
+export const entryReducer = (state={}, action) => {
+  switch(action.type) {
+    case GET_ENTRY:
+      return action.entry
   }
   return state
 }

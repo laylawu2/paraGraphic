@@ -53,6 +53,7 @@ export default class extends React.Component {
     // userInput is an object derived from user's text entries which will be a) sent to database table
     // and b) sent to python server to be converted into plottable points
 
+    // if the title already exists, attach random str to the end of the title
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
     'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_']
@@ -94,12 +95,13 @@ export default class extends React.Component {
 
 
   render() {
+    const entry = this.props.entry
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
       <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
       <div className='form-group'>
 
-        <TextField hintText="please enter a title for your graph" name='graphtitle'/>
+        <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
       </div>
       <div>
         <p>
@@ -109,16 +111,16 @@ export default class extends React.Component {
         </p>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin'/>
-        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax'/>
+        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
+        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin'/>
-        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax'/>
+        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
+        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
       </div>
         <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin'/>
-        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax'/>
+        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
+        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
       </div>
       <div className='form-group full-width'>
         <TextField
@@ -129,6 +131,7 @@ export default class extends React.Component {
           rows={6}
           rowsMax={6}
           style = {{overflow: scroll}}
+          value={entry.text}
         />
       </div>
       <div>
