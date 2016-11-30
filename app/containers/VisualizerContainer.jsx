@@ -6,7 +6,6 @@ import Visualizer from '../components/Visualizer'
 import { getWords, getCompText, setCompare } from '../reducers/visualizer'
 import { loadLabels } from '../reducers/inputForm'
 
-
 const mapStateToProps = ({ labels, words, graphtitle, text2, compare }) => ({
 	labels, 
 	words,

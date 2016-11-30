@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
 
-export default class Visualizer extends Component {
+export default class Sample extends Component {
   constructor(props) {
     super(props);
 
-    // this.stats;
+    this.stats;
     this.camera;
     this.controls;
     this.scene;
-    this.renderer;
+    this.renderer;  
     this.animate = this.animate.bind(this);
 
     this.mirror = true;
@@ -22,23 +22,20 @@ export default class Visualizer extends Component {
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  componentDidMount() {
-    this.initRenderer();
-    this.init();
-    this.animate();
-
-    window.addEventListener( 'resize', this.onWindowResize, false );
+  componentDidMount(){
+      this.init();
+      this.animate();
+      this.props.getCompareSample();
   }
 
-  componentDidUpdate() {
-    this.init(); // clear scene before adding new words/labels to it
-
-    const canv = document.getElementsByTagName("canvas");
-    console.log(canv, "CANVVVVVVVV");
-    canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
+  componentDidUpdate(){
+    {
+          const canv = document.getElementsByTagName("canvas")
+          console.log(canv, "CANVVVVVVVV");
+          canv[0] &&
+          canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen())
+         }
   }
-
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -54,6 +51,7 @@ export default class Visualizer extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
+
         mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
         mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
         mesh.position.z = ((words[word][2] - 0.7) * 500);
@@ -62,67 +60,68 @@ export default class Visualizer extends Component {
         mesh.matrixAutoUpdate = false;
         //append the word to scene
         this.scene.add( mesh );
-      });
-    });
+      })
+    })
   }
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
 
     let x = 0, y = 0, z = 0;
-    //for every word create an object called Mesh
-    words && Object.keys(words).forEach((word, idx) => {
-    //properties for word
-      let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
+   
+     //for every word create an object called Mesh
+      words && Object.keys(words).forEach((word, idx) => {
+        //properties for word
+        let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
 
-      if(!compareBool){
-        if(idx == 0){
-          x = words[word][0];
-          y = words[word][1];
-          z = words[word][2];
+        if(!compareBool){
+
+          if(idx == 0){             
+          x = words[word][0];             
+          y = words[word][1];             
+          z = words[word][2];   }
+                           
+          color = new THREE.Color((words[word][0]-x)*10, 
+            (words[word][1]-y)*10,             
+            (words[word][2]-z)*10);          
+
         }
 
-        color = new THREE.Color((words[word][0]-x)*10, 
-        (words[word][1]-y)*10, 
-        (words[word][2]-z)*10);
-      }
+        let material =  new THREE.MeshLambertMaterial( { color: color} );
+        let mesh = new THREE.Mesh( geometry, material );
 
-      let material =  new THREE.MeshLambertMaterial( { color: color} );
-      let mesh = new THREE.Mesh( geometry, material );
+        //set the position for every single word
 
-      //set the position for every single word
-      /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
-      mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
-      mesh.position.z = ((words[word][2] - 0.7) * 700);
+        mesh.position.x = ((words[word][0] - 0.7) * window.innerWidth);
+        mesh.position.y = ((words[word][1] - 0.5) * window.innerHeight);
+        mesh.position.z = ((words[word][2] - 0.7) * 700);
 
-      mesh.updateMatrix();
-      mesh.matrixAutoUpdate = false;
-      mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
-      //append the word to scene
-      this.scene.add( mesh );
-    })
-  }
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
+        //append the word to scene
+        this.scene.add( mesh );
+      })
+    }
 
-  initRenderer() {
+
+
+ init() {
+    console.log("INIT FUN");
+    // create the scene to contain 3d modules
+    this.scene = new THREE.Scene();
+
     //to display the scene, create new renderer
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
-    let container = document.getElementById( 'container' );
+    let container = document.getElementById( 'container' ); //make ref 
     container.appendChild( this.renderer.domElement );
-  }
-
-  init() {
-    console.log("INIT FUN");
-    // create the scene to contain 3d modules
-    this.scene = new THREE.Scene();
-
     //the view from the user
     this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.z = 800;
-    this.camera.translateZ(-180);
+    this.camera.translateZ( -180 );
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -137,20 +136,14 @@ export default class Visualizer extends Component {
     light = new THREE.DirectionalLight( 0x002288 );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
+    //light = new THREE.AmbientLight( 0x222222 );
+    //this.scene.add( light );
 
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
 
-    // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
-
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
-    } else {
-      this.loadTextWords(false, this.props.words);
-    }
+    window.addEventListener( 'resize', this.onWindowResize, false );
   }
 
   // auto resize
@@ -174,10 +167,22 @@ export default class Visualizer extends Component {
   }
 
   render () {
+    // load all words for each scene 
+    // clear scene before doing this! look at three docs
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
+   
     return (
-      <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+      <div id="container"> {/* make this a ref */}
+         <h5>TITLE HERE</h5>
       </div>
     )
-  }
+ }    
+  
 }
