@@ -146,10 +146,10 @@ export default class Visualizer extends Component {
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5);
 
     if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
+      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.words.text2, 0xff3300);
     } else {
-      this.loadTextWords(false, this.props.words);
+      this.loadTextWords(false, this.props.words.text1);
     }
   }
 
@@ -176,7 +176,7 @@ export default class Visualizer extends Component {
   render () {
     return (
       <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+        <h4>{ this.props.graphtitle }</h4>
       </div>
     )
   }
