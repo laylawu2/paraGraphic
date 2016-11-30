@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -32,13 +33,14 @@ export default class Visualizer extends Component {
 
   componentDidUpdate() {
     this.init(); // clear scene before adding new words/labels to it
+  }
 
+  goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
+    canv[0].webkitRequestFullscreen();
   }
-
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -174,9 +176,12 @@ export default class Visualizer extends Component {
   }
 
   render () {
+
     return (
       <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+    {/* This needs to be changed to get actual sample title */}
+      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+         <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
       </div>
     )
   }

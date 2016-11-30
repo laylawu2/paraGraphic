@@ -22,10 +22,17 @@ a {
   font-family: 'Roboto';
 }
 
-#container h3 {
+#graph-title {
   position: absolute;
-  margin: 50px;
+  margin: 80px;
   color: red;
+}
+
+/* need to overwrite material-ui inline styles */
+#fs-button {
+  position: absolute !important;
+  width: auto !important;
+  margin-right: 0;
 }
 
 body {

@@ -122,7 +122,7 @@ export default class extends React.Component {
         />
       </div>
       <div>
-        <RaisedButton type="submit" label="SUBMIT" style={styles} />
+        <RaisedButton type="submit" label="SUBMIT" style={ styles } />
       </div>
     </form>)
   }
