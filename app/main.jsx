@@ -28,8 +28,8 @@ render (
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
         <IndexRedirect to="/home" />
-        <Route path="/sample1" component={HomeS1} />
-        <Route path="/sample2" component={HomeS2} />
+        <Route path="/sample1" component={ HomeS1 } />
+        <Route path="/sample2" component={ HomeS2 } />
         <Route path="home" component={ Home } />
         <Route path="tmp" component={ VisualizerContainer } />
         <Route path="input" component={ InputFormContainer } />
