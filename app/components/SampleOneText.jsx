@@ -26,7 +26,10 @@ export default class Sample extends Component {
     console.log("sample one text component did mount")
     this.init();
     this.animate();
-    this.props.getCompareSample();
+    this.props.getSample();
+    
+
+    window.addEventListener( 'resize', this.onWindowResize, false );
 
   }
 
@@ -142,8 +145,14 @@ export default class Sample extends Component {
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
-
-    window.addEventListener( 'resize', this.onWindowResize, false );
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
   }
 
   // auto resize
@@ -169,14 +178,7 @@ export default class Sample extends Component {
   render () {
     // load all words for each scene 
     // clear scene before doing this! look at three docs
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
-    }
-    else {
-      this.loadTextWords(false, this.props.words);
-    }
+
    
     return (
       <div id="container"> {/* make this a ref */}
