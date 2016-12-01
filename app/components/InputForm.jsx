@@ -1,8 +1,9 @@
 'use strict';
 import React from 'react'
-import firebase from 'firebase'
 import axios from 'axios'
 import {browserHistory} from 'react-router'
+import firebase from 'firebase'
+
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -25,23 +26,8 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  componentDidMount() {
-
-    // following code configures and initializes firebase database to work with app
-    // may eventually want to move this to React component for home page / landing page
-    // or even index.html if possible -- firebase should be working as soon as app starts
-    var config = {
-      apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
-      authDomain: "capstone-b9f6c.firebaseapp.com",
-      databaseURL: "https://capstone-b9f6c.firebaseio.com",
-      storageBucket: "capstone-b9f6c.appspot.com",
-      messagingSenderId: "583702777619"
-    };
-
-    firebase.initializeApp(config);
-  }
-
   submitForm(e) {
+
     e.preventDefault()
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ){
@@ -99,19 +85,44 @@ export default class extends React.Component {
       addLabels(userInput);
       postAndGetWordData(userInput)      // call function to post request to python server
 
+    // if the title already exists, attach random str to the end of the title
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_']
+    const randStr = (length=5) => {
+      Array(length)
+        .fill(0)
+        .map((x, i) => letters[Math.floor(Math.random() * letters.length)])
+        .join('')
     }
 
-
+    const write = (input, charsToAppend=0) => {
+      const key = charsToAppend
+        ? `${input.title}_${randStr(charsToAppend)}`
+        : input.title
+      const myRef = firebase.database().ref(key);
+      return myRef
+        .transaction(existing => existing === null? input : undefined)
+        .then(({committed, snapshot}) => {
+          if (!committed) {
+            return write(input, charsToAppend + 1)
+          }
+          return key
+        })
+    }
   }
+} // end of submitForm
+
 
 
   render() {
+    const entry = this.props.entry
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
       <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
       <div className='form-group'>
 
-        <TextField hintText="please enter a title for your graph" name='graphtitle'/>
+        <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
       </div>
       <div>
         <p>
@@ -121,16 +132,16 @@ export default class extends React.Component {
         </p>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin'/>
-        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax'/>
+        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
+        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin'/>
-        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax'/>
+        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
+        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
       </div>
         <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin'/>
-        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax'/>
+        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
+        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
       </div>
       <div className='form-group full-width'>
         <TextField className='axis-labels'
@@ -141,6 +152,7 @@ export default class extends React.Component {
           rows={6}
           rowsMax={6}
           style = {{overflow: scroll}}
+          value={entry.text}
         />
           <TextField className='axis-labels'
           name='text2'
