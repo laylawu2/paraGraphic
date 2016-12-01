@@ -33,7 +33,9 @@ render () {
                   <li key={idx}><Link to={`/${title.key}`}><span>{title.title}</span></Link></li>
                 ))
               }
-
+              <li><Link to="/sample1">Accelerate Manifesto</Link></li>
+              <li><Link to="/sample2">Obama 2008 inaug. v Trump 2016 RNC accept.</Link></li>
+              <li><Link to="/examples">Check out what other people have made!</Link></li>
             </ul>
           </li>
         </ul>

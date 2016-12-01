@@ -36,6 +36,7 @@ export default class Visualizer extends Component {
     this.initRenderer();
     this.init();
     this.animate();
+    this.props.getCompareSample();
 
     window.addEventListener( 'resize', this.onWindowResize, false );
   }
@@ -50,8 +51,7 @@ export default class Visualizer extends Component {
     canv[0] &&
     canv[0].webkitRequestFullscreen();
   }
-
-  /* load the words/label to scene */
+/* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
     //need to load the font first
     let loader = new THREE.FontLoader();
@@ -190,13 +190,13 @@ export default class Visualizer extends Component {
     return (
       <div id="container">
     {/* This needs to be changed to get actual sample title */}
-      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Obama 2008 inaug. vs Trump 2016 RNC accept." }</h1>
        <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
 
       {/*<FlatButton
               id="fs-button"
               icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
-              style={ styles } 
+              style={ styles }
               hoverColor={ grey900 } onClick={ this.goFullscreen }
             />*/}
       </div>

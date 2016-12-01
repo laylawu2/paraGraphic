@@ -29,6 +29,61 @@ export default class extends React.Component {
   submitForm(e) {
 
     e.preventDefault()
+    var span = document.getElementById("alert");
+    if(e.target.graphtitle.value =="" ){
+      span.innerHTML = "Title cannot be null!";
+    }else if(e.target.xmin.value ==""){
+      span.innerHTML = "x-min cannot be null!";
+    }else if(e.target.xmax.value ==""){
+      span.innerHTML = "x-max cannot be null!";
+    }else if(e.target.ymin.value ==""){
+        span.innerHTML = "y-min cannot be null!";
+    }else if(e.target.ymax.value ==""){
+        span.innerHTML = "y-max cannot be null!";
+    }else if(e.target.zmin.value ==""){
+        span.innerHTML = "z-min cannot be null!";
+    }else if(e.target.zmax.value ==""){
+        span.innerHTML = "z-max cannot be null!";
+    }else if(e.target.text.value ==""){
+        span.innerHTML = "Text cannot be null!";
+    }else{
+      span.innerHTML =""
+      const { addTitle,addLabels, postAndGetWordData } = this.props;
+
+      var xmin = e.target.xmin.value.split(" ");
+      var xmax = e.target.xmax.value.split(" ");
+      var ymin = e.target.ymin.value.split(" ");
+      var ymax = e.target.ymax.value.split(" ");
+      var zmin = e.target.zmin.value.split(" ");
+      var zmax = e.target.zmax.value.split(" ");
+
+      const userInput = {
+        x: [xmin, xmax],
+        y: [ymin, ymax],
+        z: [zmin, zmax],
+        text: e.target.text.value,
+        text2: e.target.text2.value,
+        title: e.target.graphtitle.value
+      }
+
+      // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
+      // myRef is how we can access table in firebase
+      // userInput is an object derived from user's text entries which will be a) sent to database table
+      // and b) sent to python server to be converted into plottable points
+
+      const myRef = firebase.database().ref('/');
+      const newRef = myRef.push(userInput);     // send user input to database
+
+      const id = newRef.key;
+      console.log("ID FROM FIREBASE", id);
+      // this is the database key for entry just pushed
+
+      //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
+
+      // dispatch all input for values
+      addTitle(e.target.graphtitle.value);
+      addLabels(userInput);
+      postAndGetWordData(userInput)      // call function to post request to python server
 
     const { addTitle,addLabels, postAndGetWordData } = this.props;
 
@@ -47,11 +102,6 @@ export default class extends React.Component {
       title: e.target.graphtitle.value,
       ts: firebase.database.ServerValue.TIMESTAMP,
     }
-
-    // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
-    // myRef is how we can access table in firebase
-    // userInput is an object derived from user's text entries which will be a) sent to database table
-    // and b) sent to python server to be converted into plottable points
 
     // if the title already exists, attach random str to the end of the title
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
@@ -77,20 +127,6 @@ export default class extends React.Component {
           return key
         })
     }
-
-    //const newRef = myRef.push(userInput);     // send user input to database
-
-    const newRef = write(userInput).catch(console.error)
-
-    const id = newRef.key;
-    console.log("ID FROM FIREBASE", id);
-    // this is the database key for entry just pushed
-
-    console.log("title----",e.target.graphtitle.value);
-    addTitle(e.target.graphtitle.value);
-    addLabels(userInput);
-    postAndGetWordData(userInput)      // call function to post request to python server
-      //.then(browserHistory.push('/tmp'));         // redirect to visualizer
   }
 
 
@@ -123,7 +159,7 @@ export default class extends React.Component {
         <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
       </div>
       <div className='form-group full-width'>
-        <TextField
+        <TextField className='axis-labels'
           name='text'
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
@@ -133,9 +169,21 @@ export default class extends React.Component {
           style = {{overflow: scroll}}
           value={entry.text}
         />
+          <TextField className='axis-labels'
+          name='text2'
+          floatingLabelText="OPTIONAL: comparison text"
+          multiLine={true}
+          fullWidth ={true}
+          rows={6}
+          rowsMax={6}
+          style = {{overflow: scroll}}
+        />
       </div>
       <div>
-        <RaisedButton type="submit" label="SUBMIT" style={styles} />
+        <span id = "alert" ></span>
+      </div>
+      <div>
+        <RaisedButton type="submit" label="SUBMIT" style={ styles } />
       </div>
     </form>)
   }
