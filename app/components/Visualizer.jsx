@@ -23,21 +23,26 @@ export default class Visualizer extends Component {
     this.scene;
     this.renderer;
     this.animate = this.animate.bind(this);
-
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.intersected;
     this.mirror = true;
+    this.objects = [];
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
   }
 
   componentDidMount() {
     this.initRenderer();
     this.init();
     this.animate();
-
+    window.addEventListener( 'mousemove', this.onMouseMove, false );
     window.addEventListener( 'resize', this.onWindowResize, false );
+    window.requestAnimationFrame(this.render);
   }
 
   componentDidUpdate() {
@@ -85,7 +90,6 @@ export default class Visualizer extends Component {
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
       let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
-
       if(!compareBool){
         if(idx == 0){
           x = words[word][0];
@@ -111,6 +115,8 @@ export default class Visualizer extends Component {
       mesh.matrixAutoUpdate = false;
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //append the word to scene
+      //mesh.userData = { word: word };
+      //this.objects.push(mesh);
       this.scene.add( mesh );
     })
   }
@@ -163,6 +169,8 @@ export default class Visualizer extends Component {
     } else {
       this.loadTextWords(false, this.props.words.text1);
     }
+
+
   }
 
   // auto resize
@@ -182,8 +190,45 @@ export default class Visualizer extends Component {
 
   //plot the scene and camera to the canvas
   renderPlot() {
+    // update the picking ray with the camera and mouse position
+
+
+
     this.renderer.render( this.scene, this.camera );
+
   }
+
+
+  onMouseMove( event ) {
+
+      // calculate mouse position in normalized device coordinates
+      // (-1 to +1) for both components
+
+      this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
+
+      this.raycaster.setFromCamera( this.mouse, this.camera );
+            // calculate objects intersecting the picking ray
+      var intersections;
+      var numObjects;
+      intersections = this.raycaster.intersectObjects( this.objects );
+      numObjects = this.objects.length;
+      if ( intersections.length > 0 ) {
+        if ( this.intersected != intersections[ 0 ].object ) {
+          this.intersected = intersections[ 0 ].object;
+          this.intersected.material.color.setHex( 0x00D66B);
+          console.log("hover",this.intersected);
+        }
+        document.body.style.cursor = 'pointer';
+      }
+      else if ( this.intersected ) {
+        this.intersected = null;
+        document.body.style.cursor = 'auto';
+      }
+    }
+
+
 
   render () {
 
@@ -196,7 +241,7 @@ export default class Visualizer extends Component {
       {/*<FlatButton
               id="fs-button"
               icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
-              style={ styles } 
+              style={ styles }
               hoverColor={ grey900 } onClick={ this.goFullscreen }
             />*/}
       </div>
