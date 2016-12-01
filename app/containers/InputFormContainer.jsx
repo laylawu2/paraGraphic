@@ -6,11 +6,12 @@ import axios from 'axios'
 
 import InputForm from '../components/InputForm'
 
+const mapStateToProps = ({entry}) => ({entry})
 const mapDispatchToProps = dispatch => ({
 	addLabels: (labels) => {
 		dispatch(loadLabels(labels));
 	},
-  
+
   addTitle: (graphtitle)=>{
       dispatch(getTitle(graphtitle));
   },
@@ -28,5 +29,5 @@ const mapDispatchToProps = dispatch => ({
   	}
 });
 
-export default connect(null, mapDispatchToProps)(InputForm)
+export default connect(mapStateToProps, mapDispatchToProps)(InputForm)
 

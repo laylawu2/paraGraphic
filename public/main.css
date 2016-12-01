@@ -14,7 +14,9 @@ html {
 a {
   color: var(--link-text-color);
 }
-
+span {
+  color: red;
+}
 .myNavBar {
   background-color: var(--primary-color);
   border: none;
@@ -39,7 +41,7 @@ body {
 #info {
   color: var(--primary-text-color);
   position: absolute;
-  top: 0px; 
+  top: 0px;
   width: 100%;
   padding: 5px;
 
