@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # import our nice vector functions from other file
 
-from projections_with_Ashi import getPoints
+from projections_with_Ashi import getPoints, news
 
 
 # load index.html on get request to localhost:5000 - OR NOT -
@@ -29,5 +29,20 @@ def getAndSendWordData():
 	dataToReturn = getPoints(data)
  	return Response(json.dumps(dataToReturn), content_type='application/json')
  	
+from types import ModuleType
+import sys
+import traceback
 
-	
+@app.route('/eval', methods=['POST'])
+def runCode():
+	code = request.json['code']
+	try:
+		pyc = compile(code, 'dynamic_code', 'exec')
+		module = ModuleType('dynamic_module')
+		module.__dict__['news'] = news
+		exec(pyc, module.__dict__)
+		return module.main()
+	except:
+		(kind, value, trace) = sys.exc_info()
+		print traceback.format_exc()
+		return "\n".join((str(value), traceback.format_exc())), 400

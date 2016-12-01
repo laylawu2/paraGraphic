@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 from gensim.models import word2vec
 
 # loads the pre-trained Google News model
-news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
+ news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
 
 
 # following class and function used for testing purposes only; do not run in actual app
@@ -20,6 +20,7 @@ class MockModel(object):
 def get_model():
 	return news
 
+#news = MockModel()
 
 # takes in a long text string, removes markup, removes non-alphanumeric characters, splits into words
 # eliminates stopwords ("a", "and", "the", etc.) and words not in model (to avoid errors)
