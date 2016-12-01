@@ -190,7 +190,7 @@ export default class Visualizer extends Component {
 
     return (
       <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+        <h1 id="graph-title">{ this.props.graphtitle }</h1>
        <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
 
       {/*<FlatButton
