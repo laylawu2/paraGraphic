@@ -1,7 +1,17 @@
 import {connect} from 'react-redux'
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
+import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
+
+const styles = {
+  height: 50,
+  width: 50,
+  color: amber50
+}
 
 export default class Visualizer extends Component {
   constructor(props) {
@@ -32,13 +42,13 @@ export default class Visualizer extends Component {
 
   componentDidUpdate() {
     this.init(); // clear scene before adding new words/labels to it
-
-    const canv = document.getElementsByTagName("canvas");
-    console.log(canv, "CANVVVVVVVV");
-    canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
   }
 
+  goFullscreen() {
+    const canv = document.getElementsByTagName("canvas");
+    canv[0] && canv[0].webkitRequestFullscreen();
+
+  }
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -122,8 +132,6 @@ export default class Visualizer extends Component {
     //the view from the userwindow.innerWidth / window.innerHeight
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
     this.camera.position.z = 1.3;
-    //window.innerWidth;
-    //this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -146,11 +154,15 @@ export default class Visualizer extends Component {
     // load everything onto the scene
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
+    // check if the text2 exists, if so check the length of its object keys,
+    // if greater than 1, then we have a second set of text to load
+    if(this.props.words.text2 && (Object.keys(this.props.words.text2).length > 1)) {
+      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.words.text2, 0xff3300);
+      console.log("this.props.text2++++++++++++", this.props.words.text2);
+
     } else {
-      this.loadTextWords(false, this.props.words);
+      this.loadTextWords(false, this.props.words.text1);
     }
   }
 
@@ -175,9 +187,18 @@ export default class Visualizer extends Component {
   }
 
   render () {
+
     return (
       <div id="container">
         <h1>{ this.props.graphtitle }</h1>
+       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      {/*<FlatButton
+              id="fs-button"
+              icon={<FontIcon className="material-icons" >zoom_out_map</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } onClick={ this.goFullscreen }
+            />*/}
       </div>
     )
   }
