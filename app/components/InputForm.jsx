@@ -11,7 +11,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm'
-injectTapEventPlugin();
+
 const styles = {
   margin: 12,
   underlineStyle: {
@@ -85,33 +85,16 @@ export default class extends React.Component {
       addLabels(userInput);
       postAndGetWordData(userInput)      // call function to post request to python server
 
-    const { addTitle,addLabels, postAndGetWordData } = this.props;
-
-    var xmin = e.target.xmin.value.split(" ");
-    var xmax = e.target.xmax.value.split(" ");
-    var ymin = e.target.ymin.value.split(" ");
-    var ymax = e.target.ymax.value.split(" ");
-    var zmin = e.target.zmin.value.split(" ");
-    var zmax = e.target.zmax.value.split(" ");
-
-    const userInput = {
-      x: [xmin, xmax],
-      y: [ymin, ymax],
-      z: [zmin, zmax],
-      text: e.target.text.value,
-      title: e.target.graphtitle.value,
-      ts: firebase.database.ServerValue.TIMESTAMP,
-    }
-
     // if the title already exists, attach random str to the end of the title
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
     'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_']
-    const randStr = (length=5) =>
+    const randStr = (length=5) => {
       Array(length)
         .fill(0)
         .map((x, i) => letters[Math.floor(Math.random() * letters.length)])
         .join('')
+    }
 
     const write = (input, charsToAppend=0) => {
       const key = charsToAppend
@@ -128,6 +111,8 @@ export default class extends React.Component {
         })
     }
   }
+} // end of submitForm
+
 
 
   render() {
