@@ -89,7 +89,8 @@ export default class Visualizer extends Component {
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
-      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
+      let geometry  = new THREE.SphereGeometry( 0.005, 8, 8 );
+
       if(!compareBool){
         if(idx == 0){
           x = words[word][0];
@@ -115,8 +116,9 @@ export default class Visualizer extends Component {
       mesh.matrixAutoUpdate = false;
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //append the word to scene
-      //mesh.userData = { word: word };
-      //this.objects.push(mesh);
+      //var block = new THREE.Mesh(geo, material);
+      mesh.word = word;
+      this.objects.push(mesh);
       this.scene.add( mesh );
     })
   }
@@ -204,8 +206,8 @@ export default class Visualizer extends Component {
       // calculate mouse position in normalized device coordinates
       // (-1 to +1) for both components
 
-      this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      this.mouse.x = ( event.clientX / document.getElementById("container").offsetWidth ) * 2 - 1;
+      this.mouse.y = - ( event.clientY / document.getElementById("container").offsetHeight ) * 2 + 1;
       // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
@@ -217,13 +219,19 @@ export default class Visualizer extends Component {
       if ( intersections.length > 0 ) {
         if ( this.intersected != intersections[ 0 ].object ) {
           this.intersected = intersections[ 0 ].object;
-          this.intersected.material.color.setHex( 0x00D66B);
-          console.log("hover",this.intersected);
+          var text = document.getElementById("text");
+          text.innerHTML = this.intersected.word;
+
+          // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
+          document.getElementById('container').appendChild(text);
+          //console.log(this.intersected.word);
         }
         document.body.style.cursor = 'pointer';
       }
       else if ( this.intersected ) {
         this.intersected = null;
+        var text = document.getElementById("text");
+          text.innerHTML = "";
         document.body.style.cursor = 'auto';
       }
     }
@@ -236,6 +244,7 @@ export default class Visualizer extends Component {
       <div id="container">
     {/* This needs to be changed to get actual sample title */}
       <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+      <p id = "text"></p>
        <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
 
       {/*<FlatButton

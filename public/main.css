@@ -29,7 +29,17 @@ span {
   margin: 80px;
   color: #FF6F00;
 }
+#text{
+    font-size: 20px;
+    color: red;
+    margin-top: -100px;
+    margin-left: 100px;
+    z-index: 1;
+    position: absolute;
+}
 
+
+}
 /* need to overwrite material-ui inline styles */
 #fs-button {
   position: absolute !important;
