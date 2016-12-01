@@ -1,7 +1,17 @@
 import {connect} from 'react-redux'
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
+import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
 let OrbitControls = require('three-orbit-controls')(THREE);
+
+const styles = {
+  height: 50,
+  width: 50,
+  color: amber50
+}
 
 export default class Visualizer extends Component {
   constructor(props) {
@@ -32,13 +42,14 @@ export default class Visualizer extends Component {
 
   componentDidUpdate() {
     this.init(); // clear scene before adding new words/labels to it
+  }
 
+  goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
-    canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
+    canv[0].webkitRequestFullscreen();
   }
-
 
   /* load the words/label to scene */
   loadWords(words, fontFile, size, height) {
@@ -147,10 +158,10 @@ export default class Visualizer extends Component {
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
     if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
+      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.words.text2, 0xff3300);
     } else {
-      this.loadTextWords(false, this.props.words);
+      this.loadTextWords(false, this.props.words.text1);
     }
   }
 
@@ -175,9 +186,19 @@ export default class Visualizer extends Component {
   }
 
   render () {
+
     return (
       <div id="container">
-        <h1>{ this.props.graphtitle }</h1>
+    {/* This needs to be changed to get actual sample title */}
+      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      {/*<FlatButton
+              id="fs-button"
+              icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } onClick={ this.goFullscreen }
+            />*/}
       </div>
     )
   }
