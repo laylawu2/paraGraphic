@@ -28,12 +28,6 @@ a {
   color: #FF6F00;
 }
 
-/* need to overwrite material-ui inline styles */
-/*#fs-button {
-  position: absolute !important;
-  width: auto !important; /* only for raised button 
-}*/
-
 body {
   font-size: 13px;
   text-align: center;

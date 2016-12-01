@@ -11,7 +11,8 @@ const styles = {
   position: "absolute",
   minHeight: "50px",
   minWidth: "50px",
-  color: amber50
+  color: amber50,
+  transition: "none"
 }
 
 export default class Visualizer extends Component {
@@ -196,7 +197,8 @@ export default class Visualizer extends Component {
           id="fs-button"
           icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
           style={ styles } 
-          hoverColor={ grey900 } onClick={ this.goFullscreen }
+          hoverColor={ grey900 } 
+          onClick={ this.goFullscreen }
         />
       </div>
     )
