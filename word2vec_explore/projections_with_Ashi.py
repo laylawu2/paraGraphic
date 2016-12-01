@@ -91,29 +91,25 @@ def text_to_words(textfield, model):
 
 
 def project3D(model, xmax, ymax, zmax, words, words2 = None):
-	wordCoordinates={}
-	wordCoordinates2={}
+    wordCoordinates={}
+    wordCoordinates2={}
 
+    for word in words:
+        coords = []
+        coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
+        coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
+        coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
+        wordCoordinates[word] = coords
 
-	xdenom = np.dot(xmax, xmax)
-	ydenom = np.dot(ymax, ymax)
-	zdenom = np.dot(zmax, zmax)
+    if words2 != None:
+        for word in words2:
+            coords = []
+            coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
+            coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
+            coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
+            wordCoordinates2[word] = coords
 
-	for word in words:
-		coords = []
-		coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
-		coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
-		coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
-		wordCoordinates[word] = coords
-
-	if 'words2' in locals() and words2 != None:
-		for word in words2:
-			coords = []
-			coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
-			coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
-			coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
-
-	return {'text1': wordCoordinates, 'text2': wordCoordinates2}
+    return {'text1': wordCoordinates, 'text2': wordCoordinates2}
 
 
 
