@@ -6,7 +6,8 @@ from nltk.corpus import stopwords
 from gensim.models import word2vec
 
 # loads the pre-trained Google News model
- news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
+
+news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
 
 
 # following class and function used for testing purposes only; do not run in actual app
@@ -49,41 +50,68 @@ def text_to_words(textfield, model):
 
 # see wikipedia on vector projections for better explanation of math involved
 
-# note: np.asscalar (lines 73-75 converts the number format of vector calculation result into something
-# regular python can parse)
+# note: np.asscalar (lines 73-75) converts the number format of vector calculation result into something
+# regular python can parse
 
 
-def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words, words2 = None):
+# def OLDproject3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words, words2 = None):
+# 	wordCoordinates={}
+# 	wordCoordinates2={}
+
+# 	xminVec, xmaxVec = xmin, xmax
+# 	xaxis = xmaxVec - xminVec
+
+# 	yminVec, ymaxVec = ymin, ymax
+# 	yaxis = ymaxVec - yminVec
+
+# 	zminVec, zmaxVec = zmin, zmax
+# 	zaxis = zmaxVec - zminVec
+
+# 	xdenom = np.dot(xaxis, xaxis)
+# 	ydenom = np.dot(yaxis, yaxis)
+# 	zdenom = np.dot(zaxis, zaxis)
+
+# 	for word in words:
+# 		coords = []
+# 		coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
+# 		coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
+# 		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
+# 		wordCoordinates[word] = coords
+
+# 	if 'words2' in locals() and words2 != None:
+# 		for word in words2:
+# 			coords = []
+# 			coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
+# 			coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
+# 			coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
+# 			wordCoordinates2[word] = coords
+
+# 	return {'text1': wordCoordinates, 'text2': wordCoordinates2}
+
+
+
+def project3D(model, xmax, ymax, zmax, words, words2 = None):
 	wordCoordinates={}
 	wordCoordinates2={}
 
-	xminVec, xmaxVec = xmin, xmax
-	xaxis = xmaxVec - xminVec
 
-	yminVec, ymaxVec = ymin, ymax
-	yaxis = ymaxVec - yminVec
-
-	zminVec, zmaxVec = zmin, zmax
-	zaxis = zmaxVec - zminVec
-
-	xdenom = np.dot(xaxis, xaxis)
-	ydenom = np.dot(yaxis, yaxis)
-	zdenom = np.dot(zaxis, zaxis)
+	xdenom = np.dot(xmax, xmax)
+	ydenom = np.dot(ymax, ymax)
+	zdenom = np.dot(zmax, zmax)
 
 	for word in words:
 		coords = []
-		coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
-		coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
-		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
+		coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
+		coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
+		coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
 		wordCoordinates[word] = coords
 
 	if 'words2' in locals() and words2 != None:
 		for word in words2:
 			coords = []
-			coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
-			coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
-			coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
-			wordCoordinates2[word] = coords
+			coords.append(np.asscalar(np.dot(model[word], xmax)/np.linalg.norm(xmax)))
+			coords.append(np.asscalar(np.dot(model[word], ymax)/np.linalg.norm(ymax)))
+			coords.append(np.asscalar(np.dot(model[word], zmax)/np.linalg.norm(zmax)))
 
 	return {'text1': wordCoordinates, 'text2': wordCoordinates2}
 
@@ -110,17 +138,17 @@ def getPoints(userInputObj):
 		textfield2 = userInputObj['text2']
 		wordsToPlot.append(text_to_words(textfield2, news))
 
-	xmin = avgWordVec(userInputObj['x'][0])
+	#xmin = avgWordVec(userInputObj['x'][0])
 	xmax = avgWordVec(userInputObj['x'][1])
 
-	ymin = avgWordVec(userInputObj['y'][0])
+	#ymin = avgWordVec(userInputObj['y'][0])
 	ymax = avgWordVec(userInputObj['y'][1])
 
-	zmin = avgWordVec(userInputObj['z'][0])
+	#zmin = avgWordVec(userInputObj['z'][0])
 	zmax = avgWordVec(userInputObj['z'][1])
 
 	
-	words_with_coords = project3D(news, xmin, xmax, ymin, ymax, zmin, zmax, *wordsToPlot)
+	words_with_coords = project3D(news, xmax, ymax, zmax, *wordsToPlot)
 	return words_with_coords
 
 
