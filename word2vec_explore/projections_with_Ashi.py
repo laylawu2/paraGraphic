@@ -134,14 +134,9 @@ def getPoints(userInputObj):
 		textfield2 = userInputObj['text2']
 		wordsToPlot.append(text_to_words(textfield2, news))
 
-	#xmin = avgWordVec(userInputObj['x'][0])
-	xmax = avgWordVec(userInputObj['x'][1])
-
-	#ymin = avgWordVec(userInputObj['y'][0])
-	ymax = avgWordVec(userInputObj['y'][1])
-
-	#zmin = avgWordVec(userInputObj['z'][0])
-	zmax = avgWordVec(userInputObj['z'][1])
+	xmax = avgWordVec(userInputObj['x'][0])
+	ymax = avgWordVec(userInputObj['y'][0])
+	zmax = avgWordVec(userInputObj['z'][0])
 
 	
 	words_with_coords = project3D(news, xmax, ymax, zmax, *wordsToPlot)
@@ -153,10 +148,11 @@ def getPoints(userInputObj):
 # for a request object with the following structure:  
 
 # for a request object with the following structure:  
-# 	{x: [['one','three','five'], ['two','four','six','eight']],
-#  	 y: [['another', 'silly', 'pair'], ['of','so','many','words']],
-#  	 z: [['third', 'set', 'of'],['words','as','string','to','average']]
-#  	 text: 'article entered as string'}
+# 	{x: ['one','three','five'],
+#  	 y: ['another', 'silly', 'pair'], 
+#  	 z: ['third', 'set', 'of'],
+#  	 text: 'article entered as string',
+#	 text2: 'might exist as another string, might be blank'}
 
 
 # grab those values, perform vector projections for each WORD in text field, send back (x,y,z)

@@ -46,35 +46,26 @@ export default class extends React.Component {
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ){
       span.innerHTML = "Title cannot be null!";
-    }else if(e.target.xmin.value ==""){
-      span.innerHTML = "x-min cannot be null!";
     }else if(e.target.xmax.value ==""){
-      span.innerHTML = "x-max cannot be null!";
-    }else if(e.target.ymin.value ==""){
-        span.innerHTML = "y-min cannot be null!";
+      span.innerHTML = "x-axis cannot be null!";
     }else if(e.target.ymax.value ==""){
-        span.innerHTML = "y-max cannot be null!";
-    }else if(e.target.zmin.value ==""){
-        span.innerHTML = "z-min cannot be null!";
+        span.innerHTML = "y-axis cannot be null!";
     }else if(e.target.zmax.value ==""){
-        span.innerHTML = "z-max cannot be null!";
+        span.innerHTML = "z-axis cannot be null!";
     }else if(e.target.text.value ==""){
         span.innerHTML = "Text cannot be null!";
     }else{
       span.innerHTML =""
       const { addTitle,addLabels, postAndGetWordData } = this.props;
 
-      var xmin = e.target.xmin.value.split(" ");
       var xmax = e.target.xmax.value.split(" ");
-      var ymin = e.target.ymin.value.split(" ");
       var ymax = e.target.ymax.value.split(" ");
-      var zmin = e.target.zmin.value.split(" ");
       var zmax = e.target.zmax.value.split(" ");
 
       const userInput = {
-        x: [xmin, xmax],
-        y: [ymin, ymax],
-        z: [zmin, zmax],
+        x: xmax,
+        y: ymax,
+        z: zmax,
         text: e.target.text.value,
         text2: e.target.text2.value,
         title: e.target.graphtitle.value
@@ -115,22 +106,19 @@ export default class extends React.Component {
       </div>
       <div>
         <p>
-          Below, enter the key words that will mark the endpoints for the axes on your graphs.  You
+          Below, enter the key words that will mark the endpoints for the three axes on your graphs.  You
           can enter just one word per endpoint, but you will probably get better results if you enter
           several related words for each endpoint.
         </p>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin'/>
-        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax'/>
+       <TextField className='axis-labels' floatingLabelText="x-axis; separate words with a space" name='xmax'/>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin'/>
-        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax'/>
+        <TextField className='axis-labels' floatingLabelText="y-axis; separate words with a space" name='ymax'/>
       </div>
         <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin'/>
-        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax'/>
+        <TextField className='axis-labels' floatingLabelText="z-axis; separate words with a space" name='zmax'/>
       </div>
       <div className='form-group full-width'>
         <TextField className='axis-labels'
@@ -138,8 +126,8 @@ export default class extends React.Component {
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
           fullWidth ={true}
-          rows={6}
-          rowsMax={6}
+          rows={5}
+          rowsMax={5}
           style = {{overflow: scroll}}
         />
           <TextField className='axis-labels'
@@ -147,8 +135,8 @@ export default class extends React.Component {
           floatingLabelText="OPTIONAL: comparison text"
           multiLine={true}
           fullWidth ={true}
-          rows={6}
-          rowsMax={6}
+          rows={5}
+          rowsMax={5}
           style = {{overflow: scroll}}
         />
       </div>

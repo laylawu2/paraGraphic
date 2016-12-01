@@ -46,7 +46,6 @@ export default class Visualizer extends Component {
 
   goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
-    console.log(canv, "CANVVVVVVVV");
     canv[0] &&
     canv[0].webkitRequestFullscreen();
   }
