@@ -12,7 +12,7 @@ html {
 }
 
 a {
-    color: var(--link-text-color);
+  color: var(--link-text-color);
 }
 
 .myNavBar {

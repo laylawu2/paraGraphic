@@ -191,14 +191,14 @@ export default class Visualizer extends Component {
     return (
       <div id="container">
         <h1 id="graph-title">{ this.props.graphtitle }</h1>
-       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
-
-      {/*<FlatButton
-              id="fs-button"
-              icon={<FontIcon className="material-icons" >zoom_out_map</FontIcon>}
-              style={ styles } 
-              hoverColor={ grey900 } onClick={ this.goFullscreen }
-            />*/}
+       {/* <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+       */}
+        <FlatButton
+          id="fs-button"
+          icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
+          style={ styles } 
+          hoverColor={ grey900 } onClick={ this.goFullscreen }
+        />
       </div>
     )
   }
