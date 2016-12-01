@@ -11,6 +11,7 @@ import Home from './components/Home'
 import SidebarContainer from './containers/SidebarContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
+import SingleLinkContainer from './containers/SingleLinkContainer'
 import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
 import {loadLabels, loadInfofunc} from './reducers/inputForm'
 
@@ -51,64 +52,23 @@ const onAppEnter = () => {
     store.dispatch(getTitles(titlesFromDb))
     })
     .catch(err => console.error(err))
-  // for (var groupID in data) {
-  //     groupRef.child(data[groupID]).once(...)
-  // }
-}
+  }
 
-// const onSingleLinkEnterWithTitle = (nextState) => {
-//   firebase.database().ref()
-//     .orderByChild('title')
-//     .startAt(nextState.params.title)
-//     .limitToLast(1)
-//     .once('child_added').then(function(snapshot) {
-//     entry = snapshot.val()
-//     console.log('onSingleLinkEnter loaded entry:', entry)
-
-//     store.dispatch(loadLabels(entry));
-
-
-//     console.log('about to post', entry)
-//     axios.post('http://localhost:1337', entry)
-//     .then(res => {
-// //      console.log('res in main', res.data)
-//       store.dispatch(getWords(res.data))
-
-//       if(t2) {
-//         axios.post('http://localhost:1337', t2)
-//         .then(res =>{
-//           dispatch(getCompText(res.data));
-//           dispatch(setCompare("true"));
-//         })
-//       }
-//     })
-//     .catch(err => console.error(err))
-//   })
-// }
-
-// npm install debug
-// const debug = require('debug')('main')
-
-const onSingleLinkEnterWithKey = (next, replace, done) =>
+const onSingleLinkEnterWithKey = (next, replace, done) =>{
   firebase.database().ref()
     .child(next.params.key)
     .once('value')
     .then(snap => {
       entry = snap.val()
 
-      console.log('onSingleLinkEnter withKey:', next.params.key, 'loaded entry:', entry)
       if (!entry) {
         console.log('entry was null, will redirect')
         // Key not found, redirect
         replace({}, '/')
         return done()
       }
-
-      store.dispatch(loadInfofunc(true))
       store.dispatch(getEntry(entry))
       store.dispatch(loadLabels(entry))
-
-
       axios.post('http://localhost:1337', entry)
         .then(res => {
           console.log('res.data', res.data);
@@ -117,6 +77,7 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>
         .then(() => done())
         .catch(() => replace('/'))
     })
+}
 
 render(
   <MuiThemeProvider >
@@ -127,7 +88,7 @@ render(
           <Route path="home" component={ Home } />
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
-          <Route path=":key" component={ Home } onEnter={ onSingleLinkEnterWithKey }/>
+          <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>
     </Provider>

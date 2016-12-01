@@ -11,7 +11,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm'
-
+injectTapEventPlugin();
 const styles = {
   margin: 12,
   underlineStyle: {
