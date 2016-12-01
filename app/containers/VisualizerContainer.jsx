@@ -5,24 +5,13 @@ import axios from 'axios'
 import Visualizer from '../components/Visualizer'
 import { getWords, getCompText, setCompare } from '../reducers/visualizer'
 import { loadLabels } from '../reducers/inputForm'
-import { cleanScene } from '../reducers/visualizer'
 
-
-const mapStateToProps = ({ labels, words, graphtitle, text2, compare, clearSceneBool, loadinfo }) => ({
+const mapStateToProps = ({ labels, words, graphtitle, text2, compare }) => ({
 	labels, 
 	words,
 	graphtitle,
 	text2,
-	compare,
-	clearSceneBool, 
-	loadinfo
+	compare
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	clearScene: (toClear) => {
-    console.log("mapDispatchToProps". toClear)
-    dispatch(cleanScene(toClear));
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Visualizer)
+export default connect(mapStateToProps)(Visualizer)

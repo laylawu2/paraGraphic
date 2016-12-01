@@ -52,8 +52,9 @@ def text_to_words(textfield, model):
 # regular python can parse)
 
 
-def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
+def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words, words2 = None):
 	wordCoordinates={}
+	wordCoordinates2={}
 
 	xminVec, xmaxVec = xmin, xmax
 	xaxis = xmaxVec - xminVec
@@ -75,7 +76,15 @@ def project3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words):
 		coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
 		wordCoordinates[word] = coords
 
-	return wordCoordinates
+	if 'words2' in locals() and words2 != None:
+		for word in words2:
+			coords = []
+			coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
+			coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
+			coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
+			wordCoordinates2[word] = coords
+
+	return {'text1': wordCoordinates, 'text2': wordCoordinates2}
 
 
 
@@ -94,7 +103,11 @@ def avgWordVec(arrayOfStrings):
 def getPoints(userInputObj):
 
 	textfield = userInputObj['text']
-	wordsToPlot = text_to_words(textfield, news)
+	wordsToPlot = [text_to_words(textfield, news)]
+
+	if 'text2' in userInputObj:
+		textfield2 = userInputObj['text2']
+		wordsToPlot.append(text_to_words(textfield2, news))
 
 	xmin = avgWordVec(userInputObj['x'][0])
 	xmax = avgWordVec(userInputObj['x'][1])
@@ -105,7 +118,8 @@ def getPoints(userInputObj):
 	zmin = avgWordVec(userInputObj['z'][0])
 	zmax = avgWordVec(userInputObj['z'][1])
 
-	words_with_coords = project3D(news, xmin, xmax, ymin, ymax, zmin, zmax, wordsToPlot)
+	
+	words_with_coords = project3D(news, xmin, xmax, ymin, ymax, zmin, zmax, *wordsToPlot)
 	return words_with_coords
 
 

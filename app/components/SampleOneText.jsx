@@ -26,7 +26,9 @@ export default class Sample extends Component {
     console.log("sample one text component did mount")
     this.init();
     this.animate();
-    this.props.getCompareSample();
+    this.props.getSample();
+
+    window.addEventListener( 'resize', this.onWindowResize, false );
   }
 
   componentDidUpdate(){
@@ -46,7 +48,6 @@ export default class Sample extends Component {
       words && Object.keys(words).forEach((word) => {
         //properties for word
         let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let color = new THREE.Color(words[word][0], words[word][1], words[word][2]);
         let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
         let mesh = new THREE.Mesh( geometry, material );
 
@@ -66,15 +67,25 @@ export default class Sample extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
+
+    let x = 0, y = 0, z = 0;
    
      //for every word create an object called Mesh
-      words && Object.keys(words).forEach((word) => {
+      words && Object.keys(words).forEach((word, idx) => {
         //properties for word
         let geometry  = new THREE.SphereGeometry( 5, 8, 8 );
 
         if(!compareBool){
-          let varColor = new THREE.Color(words[word][0], words[word][1], words[word][2]);
-          color = varColor
+
+          if(idx == 0){             
+          x = words[word][0];             
+          y = words[word][1];             
+          z = words[word][2];   }
+                           
+          color = new THREE.Color((words[word][0]-x)*10, 
+            (words[word][1]-y)*10,             
+            (words[word][2]-z)*10);          
+
         }
 
         let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -132,8 +143,15 @@ export default class Sample extends Component {
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
-
-    window.addEventListener( 'resize', this.onWindowResize, false );
+    
+    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
+    if(this.props.compare === "true")  {
+      this.loadTextWords(true, this.props.words, 0x00ffff);
+      this.loadTextWords(true, this.props.text2, 0xff3300);
+    }
+    else {
+      this.loadTextWords(false, this.props.words);
+    }
   }
 
   // auto resize
@@ -159,18 +177,11 @@ export default class Sample extends Component {
   render () {
     // load all words for each scene 
     // clear scene before doing this! look at three docs
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
-    if(this.props.compare === "true")  {
-      this.loadTextWords(true, this.props.words, 0x00ffff);
-      this.loadTextWords(true, this.props.text2, 0xff3300);
-    }
-    else {
-      this.loadTextWords(false, this.props.words);
-    }
+
    
     return (
       <div id="container"> {/* make this a ref */}
-         <h5>TITLE HERE</h5>
+         <h1 id="graph-title">Accelerate Manifesto</h1>
       </div>
     )
  }    

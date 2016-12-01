@@ -1,21 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadLabels } from '../reducers/inputForm'
-import { getWords, getTitle, cleanScene } from '../reducers/visualizer'
+import { getWords, getTitle, setCompare } from '../reducers/visualizer'
 import axios from 'axios'
 
 import InputForm from '../components/InputForm'
 
-const mapStateToProps = ({ clearSceneBool }) => ({
-  clearSceneBool
-})
-
 const mapDispatchToProps = dispatch => ({
-  clearScene: (toClear) => {
-    console.log("mapDispatchToProps". toClear)
-    dispatch(cleanScene(toClear));
-  },
-
 	addLabels: (labels) => {
 		dispatch(loadLabels(labels));
 	},
@@ -26,10 +17,16 @@ const mapDispatchToProps = dispatch => ({
 
 	postAndGetWordData: (input) => {                        // axios call to python server
     return axios.post('http://localhost:1337', input)    	// returns the plottable points
-      .then(res => dispatch(getWords(res.data)))
+      .then(res => {
+        dispatch(getWords(res.data));
+        if(Object.keys(res.data.text2).length > 1){
+          console.log("HOUSTON, WE HAVE A SECOND TEXT")
+          dispatch(setCompare("true"));
+        }
+        })
       .catch(err => console.error(err))
   	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputForm)
+export default connect(null, mapDispatchToProps)(InputForm)
 
