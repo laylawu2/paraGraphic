@@ -8,8 +8,9 @@ import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/style
 let OrbitControls = require('three-orbit-controls')(THREE);
 
 const styles = {
-  height: 50,
-  width: 50,
+  position: "absolute",
+  minHeight: "50px",
+  minWidth: "50px",
   color: amber50
 }
 
@@ -191,8 +192,6 @@ export default class Visualizer extends Component {
     return (
       <div id="container">
         <h1 id="graph-title">{ this.props.graphtitle }</h1>
-       {/* <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
-       */}
         <FlatButton
           id="fs-button"
           icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}

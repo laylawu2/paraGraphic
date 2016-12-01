@@ -29,10 +29,10 @@ a {
 }
 
 /* need to overwrite material-ui inline styles */
-#fs-button {
+/*#fs-button {
   position: absolute !important;
-  width: auto !important; /* only for raised button */
-}
+  width: auto !important; /* only for raised button 
+}*/
 
 body {
   font-size: 13px;
