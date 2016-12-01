@@ -34,9 +34,13 @@ export default class Visualizer extends Component {
     this.init(); // clear scene before adding new words/labels to it
 
     const canv = document.getElementsByTagName("canvas");
+<<<<<<< Updated upstream
     console.log(canv, "CANVVVVVVVV");
     canv[0] &&
     canv[0].addEventListener("click", () => canv[0].webkitRequestFullscreen());
+=======
+    canv[0] && canv[0].webkitRequestFullscreen();
+>>>>>>> Stashed changes
   }
 
 
@@ -122,8 +126,6 @@ export default class Visualizer extends Component {
     //the view from the userwindow.innerWidth / window.innerHeight
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
     this.camera.position.z = 1.3;
-    //window.innerWidth;
-    //this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -145,10 +147,27 @@ export default class Visualizer extends Component {
 
     // load everything onto the scene
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
+<<<<<<< Updated upstream
 
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words, 0x00ffff);
       this.loadTextWords(true, this.props.text2, 0xff3300);
+=======
+    // console.log("this.props.compare inside visuali", this.props.compare);
+    // if(this.props.compare === "true")  {
+    // } else {
+    // }
+    
+    // console.log(this.props.graphtitle, "true?", this.props.words.text2 && (Object.keys(this.props.words.text2) > 1));
+    
+    // check if the text2 exists, if so check the length of its object keys,
+    // if greater than 1, then we have a second set of text to load
+    if(this.props.words.text2 && (Object.keys(this.props.words.text2).length > 1)) {
+      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.words.text2, 0xff3300);
+      console.log("this.props.text2++++++++++++", this.props.words.text2);
+
+>>>>>>> Stashed changes
     } else {
       this.loadTextWords(false, this.props.words);
     }
@@ -177,7 +196,20 @@ export default class Visualizer extends Component {
   render () {
     return (
       <div id="container">
+<<<<<<< Updated upstream
         <h1>{ this.props.graphtitle }</h1>
+=======
+    {/* This needs to be changed to get actual sample title */}
+      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      {/*<FlatButton
+              id="fs-button"
+              icon={<FontIcon className="material-icons" >zoom_out_map</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } onClick={ this.goFullscreen }
+            />*/}
+>>>>>>> Stashed changes
       </div>
     )
   }
