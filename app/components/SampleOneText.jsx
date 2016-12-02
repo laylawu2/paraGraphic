@@ -27,10 +27,8 @@ export default class Sample extends Component {
     this.init();
     this.animate();
     this.props.getSample();
-    
 
     window.addEventListener( 'resize', this.onWindowResize, false );
-
   }
 
   componentDidUpdate(){
@@ -145,6 +143,7 @@ export default class Sample extends Component {
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
+    
     this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 35, 5); 
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words, 0x00ffff);
