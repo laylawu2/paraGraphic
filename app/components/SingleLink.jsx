@@ -9,7 +9,6 @@ export default class extends React.Component {
   }
 
   render(){
-    console.log('rendering singlelinkcomponent')
     return(
       <div>
         <div className="col-lg-4">

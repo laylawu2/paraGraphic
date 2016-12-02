@@ -74,3 +74,18 @@ body {
   font-size: 15px;
   text-align: right;
 }
+
+.img {
+    position: relative;
+    float: left;
+    width:  300px;
+    height: 300px;
+    margin-bottom: 50px;
+/*    background-position: 50% 50%;*/
+    background-repeat:   no-repeat;
+/*    background-size:     cover;*/
+}
+
+.grid {
+
+}

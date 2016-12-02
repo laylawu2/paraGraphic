@@ -1,7 +1,7 @@
 import React from 'react'
 import InputForm from './InputForm'
 import InputFormContainer from '../containers/InputFormContainer'
-
+const CodeMirror = require('react-codemirror')
 import RaisedButton from 'material-ui/RaisedButton';
 // we will also need a component for info
 export default class extends React.Component {
@@ -27,13 +27,13 @@ export default class extends React.Component {
                         <h1>paraGraphic</h1>
                         <br/>
                         <p>
-                            paraGraphic is a text visualization tool that lets you 
+                            paraGraphic is a text visualization tool that lets you
                             see relationships between words
                         </p>
                         <p>
                             paraGraphic will render a 3D model of any text -- just copy & paste
-                            it into the input form.  The words in the text appear as spheres in 
-                            a 3-dimensional graph, arranged according to their relationship to key 
+                            it into the input form.  The words in the text appear as spheres in
+                            a 3-dimensional graph, arranged according to their relationship to key
                             words chosen as end points (labels) for the graph's axes.
                         </p>
                         <p>
@@ -44,7 +44,7 @@ export default class extends React.Component {
                         </p>
                         <p className="bold-text">  {/* NOTE: why is this not working? */}
                             Check out our examples or visualizations made by others in the drop-down list
-                            on the navbar, or select "input" to enter a text of your choosing!  
+                            on the navbar, or select "input" to enter a text of your choosing!
                         </p>
                         <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                         </div>
