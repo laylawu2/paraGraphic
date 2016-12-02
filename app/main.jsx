@@ -14,7 +14,7 @@ import InputFormContainer from './containers/InputFormContainer'
 import SingleLinkContainer from './containers/SingleLinkContainer'
 import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
 import {loadLabels, loadInfofunc} from './reducers/inputForm'
-import Projects from './components/Projects'
+import ProjectsContainer from './containers/ProjectsContainer'
 // following code configures and initializes firebase database to work with app
 // may eventually want to move this to React component for home page / landing page
 // or even index.html if possible -- firebase should be working as soon as app starts
@@ -72,8 +72,9 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>{
           console.log('res.data', res.data);
           store.dispatch(getWords(res.data))
         })
-        .then(() => done())
+        .then(done())
         .catch(() => replace('/'))
+      setTimeout(done, 113)
     })
 }
 
@@ -86,7 +87,7 @@ render(
           <Route path="home" component={ Home } />
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
-          <Route path="projects" component={ Projects } />
+          <Route path="projects" component={ ProjectsContainer } />
           <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>

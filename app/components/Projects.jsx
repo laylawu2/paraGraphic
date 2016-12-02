@@ -1,41 +1,37 @@
 import React from 'react'
 import { Link } from 'react-router'
+import images from '../../public/projects-images'
+import _ from 'lodash'
+
 export default class extends React.Component {
   render(){
-    var rand = Math.floor(Math.random()) * 20;
+    // var rand = Math.floor(Math.random()) * 20;
+    const titles = this.props.titles
+    titles && console.log(_.zip(titles, images))
     return(
-      <div className='img-div'>
+      <div className='grid' >
         {
-          images.forEach((idx, img) => (
-          <Link key={idx}>
-            <div className='img' style={{ backgroundImage: url(images[0])}}/>
-          </Link>
-          ))}
+          titles && titles.length
+
+          ? <div><h1>Projects</h1><div> {
+              _.zip(titles, images).map(([title, img]) => {
+                if (!title) return null
+                return <Link
+                  className='img'
+                  style={{
+                    background: `url(${img})`,
+                  }}
+                  to={title.key}><h4>{title.title}</h4></Link>
+              })
+            } </div></div>
+
+          : <h1>Loading</h1>
+        }
+
+
       </div>
     )
   }
 }
-
-const images = [
-  'http://www.freeimages.com/photo/burbujas-1533811',
-  'http://www.freeimages.com/photo/grid-1460308',
-  'http://www.freeimages.com/photo/abstract-1-1197734',
-  'http://www.freeimages.com/photo/pipe-1558423',
-  'http://www.freeimages.com/photo/light-abstract5-1172728',
-  'http://www.freeimages.com/photo/abstract-texture-1171710',
-  'http://www.freeimages.com/photo/abstract-texture-1171710',
-  'http://www.freeimages.com/photo/staircase-1235034',
-  'http://www.freeimages.com/photo/light-abstract-03-1510324',
-  'http://www.freeimages.com/photo/abstract-light-2-1176759',
-  'http://www.freeimages.com/photo/abstract-blurred-lights-2-1198971',
-  'http://www.freeimages.com/photo/light-abstracts-1-1513282',
-  'http://www.freeimages.com/photo/abstract-1182279',
-  'http://www.freeimages.com/photo/christmas-tree-abstract-1169894',
-  'http://www.freeimages.com/photo/light-s-abstractions-1522075',
-  'http://www.freeimages.com/photo/fireflies-1572863',
-  'http://www.freeimages.com/photo/light-texture-1195217',
-  'http://www.freeimages.com/photo/water-effect-1184309',
-  'http://www.freeimages.com/photo/laser-experiments-1196527'
-]
 
 

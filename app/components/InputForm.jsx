@@ -32,16 +32,10 @@ export default class extends React.Component {
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {
       span.innerHTML = "Title cannot be null!";
-    } else if(e.target.xmin.value =="") {
-      span.innerHTML = "x-min cannot be null!";
     } else if(e.target.xmax.value =="") {
       span.innerHTML = "x-max cannot be null!";
-    } else if(e.target.ymin.value =="") {
-        span.innerHTML = "y-min cannot be null!";
     } else if(e.target.ymax.value =="") {
         span.innerHTML = "y-max cannot be null!";
-    } else if(e.target.zmin.value =="") {
-        span.innerHTML = "z-min cannot be null!";
     } else if(e.target.zmax.value =="") {
         span.innerHTML = "z-max cannot be null!";
     } else if(e.target.text.value =="") {

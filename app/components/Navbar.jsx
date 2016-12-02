@@ -40,6 +40,7 @@ class Logged extends Component {
     );
   }
 }
+
 Logged.muiName = 'IconMenu';
 
 /**
