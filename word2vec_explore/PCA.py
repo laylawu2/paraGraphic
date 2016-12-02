@@ -8,21 +8,23 @@ from nltk.corpus import stopwords
 from gensim.models import word2vec
 from sklearn.decomposition import PCA
 
+# loads the pre-trained Google News model
+
+# news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
+
+
+
 # NOTE: CHANGE CODE BELOW to do the desired task, then copy this whole file into test.py in server 
 #(express server folder)
 
-def main(text):
-	textwords = text_to_words(text, news)
-	textvecs = getWordVecs(textwords)
+def main(request):
+	print 'Performing PCA...'
+	userInput = request.json['input']
+	textwords = text_to_words(userInput['text'], news)
+	textvecs = getWordVecs(textwords, news)
 	result = pcaTransform(textwords, textvecs, news)
 
 	return Response(json.dumps(result), content_type='application/json')
-
-
-# loads the pre-trained Google News model
-
-news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
-
 
 # takes in a long text string, removes markup, removes non-alphanumeric characters, splits into words
 # eliminates stopwords ("a", "and", "the", etc.) and words not in model (to avoid errors)
@@ -61,22 +63,22 @@ def pcaTransform(words, wvecs, model):
 
 	w = []
 	for i in range(0, len(wvecs3d) - 1):
-		w.append({words[i]: wvecs3d[i]})
+		w.append({words[i]: wvecs3d[i].tolist()})
 
 
 
 	for item in model.most_similar([pca.components_[0]]):     #finds the words that correspond most
-		axis1.extend(item()[0])								  #closely to the axes of the 3 principal
+		axis1.append(item[0])								  #closely to the axes of the 3 principal
 	for item in model.most_similar([pca.components_[1]]):	  #components
-		axis2.extend(item()[0])
+		axis2.append(item[0])
 	for item in model.most_similar([pca.components_[2]]):
-		axis3.extend(item()[0])
+		axis3.append(item[0])
 
 	axis1 = axis1[0:3]
 	axis2 = axis2[0:3]
 	axis3 = axis3[0:3]
 
-	textData = {'words': w, 'axis1': axis1, 'axis2': axis2, 'axis3': axis3}
+	textData = {'words': {'text1': w}, 'axis1': axis1, 'axis2': axis2, 'axis3': axis3}
 	return textData
 
 
