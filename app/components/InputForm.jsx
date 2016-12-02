@@ -1,15 +1,16 @@
-'use strict';
-import React from 'react'
-import firebase from 'firebase'
-import axios from 'axios'
-import {browserHistory} from 'react-router'
+'use strict';;
+import React from 'react';
+import axios from 'axios';
+import {browserHistory} from 'react-router';
+import firebase from 'firebase';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
-import { loadLabels } from '../reducers/inputForm'
+import { loadLabels } from '../reducers/inputForm';
 
 const styles = {
   margin: 12,
@@ -20,42 +21,27 @@ const styles = {
 
 export default class extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: []};
-    this.submitForm = this.submitForm.bind(this)
-  }
-
-  componentDidMount() {
-
-    // following code configures and initializes firebase database to work with app
-    // may eventually want to move this to React component for home page / landing page
-    // or even index.html if possible -- firebase should be working as soon as app starts
-    var config = {
-      apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
-      authDomain: "capstone-b9f6c.firebaseapp.com",
-      databaseURL: "https://capstone-b9f6c.firebaseio.com",
-      storageBucket: "capstone-b9f6c.appspot.com",
-      messagingSenderId: "583702777619"
-    };
-
-    firebase.initializeApp(config);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   submitForm(e) {
-    e.preventDefault()
+
+    e.preventDefault();
     var span = document.getElementById("alert");
-    if(e.target.graphtitle.value =="" ){
+    if(e.target.graphtitle.value =="" ) {
       span.innerHTML = "Title cannot be null!";
-    }else if(e.target.xmax.value ==""){
-      span.innerHTML = "x-axis cannot be null!";
-    }else if(e.target.ymax.value ==""){
-        span.innerHTML = "y-axis cannot be null!";
-    }else if(e.target.zmax.value ==""){
-        span.innerHTML = "z-axis cannot be null!";
-    }else if(e.target.text.value ==""){
+    } else if(e.target.xmax.value =="") {
+      span.innerHTML = "x-max cannot be null!";
+    } else if(e.target.ymax.value =="") {
+        span.innerHTML = "y-max cannot be null!";
+    } else if(e.target.zmax.value =="") {
+        span.innerHTML = "z-max cannot be null!";
+    } else if(e.target.text.value =="") {
         span.innerHTML = "Text cannot be null!";
-    }else{
-      span.innerHTML =""
+    } else {
+      span.innerHTML = "";
       const { addTitle,addLabels, postAndGetWordData } = this.props;
 
       var xmax = e.target.xmax.value.split(" ");
@@ -69,7 +55,7 @@ export default class extends React.Component {
         text: e.target.text.value,
         text2: e.target.text2.value,
         title: e.target.graphtitle.value
-      }
+      };
 
       // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
       // myRef is how we can access table in firebase
@@ -88,21 +74,47 @@ export default class extends React.Component {
       // dispatch all input for values
       addTitle(e.target.graphtitle.value);
       addLabels(userInput);
-      postAndGetWordData(userInput)      // call function to post request to python server
+      postAndGetWordData(userInput);      // call function to post request to python server
 
-    }
+      // if the title already exists, attach random str to the end of the title
+      const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+      'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'];
 
+      const randStr = (length = 5) => {
+        Array(length)
+          .fill(0)
+          .map((x, i) => letters[Math.floor(Math.random() * letters.length)])
+          .join('');
+      };
 
-  }
+      const write = (input, charsToAppend = 0) => {
+        const key = charsToAppend
+          ? `${input.title}_${randStr(charsToAppend)}`
+          : input.title;
 
+        const myRef = firebase.database().ref(key);
+        
+        return myRef
+          .transaction(existing => existing === null? input : undefined)
+          .then(({committed, snapshot}) => {
+            if (!committed) {
+              return write(input, charsToAppend + 1);
+            }
+            return key;
+          })
+      }; // const write
+    } // else 
+  } // end of submitForm
 
   render() {
+    const entry = this.props.entry;
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
       <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
       <div className='form-group'>
 
-        <TextField hintText="please enter a title for your graph" name='graphtitle'/>
+        <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
       </div>
       <div>
         <p>
@@ -129,6 +141,7 @@ export default class extends React.Component {
           rows={5}
           rowsMax={5}
           style = {{overflow: scroll}}
+          value={entry.text}
         />
           <TextField className='axis-labels'
           name='text2'
@@ -146,7 +159,6 @@ export default class extends React.Component {
       <div>
         <RaisedButton type="submit" label="SUBMIT" style={ styles } />
       </div>
-    </form>)
+    </form>);
   }
-
 }

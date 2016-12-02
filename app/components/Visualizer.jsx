@@ -1,5 +1,6 @@
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import React, { Component } from 'react';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
@@ -8,9 +9,11 @@ import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/style
 let OrbitControls = require('three-orbit-controls')(THREE);
 
 const styles = {
-  height: 50,
-  width: 50,
-  color: amber50
+  position: "absolute",
+  minHeight: "50px",
+  minWidth: "50px",
+  color: amber50,
+  transition: "none"
 }
 
 export default class Visualizer extends Component {
@@ -23,21 +26,26 @@ export default class Visualizer extends Component {
     this.scene;
     this.renderer;
     this.animate = this.animate.bind(this);
-
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.intersected;
     this.mirror = true;
+    this.objects = [];
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
   }
 
   componentDidMount() {
     this.initRenderer();
     this.init();
     this.animate();
-
+    window.addEventListener( 'mousemove', this.onMouseMove, false );
     window.addEventListener( 'resize', this.onWindowResize, false );
+    window.requestAnimationFrame(this.render);
   }
 
   componentDidUpdate() {
@@ -46,8 +54,7 @@ export default class Visualizer extends Component {
 
   goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
-    canv[0] &&
-    canv[0].webkitRequestFullscreen();
+    canv[0] && canv[0].webkitRequestFullscreen();
   }
 
   /* load the words/label to scene */
@@ -78,16 +85,14 @@ export default class Visualizer extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
-
     let x = 0, y = 0, z = 0;
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
+      // console.log("inside load text words", idx, word);
     //properties for word
-      console.log("MAKIN' A MESH!!!!!!!!!!!!!!!!!!!")
+
       let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
-
-      // ELAINE's rainbow color fxn, commented for now 'til accessing word data is sorted out
 
       if(!compareBool){
         if(idx == 0){
@@ -96,9 +101,11 @@ export default class Visualizer extends Component {
           z = words[word][2];
         }
 
-        color = new THREE.Color((words[word][0]-x)*10,
-        (words[word][1]-y)*10,
-        (words[word][2]-z)*10);
+        color = new THREE.Color(
+          (words[word][0]-x)*10,
+          (words[word][1]-y)*10,
+          (words[word][2]-z)*10
+        );
       }
 
       let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -114,6 +121,9 @@ export default class Visualizer extends Component {
       mesh.matrixAutoUpdate = false;
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //append the word to scene
+      //var block = new THREE.Mesh(geo, material);
+      mesh.word = word;
+      this.objects.push(mesh);
       this.scene.add( mesh );
     })
   }
@@ -136,8 +146,6 @@ export default class Visualizer extends Component {
     //the view from the userwindow.innerWidth / window.innerHeight
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
     this.camera.position.z = 1.3;
-    //window.innerWidth;
-    //this.camera.translateZ(-180);
 
     //orbit around some object
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -162,13 +170,19 @@ export default class Visualizer extends Component {
     // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
     //this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
-    if(this.props.compare === "true")  {
+    // check if the text2 exists, if so check the length of its object keys,
+    // if greater than 1, then we have a second set of text to load
+    if(this.props.words.text2 && (Object.keys(this.props.words.text2).length > 1)) {
       this.loadTextWords(true, this.props.words.text1, 0x00ffff);
       this.loadTextWords(true, this.props.words.text2, 0xff3300);
+      console.log("this.props.text2++++++++++++", this.props.words.text2);
+
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
       this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
     }
+
+
   }
 
   // auto resize
@@ -188,24 +202,68 @@ export default class Visualizer extends Component {
 
   //plot the scene and camera to the canvas
   renderPlot() {
+    // update the picking ray with the camera and mouse position
+
+
+
     this.renderer.render( this.scene, this.camera );
+
   }
 
-  render () {
 
+  onMouseMove( event ) {
+      event.preventDefault();
+      // calculate mouse position in normalized device coordinates
+      // (-1 to +1) for both components
+      //document.getElementById("container").offsetWidth
+      //document.getElementById("container").offsetHeight
+      this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
+      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
+
+      this.raycaster.setFromCamera( this.mouse, this.camera );
+            // calculate objects intersecting the picking ray
+      var intersections;
+      var numObjects;
+      intersections = this.raycaster.intersectObjects( this.objects );
+      numObjects = this.objects.length;
+      if ( intersections.length > 0 ) {
+        if ( this.intersected != intersections[ 0 ].object ) {
+
+          //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
+
+          this.intersected = intersections[ 0 ].object;
+          this.intersected.material.color.setHex( 0xffffff );
+          var text = document.getElementById("text");
+          text.innerHTML = this.intersected.word;
+
+          // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
+          document.getElementById('container').appendChild(text);
+          //console.log(this.intersected.word);
+        }
+        document.body.style.cursor = 'pointer';
+      }
+      else if ( this.intersected ) {
+        this.intersected = null;
+        var text = document.getElementById("text");
+          text.innerHTML = "";
+        document.body.style.cursor = 'auto';
+      }
+    }
+
+  render () {
+    console.log("this.props inside the visualizer renderer", this);
+    // 'this' is sometimes undefined
     return (
       <div id="container">
-    {/* This needs to be changed to get actual sample title */}
-      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
-       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
-
-      {/*<FlatButton
-              id="fs-button"
-              icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
-              style={ styles } 
-              hoverColor={ grey900 } onClick={ this.goFullscreen }
-            />*/}
+        <h1 id="graph-title">{ this && this.props.graphtitle }</h1>
+        <FlatButton
+          icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
+          style={ styles } 
+          hoverColor={ grey900 } 
+          onClick={ this && this.goFullscreen }
+        />
       </div>
-    )
+    );
   }
 }

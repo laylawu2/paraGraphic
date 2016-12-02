@@ -1,10 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import axios from 'axios'
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Visualizer from '../components/Visualizer'
-import { getWords, setCompare } from '../reducers/visualizer'
-import { loadLabels } from '../reducers/inputForm'
+import Visualizer from '../components/Visualizer';
 
 const mapStateToProps = ({ labels, words, graphtitle, compare }) => ({
 	labels, 
@@ -13,4 +10,4 @@ const mapStateToProps = ({ labels, words, graphtitle, compare }) => ({
 	compare
 });
 
-export default connect(mapStateToProps)(Visualizer)
+export default connect(mapStateToProps)(Visualizer);

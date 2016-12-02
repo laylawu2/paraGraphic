@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import axios from 'axios'
+import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-import { loadLabels } from '../reducers/inputForm'
-import { getWords, getTitle } from '../reducers/visualizer'
-import Graphic from '../components/Graphic'
+import { loadLabels } from '../reducers/inputForm';
+import { getWords, getTitle } from '../reducers/visualizer';
+import Graphic from '../components/Graphic';
 
 
 
@@ -44,4 +44,4 @@ const mapDispatchToProps = (dispatch) => ({
 	getCompareSample: () => dispatch(fetchSample(accel)),
 });
 
-export default connect(null, mapDispatchToProps)(Graphic)
+export default connect(null, mapDispatchToProps)(Graphic);

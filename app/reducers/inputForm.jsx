@@ -51,6 +51,7 @@ export default (state={}, action) => {
 };
 
 // action creator
+// loadinfo is a boolean
 export const loadInfofunc = (loadinfo) => ({
     type: RECEIVE_INFO,
     loadinfo

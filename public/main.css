@@ -12,7 +12,7 @@ html {
 }
 
 a {
-    color: var(--link-text-color);
+  color: var(--link-text-color);
 }
 span {
   color: red;
@@ -29,11 +29,13 @@ span {
   margin: 80px;
   color: #FF6F00;
 }
-
-/* need to overwrite material-ui inline styles */
-#fs-button {
-  position: absolute !important;
-  width: auto !important; /* only for raised button */
+#text{
+    font-size: 20px;
+    color: red;
+    margin-top: -100px;
+    margin-left: 100px;
+    z-index: 1;
+    position: absolute;
 }
 
 body {
@@ -80,4 +82,19 @@ textarea {
   margin-right: auto;
   font-size: 15px;
   text-align: right;
+}
+
+.img {
+    position: relative;
+    float: left;
+    width:  300px;
+    height: 300px;
+    margin-bottom: 50px;
+/*    background-position: 50% 50%;*/
+    background-repeat:   no-repeat;
+/*    background-size:     cover;*/
+}
+
+.grid {
+
 }
