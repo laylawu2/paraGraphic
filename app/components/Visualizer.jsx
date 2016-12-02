@@ -81,7 +81,6 @@ export default class Visualizer extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
-
     let x = 0, y = 0, z = 0;
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {

@@ -27,7 +27,9 @@ export const fetchSample = (t1) => {
 	      	dispatch(getWords(res.data))
 	      	console.log("dispatch loadLabels", t1);
 	        dispatch(loadLabels(t1));
-	        if(Object.keys(res.data.text2).length > 1){
+
+	        // first part of && to avoid illegal access of length of undefined array
+	        if(res.data.text2 && Object.keys(res.data.text2).length > 1){
 	        	// dispatch(setCompare('true')) // causes a problem when switching back and forth between compare vs no compare
 	        	dispatch(getTitle("Obama 2008 inaug. vs Trump 2016 RNC accept."))
 	        } else {
