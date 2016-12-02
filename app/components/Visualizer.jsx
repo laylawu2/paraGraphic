@@ -28,7 +28,9 @@ export default class Visualizer extends Component {
     this.intersected;
     this.mirror = true;
     this.objects = [];
-
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
@@ -41,6 +43,8 @@ export default class Visualizer extends Component {
     this.init();
     this.animate();
     window.addEventListener( 'mousemove', this.onMouseMove, false );
+    //window.mousemove = this.onMouseMove
+
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
@@ -85,7 +89,6 @@ export default class Visualizer extends Component {
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
 
-    let x = 0, y = 0, z = 0;
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
@@ -93,14 +96,14 @@ export default class Visualizer extends Component {
 
       if(!compareBool){
         if(idx == 0){
-          x = words[word][0];
-          y = words[word][1];
-          z = words[word][2];
+          this.x = words[word][0];
+          this.y = words[word][1];
+          this.z = words[word][2];
         }
 
-        color = new THREE.Color((words[word][0]-x)*10,
-        (words[word][1]-y)*10,
-        (words[word][2]-z)*10);
+        color = new THREE.Color((words[word][0]-this.x)*10,
+        (words[word][1]-this.y)*10,
+        (words[word][2]-this.z)*10);
       }
 
       let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -115,10 +118,13 @@ export default class Visualizer extends Component {
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
-      //append the word to scene
-      //var block = new THREE.Mesh(geo, material);
+      //passing down the properiteis, word & color
       mesh.word = word;
+      mesh.colors =[(words[word][0]-this.x)*10,
+        (words[word][1]-this.y)*10,
+        (words[word][2]-this.z)*10]
       this.objects.push(mesh);
+      //append the word to scene
       this.scene.add( mesh );
     })
   }
@@ -128,7 +134,6 @@ export default class Visualizer extends Component {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
   }
@@ -200,43 +205,41 @@ export default class Visualizer extends Component {
 
   }
 
-
+  //hover function
   onMouseMove( event ) {
       event.preventDefault();
       // calculate mouse position in normalized device coordinates
       // (-1 to +1) for both components window.innerHeight
-      //document.getElementById("container").offsetWidth
-      //document.getElementById("container").offsetHeight
       this.mouse.x = ( (event.clientX) /  window.innerWidth ) * 2 - 1;
       this.mouse.y = - ( (event.clientY-50) / document.getElementById("container").offsetHeight) * 2 + 1;
-      // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
-            // calculate objects intersecting the picking ray
+      // calculate objects intersecting the picking ray
       var intersections;
       var numObjects;
       intersections = this.raycaster.intersectObjects( this.objects );
       numObjects = this.objects.length;
       if ( intersections.length > 0 ) {
         if ( this.intersected != intersections[ 0 ].object ) {
-
-          //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
-
+          if ( this.intersected ) this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
+          //get the hover word
           this.intersected = intersections[ 0 ].object;
-          this.intersected.material.color.setHex( 0xffffff );
+          //change the color when hover
+          this.intersected.material.color.setHex( 0xffffff);
+          //add the text
           var text = document.getElementById("text");
-          text.innerHTML = this.intersected.word;
-
-          // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
+          text.innerHTML = this.intersected.word.toUpperCase();
           document.getElementById('container').appendChild(text);
-          //console.log(this.intersected.word);
         }
         document.body.style.cursor = 'pointer';
       }
       else if ( this.intersected ) {
+        //change the color back
+        this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
         this.intersected = null;
+        //reset the text
         var text = document.getElementById("text");
-          text.innerHTML = "";
+        text.innerHTML = "";
         document.body.style.cursor = 'auto';
       }
     }
@@ -251,15 +254,6 @@ export default class Visualizer extends Component {
       <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
       <p id = "text"></p>
 
-      {/*
-        <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
-
-      <FlatButton
-              id="fs-button"
-              icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
-              style={ styles }
-              hoverColor={ grey900 } onClick={ this.goFullscreen }
-            />*/}
       </div>
     )
   }
