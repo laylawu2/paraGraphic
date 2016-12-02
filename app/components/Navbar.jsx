@@ -1,51 +1,69 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import {Link} from 'react-router'
+import React, {Component} from 'react';
+import { Link } from 'react-router'
+
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
+import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import { cyan900 } from 'material-ui/styles/colors';
+
+import { ACCEL, INPUT_BO, DRUMPF, fetchSample } from '../reducers/samples';
+
+const style = {
+  backgroundColor: cyan900
+};
 
 
-class Navbar extends React.Component {
+class Logged extends Component { 
+  constructor(props) {
+    super(props);
+    
+  }
 
-render () {
-  return (
-
-    <nav className="myNavBar navbar  navbar-static-top">
-    <div className="myNavBar container-fluid">
-
-      {/* <!-- Brand and toggle get grouped for better mobile display --> */}
-      <div className="myNavBar navbar-header">
-        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar"></span>
-          <span className="icon-bar"></span>
-          <span className="icon-bar"></span>
-        </button>
-        <a className="navbar-brand" href="#">paraGraphic</a>
-      </div>
-
-      {/*<!-- Collect the nav links, forms, and other content for toggling -->*/}
-      <div className="myNavBar collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul className="nav navbar-nav navbar-right">
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span className="caret"></span></a>
-            <ul className="dropdown-menu">
-              {
-                this.props.titles && this.props.titles.map((title, idx) => (
-                  <li key={idx}><Link to={`/${title.key}`}><span>{title.title}</span></Link></li>
-                ))
-              }
-              <li><Link to="/sample1">Accelerate Manifesto</Link></li>
-              <li><Link to="/sample2">Obama 2008 inaug. v Trump 2016 RNC accept.</Link></li>
-              <li><Link to="/examples">Check out what other people have made!</Link></li>
-            </ul>
-          </li>
-        </ul>
-      </div>{/*<!-- /.navbar-collapse -->*/}
-    </div>{/*<!-- /.container-fluid -->*/}
-  </nav>
-      )
+  render() {
+    return (
+      <IconMenu
+        iconButtonElement={
+          <IconButton><ExpandMoreIcon /></IconButton>
+        }
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+      >
+        <MenuItem primaryText="Accelerate Manifesto" onClick={ this.props.getSample } />
+        <MenuItem primaryText="Obama v Trump" onClick={ this.props.getCompareSample } />
+        <MenuItem primaryText="History" />
+      </IconMenu>
+    );
   }
 }
+Logged.muiName = 'IconMenu';
 
-const mapState = ({titles}) => ({titles})
-
-export default connect(mapState, null)(Navbar)
+/**
+ * This example is taking advantage of the composability of the `AppBar`
+ * to render different components depending on the application state.
+ */
+export default class Navbar extends Component {
+  render() {
+    return (
+      <div>
+        {/*<Toggle
+                  label="Logged"
+                  defaultToggled={true}
+                  onToggle={this.handleChange}
+                  labelPosition="right"
+                  style={{margin: 20}}
+                />*/}
+        <AppBar
+          title="paraGraphic"
+          showMenuIconButton={ false }
+          iconElementRight={ <Logged { ...this.props } /> }
+          style={ style }
+        />
+      </div>
+    );
+  }
+}

@@ -1,12 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { loadLabels } from '../reducers/inputForm'
-import { getWords, getTitle, setCompare } from '../reducers/visualizer'
-import axios from 'axios'
+import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-import InputForm from '../components/InputForm'
+import { loadLabels } from '../reducers/inputForm';
+import { getWords, getTitle, setCompare } from '../reducers/visualizer';
+import InputForm from '../components/InputForm';
 
-const mapStateToProps = ({entry}) => ({entry})
+const mapStateToProps = ({ entry }) => ({ entry });
+
 const mapDispatchToProps = dispatch => ({
 	addLabels: (labels) => {
 		dispatch(loadLabels(labels));
@@ -20,14 +21,14 @@ const mapDispatchToProps = dispatch => ({
     return axios.post('http://localhost:1337', input)    	// returns the plottable points
       .then(res => {
         dispatch(getWords(res.data));
-        if(Object.keys(res.data.text2).length > 1){
-          console.log("HOUSTON, WE HAVE A SECOND TEXT")
-          dispatch(setCompare("true"));
-        }
-        })
+        // if(Object.keys(res.data.text2).length > 1){
+        //   console.log("HOUSTON, WE HAVE A SECOND TEXT")
+        //   // dispatch(setCompare("true"));
+        // }
+      })
       .catch(err => console.error(err))
   	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputForm)
+export default connect(mapStateToProps, mapDispatchToProps)(InputForm);
 
