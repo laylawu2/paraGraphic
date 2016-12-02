@@ -51,21 +51,6 @@ export const titleReducer = (state="", action) => {
 	return state
 }
 
-//action creater for changing compare (boolean) value
-export const setCompare = (compare) => ({
-	type: SET_COMPARE,
-	compare
-})
-
-//reducer
-export const compareReducer = (state=false, action) => {
-	switch(action.type) {
-		case SET_COMPARE:
-			return action.compare
-	}
-	return state
-}
-
 export const getTitles = (titlesFromDb) => ({
   type: GET_TITLES,
   titlesFromDb
