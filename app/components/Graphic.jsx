@@ -1,8 +1,5 @@
 import React from 'react';
 
-import LinearProgress from 'material-ui/LinearProgress';
-import LinearProgressExampleDeterminate from './progressbar';
-
 import VisualizerContainer from '../containers/VisualizerContainer';
 
 const styles = {
@@ -23,8 +20,6 @@ export default class Graphic extends React.Component {
 	render() {
 		return (
 			<div>
-				<LinearProgressExampleDeterminate />
-				<LinearProgress mode="indeterminate" style={ styles.progress } />
         		<VisualizerContainer />
 			</div>
 		);

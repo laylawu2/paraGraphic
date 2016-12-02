@@ -80,18 +80,21 @@ export default class extends React.Component {
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
       'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'];
-      const randStr = (length=5) => {
+
+      const randStr = (length = 5) => {
         Array(length)
           .fill(0)
           .map((x, i) => letters[Math.floor(Math.random() * letters.length)])
           .join('');
       };
 
-      const write = (input, charsToAppend=0) => {
+      const write = (input, charsToAppend = 0) => {
         const key = charsToAppend
           ? `${input.title}_${randStr(charsToAppend)}`
           : input.title;
+
         const myRef = firebase.database().ref(key);
+        
         return myRef
           .transaction(existing => existing === null? input : undefined)
           .then(({committed, snapshot}) => {

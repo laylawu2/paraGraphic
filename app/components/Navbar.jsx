@@ -34,7 +34,7 @@ class Logged extends Component {
         anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
       >
         <MenuItem primaryText="Accelerate Manifesto" onClick={ this.props.getSample } />
-        <MenuItem primaryText="Obama v Trump" onClick={ this.props.getCompareSample } />
+        <MenuItem primaryText="Obama vs Trump" onClick={ this.props.getCompareSample } />
         <MenuItem primaryText="History" />
       </IconMenu>
     );
