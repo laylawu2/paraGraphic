@@ -83,6 +83,7 @@ export default class Visualizer extends Component {
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
     //properties for word
+      console.log("MAKIN' A MESH!!!!!!!!!!!!!!!!!!!")
       let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
       if(!compareBool){
@@ -102,9 +103,9 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = words[word][0] - 0.5;
-      mesh.position.y = words[word][1] - 0.5;
-      mesh.position.z = words[word][2] - 0.5;
+      mesh.position.x = words[word][0];
+      mesh.position.y = words[word][1];
+      mesh.position.z = words[word][2];
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
@@ -154,13 +155,16 @@ export default class Visualizer extends Component {
     // container.appendChild( this.stats.dom );
 
     // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
+
+    // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
+    //this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
     if(this.props.compare === "true")  {
       this.loadTextWords(true, this.props.words.text1, 0x00ffff);
       this.loadTextWords(true, this.props.words.text2, 0xff3300);
     } else {
-      this.loadTextWords(false, this.props.words.text1);
+      console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
+      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1, 0x00ffff);
     }
   }
 
