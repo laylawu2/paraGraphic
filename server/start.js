@@ -20,6 +20,18 @@ if (!pkg.isProduction && !pkg.isTesting) {
   app.use(require('volleyball'))
 }
 
+const fs = require('fs')
+
+const pyRoute = code => {
+  code = code.toString()  
+  return (req, res, next) =>
+    axios.post('http://localhost:5000/eval', {code})
+      .then(({data}) => res.send(data)) 
+      .catch(({response: {data}}) => res.status(400).send(data))
+}
+
+const pyFile = filename => pyRoute(fs.readFileSync(__dirname + '/' + filename))
+
 module.exports = app
   // We'll store the whole session in a cookie
   // .use(require('cookie-session') ({
@@ -48,6 +60,8 @@ module.exports = app
         res.send(response.data)})
       .catch(err => console.error(err))
   })
+
+  .post('/testPythonEndpoint', pyFile('./test.py'))
 
 if (module === require.main) {
   // Start listening only if we're the main module.

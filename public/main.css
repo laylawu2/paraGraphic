@@ -12,7 +12,7 @@ html {
 }
 
 a {
-    color: var(--link-text-color);
+  color: var(--link-text-color);
 }
 span {
   color: red;
@@ -29,11 +29,13 @@ span {
   margin: 80px;
   color: #FF6F00;
 }
-
-/* need to overwrite material-ui inline styles */
-#fs-button {
-  position: absolute !important;
-  width: auto !important; /* only for raised button */
+#text{
+    font-size: 20px;
+    color: red;
+    margin-top: -100px;
+    margin-left: 100px;
+    z-index: 1;
+    position: absolute;
 }
 
 body {
@@ -53,8 +55,15 @@ body {
 
 }
 
+input {
+   margin-top: 0px !important;
+}
+
+textarea {
+  margin-top: 0px !important;
+}
+
 .axis-labels {
-  width: 45% !important;
   margin-left: 2px !important;
   text-size: 12px !important;
 }
@@ -73,4 +82,19 @@ body {
   margin-right: auto;
   font-size: 15px;
   text-align: right;
+}
+
+.img {
+    position: relative;
+    float: left;
+    width:  300px;
+    height: 300px;
+    margin-bottom: 50px;
+/*    background-position: 50% 50%;*/
+    background-repeat:   no-repeat;
+/*    background-size:     cover;*/
+}
+
+.grid {
+
 }

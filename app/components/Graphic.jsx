@@ -1,5 +1,12 @@
-import React from 'react'
-import VisualizerContainer from '../containers/VisualizerContainer'
+import React from 'react';
+
+import VisualizerContainer from '../containers/VisualizerContainer';
+
+const styles = {
+  progress: {
+    marginTop: '10px'
+  }
+};
 
 export default class Graphic extends React.Component {
 	constructor(props) {
@@ -7,13 +14,14 @@ export default class Graphic extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("graphic compoennt did mount")
 		this.props.getSample();
 	}
 
 	render() {
 		return (
-			<VisualizerContainer />
-		)
+			<div>
+        		<VisualizerContainer />
+			</div>
+		);
 	}
 }
