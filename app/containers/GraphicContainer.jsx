@@ -33,7 +33,7 @@ return (dispatch) => {                               // axios call to python ser
     axios.post('http://localhost:1337/PCA', t1)     // returns the plottable points 
       .then(res => { 
       	dispatch(getWords(res.data.words));
-        //dispatch(loadLabels(t1));   
+        dispatch(loadLabels(res.data));   
       })
       .catch(err => console.error(err))  
     }  
@@ -41,7 +41,7 @@ return (dispatch) => {                               // axios call to python ser
 
 const mapDispatchToProps = (dispatch) => ({
 	getSample: () => dispatch(fetchSample(boInaug)),
-	getCompareSample: () => dispatch(fetchSample(inputBo)),
+	getCompareSample: () => dispatch(fetchSample(accel)),
 });
 
 export default connect(null, mapDispatchToProps)(Graphic)

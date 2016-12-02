@@ -24,10 +24,21 @@ const processLabels = (labels) => {
 	return result;
 }
 
+const labelAxes = (wordDataObj) => {
+	let axes = {};
+	axes[x] = wordDataObj[axis1];
+	axes[y] = wordDataObj[axis2];
+	axes[z] = wordDataObj[axis3];
+	return axes
+}
+
+
+
+
 // action creator
 export const loadLabels = (labels) => ({
 	type: RECEIVE_LABELS,
-	labels: processLabels(labels)
+	labels: labelAxes(labels)
 })
 
 // reducer
