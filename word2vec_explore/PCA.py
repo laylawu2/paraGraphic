@@ -61,9 +61,9 @@ def pcaTransform(words, wvecs, model):
 	pca = PCA(n_components=3)					# defines the PCA to return 3 components
 	wvecs3d = pca.fit_transform(wvecsArray)		# calls the PCA on our text (now an ndarray)
 
-	w = []
+	w = {}
 	for i in range(0, len(wvecs3d) - 1):
-		w.append({words[i]: wvecs3d[i].tolist()})
+		w[words[i]] = wvecs3d[i].tolist()
 
 
 

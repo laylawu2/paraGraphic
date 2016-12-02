@@ -86,6 +86,9 @@ export default class Visualizer extends Component {
       console.log("MAKIN' A MESH!!!!!!!!!!!!!!!!!!!")
       let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
+
+      // ELAINE's rainbow color fxn, commented for now 'til accessing word data is sorted out
+
       if(!compareBool){
         if(idx == 0){
           x = words[word][0];
@@ -164,7 +167,7 @@ export default class Visualizer extends Component {
       this.loadTextWords(true, this.props.words.text2, 0xff3300);
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
-      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1, 0x00ffff);
+      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
     }
   }
 
