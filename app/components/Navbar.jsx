@@ -26,7 +26,9 @@ render () {
       <div className="myNavBar collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul className="nav navbar-nav navbar-right">
           <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span className="caret"></span></a>
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              Examples <span className="caret"></span>
+            </a>
             <ul className="dropdown-menu">
               {
                 this.props.titles && this.props.titles.map((title, idx) => (

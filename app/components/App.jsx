@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Navbar from './Navbar'
+import NavbarContainer from '../containers/NavbarContainer'
+import AppBarExampleComposition from './Navbar2';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 
@@ -20,7 +21,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div>
-      	<Navbar/>
+      	<NavbarContainer />
         	{ this.props.children }
       </div>
 		)

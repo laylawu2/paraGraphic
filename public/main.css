@@ -12,7 +12,7 @@ html {
 }
 
 a {
-    color: var(--link-text-color);
+  color: var(--link-text-color);
 }
 span {
   color: red;
@@ -28,12 +28,6 @@ span {
   position: absolute;
   margin: 80px;
   color: #FF6F00;
-}
-
-/* need to overwrite material-ui inline styles */
-#fs-button {
-  position: absolute !important;
-  width: auto !important; /* only for raised button */
 }
 
 body {
