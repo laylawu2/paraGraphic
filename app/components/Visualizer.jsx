@@ -249,14 +249,14 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    console.log("this.props inside the visualizer renderer", this);
-    // 'this' is sometimes undefined
-    return (
-      <div id="container">
-    {/* This needs to be changed to get actual sample title */}
-      <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
-      <p id = "text"></p>
-      </div>
-    );
+    if (this) {
+      return (
+        <div id="container">
+      {/* This needs to be changed to get actual sample title */}
+        <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
+        <p id = "text"></p>
+        </div>
+      );
+    }
   }
 }
