@@ -1,21 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import NavbarContainer from '../containers/NavbarContainer'
-import AppBarExampleComposition from './Navbar2';
+import React from 'react';
+import { connect } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-
-// export default (
-
-//   ({ children }) =>{
-//       }
-// )
+import NavbarContainer from '../containers/NavbarContainer';
+import AppBarExampleComposition from './Navbar2';
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
-        injectTapEventPlugin();
-		
+        injectTapEventPlugin();		
 	}
 	
 	render() {
@@ -24,6 +17,6 @@ export default class App extends React.Component {
       	<NavbarContainer />
         	{ this.props.children }
       </div>
-		)
+		);
 	}
 }

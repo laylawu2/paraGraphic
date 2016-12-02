@@ -1,5 +1,6 @@
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import React, { Component } from 'react';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
@@ -94,9 +95,11 @@ export default class Visualizer extends Component {
           z = words[word][2];
         }
 
-        color = new THREE.Color((words[word][0]-x)*10,
-        (words[word][1]-y)*10,
-        (words[word][2]-z)*10);
+        color = new THREE.Color(
+          (words[word][0]-x)*10,
+          (words[word][1]-y)*10,
+          (words[word][2]-z)*10
+        );
       }
 
       let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -194,13 +197,12 @@ export default class Visualizer extends Component {
       <div id="container">
         <h1 id="graph-title">{ this.props.graphtitle }</h1>
         <FlatButton
-          id="fs-button"
           icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
           style={ styles } 
           hoverColor={ grey900 } 
           onClick={ this.goFullscreen }
         />
       </div>
-    )
+    );
   }
 }

@@ -1,6 +1,6 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import {Link} from 'react-router'
+import React from 'react';
+import { connect } from 'react-redux';
+import {Link} from 'react-router';
 
 
 class Navbar extends React.Component {
@@ -44,10 +44,10 @@ render () {
       </div>{/*<!-- /.navbar-collapse -->*/}
     </div>{/*<!-- /.container-fluid -->*/}
   </nav>
-      )
+      );
   }
 }
 
-const mapState = ({titles}) => ({titles})
+const mapState = ({titles}) => ({titles});
 
-export default connect(mapState, null)(Navbar)
+export default connect(mapState, null)(Navbar);

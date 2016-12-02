@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import LinearProgress from 'material-ui/LinearProgress'
-import LinearProgressExampleDeterminate from './progressbar'
+import LinearProgress from 'material-ui/LinearProgress';
+import LinearProgressExampleDeterminate from './progressbar';
 
-import VisualizerContainer from '../containers/VisualizerContainer'
+import VisualizerContainer from '../containers/VisualizerContainer';
 
 const styles = {
   progress: {
     marginTop: '10px'
   }
-}
+};
 
 export default class Graphic extends React.Component {
 	constructor(props) {
@@ -17,7 +17,6 @@ export default class Graphic extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("graphic compoennt did mount")
 		this.props.getSample();
 	}
 
@@ -28,6 +27,6 @@ export default class Graphic extends React.Component {
 				<LinearProgress mode="indeterminate" style={ styles.progress } />
         		<VisualizerContainer />
 			</div>
-		)
+		);
 	}
 }

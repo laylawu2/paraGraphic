@@ -1,15 +1,15 @@
-import React from 'react'
-import InputForm from './InputForm'
-import InputFormContainer from '../containers/InputFormContainer'
+import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
+
+import InputForm from './InputForm';
+import InputFormContainer from '../containers/InputFormContainer';
+
 // we will also need a component for info
 export default class extends React.Component {
     constructor(props) {
         super(props)
         this.info = true;
-        // injectTapEventPlugin();
-
     }
 
     render(){
@@ -47,9 +47,9 @@ export default class extends React.Component {
                             on the navbar, or select "input" to enter a text of your choosing!  
                         </p>
                         <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
-                        </div>
+                    </div>
                 }
             </div>
-        )
+        );
     }
 }

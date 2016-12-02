@@ -9,13 +9,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { cyan900 } from 'material-ui/styles/colors'
+import { cyan900 } from 'material-ui/styles/colors';
 
-import { ACCEL, INPUT_BO, DRUMPF, fetchSample } from '../reducers/samples'
+import { ACCEL, INPUT_BO, DRUMPF, fetchSample } from '../reducers/samples';
 
 const style = {
   backgroundColor: cyan900
-}
+};
 
 
 class Logged extends Component { 
@@ -60,7 +60,7 @@ class AppBarExampleComposition extends Component {
         <AppBar
           title="paraGraphic"
           showMenuIconButton={ false }
-          iconElementRight={ <Logged {...this.props } /> }
+          iconElementRight={ <Logged { ...this.props } /> }
           style={ style }
         />
       </div>

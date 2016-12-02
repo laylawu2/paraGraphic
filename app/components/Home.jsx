@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import GraphicContainer from '../containers/GraphicContainer'
-import SidebarContainer from '../containers/SidebarContainer'
+import GraphicContainer from '../containers/GraphicContainer';
+import SidebarContainer from '../containers/SidebarContainer';
 
 export default ({}) => (
 	<div>
@@ -12,5 +12,5 @@ export default ({}) => (
 			<GraphicContainer />
 		</div>
 	</div>
-)
+);
 
