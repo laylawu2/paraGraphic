@@ -202,12 +202,13 @@ export default class Visualizer extends Component {
 
 
   onMouseMove( event ) {
-
+      event.preventDefault();
       // calculate mouse position in normalized device coordinates
       // (-1 to +1) for both components
-
-      this.mouse.x = ( event.clientX / document.getElementById("container").offsetWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / document.getElementById("container").offsetHeight ) * 2 + 1;
+      //document.getElementById("container").offsetWidth
+      //document.getElementById("container").offsetHeight
+      this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
+      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
       // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
@@ -218,7 +219,11 @@ export default class Visualizer extends Component {
       numObjects = this.objects.length;
       if ( intersections.length > 0 ) {
         if ( this.intersected != intersections[ 0 ].object ) {
+
+          //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
+
           this.intersected = intersections[ 0 ].object;
+          this.intersected.material.color.setHex( 0xffffff );
           var text = document.getElementById("text");
           text.innerHTML = this.intersected.word;
 
