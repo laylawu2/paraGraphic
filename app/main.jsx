@@ -29,11 +29,6 @@ var config = {
 firebase.initializeApp(config);
 // load an example to start
 
-//onEnter for SampleContainer --
-
-import HomeS1 from './components/HomeS1'
-import HomeS2 from './components/HomeS2'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 

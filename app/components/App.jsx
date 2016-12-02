@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import NavbarContainer from '../containers/NavbarContainer';
-import AppBarExampleComposition from './Navbar2';
 
 export default class App extends React.Component {
 	constructor(props) {
