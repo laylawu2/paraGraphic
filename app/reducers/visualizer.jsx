@@ -5,6 +5,7 @@ const GET_TITLE = 'GET_TITLE';
 const SET_COMPARE = 'SET_COMPARE';
 const GET_TITLES = 'GET_TITLES'
 const GET_ENTRY = 'GET_ENTRY'
+
 // action creator
 export const getWords = words => ({
   type: GET_WORDS,

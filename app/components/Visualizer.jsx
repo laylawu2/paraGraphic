@@ -167,7 +167,7 @@ export default class Visualizer extends Component {
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
-      this.loadTextWords(false, this.props.words.text1);
+      this.loadTextWords(false, this.props.words);
     }
   }
 
