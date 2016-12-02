@@ -204,11 +204,11 @@ export default class Visualizer extends Component {
   onMouseMove( event ) {
       event.preventDefault();
       // calculate mouse position in normalized device coordinates
-      // (-1 to +1) for both components
+      // (-1 to +1) for both components window.innerHeight
       //document.getElementById("container").offsetWidth
       //document.getElementById("container").offsetHeight
-      this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      this.mouse.x = ( (event.clientX) /  window.innerWidth ) * 2 - 1;
+      this.mouse.y = - ( (event.clientY-50) / document.getElementById("container").offsetHeight) * 2 + 1;
       // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
@@ -250,9 +250,11 @@ export default class Visualizer extends Component {
     {/* This needs to be changed to get actual sample title */}
       <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
       <p id = "text"></p>
-       <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
 
-      {/*<FlatButton
+      {/*
+        <RaisedButton  id="fs-button" type="submit" label="Fullscreen" primary={ true } onClick={ this.goFullscreen } />
+
+      <FlatButton
               id="fs-button"
               icon={<FontIcon className="material-icons" >fullscreen</FontIcon>}
               style={ styles }
