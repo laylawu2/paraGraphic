@@ -1,6 +1,8 @@
 import {connect} from 'react-redux';
 import React, { Component } from 'react';
 
+import Promise from 'bluebird';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
@@ -40,6 +42,7 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
+    this.props.updateStatus('loading')
     this.initRenderer();
     this.init();
     this.animate();
@@ -49,7 +52,8 @@ export default class Visualizer extends Component {
   }
 
   componentDidUpdate() {
-    this.init(); // clear scene before adding new words/labels to it
+
+    this.props.updateStatus('ready');
   }
 
   goFullscreen() {
@@ -177,7 +181,6 @@ export default class Visualizer extends Component {
       this.loadTextWords(false, this.props.words.text1);
     }
 
-
   }
 
   // auto resize
@@ -198,9 +201,6 @@ export default class Visualizer extends Component {
   //plot the scene and camera to the canvas
   renderPlot() {
     // update the picking ray with the camera and mouse position
-
-
-
     this.renderer.render( this.scene, this.camera );
 
   }
@@ -247,18 +247,20 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    console.log("this.props inside the visualizer renderer", this);
-    // 'this' is sometimes undefined
-    return (
-      <div id="container">
-        <h1 id="graph-title">{ this && this.props.graphtitle }</h1>
-        <FlatButton
-          icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
-          style={ styles } 
-          hoverColor={ grey900 } 
-          onClick={ this && this.goFullscreen }
-        />
-      </div>
-    );
+    if(this){
+        this.scene && this.init(); // clear scene before adding new words/labels to it
+        console.log("this.props inside the visualizer renderer", this);
+        // 'this' is sometimes undefined
+        return (
+          <div id="container">
+            <h1 id="graph-title">{ this.props.graphtitle }</h1>
+            <FlatButton
+              icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
+              style={ styles } 
+              hoverColor={ grey900 } 
+              onClick={ this.goFullscreen }
+            />
+          </div>
+        );}
   }
 }
