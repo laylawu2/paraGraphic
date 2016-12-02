@@ -22,20 +22,20 @@ export const wordsReducer = (state={}, action) => {
   return state
 };
 
-//action creater for comparison text
-export const getCompText = text2 => ({
-	type: GET_COMP_TEXT,
-	text2
-})
+// //action creater for comparison text
+// export const getCompText = text2 => ({
+// 	type: GET_COMP_TEXT,
+// 	text2
+// })
 
-//reducer
-export const text2Reducer = (state={}, action) => {
-	switch(action.type) {
-		case GET_COMP_TEXT:
-			return action.text2
-	}
-	return state
-}
+// //reducer
+// export const text2Reducer = (state={}, action) => {
+// 	switch(action.type) {
+// 		case GET_COMP_TEXT:
+// 			return action.text2
+// 	}
+// 	return state
+// }
 
 //action creater for titles for sample models
 export const getTitle = (graphtitle) => ({

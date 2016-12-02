@@ -47,20 +47,17 @@ export default class extends React.Component {
     } else if(e.target.text.value =="") {
         span.innerHTML = "Text cannot be null!";
     } else {
-      span.innerHTML ="";
+      span.innerHTML = "";
       const { addTitle,addLabels, postAndGetWordData } = this.props;
 
-      var xmin = e.target.xmin.value.split(" ");
       var xmax = e.target.xmax.value.split(" ");
-      var ymin = e.target.ymin.value.split(" ");
       var ymax = e.target.ymax.value.split(" ");
-      var zmin = e.target.zmin.value.split(" ");
       var zmax = e.target.zmax.value.split(" ");
 
       const userInput = {
-        x: [xmin, xmax],
-        y: [ymin, ymax],
-        z: [zmin, zmax],
+        x: xmax,
+        y: ymax,
+        z: zmax,
         text: e.target.text.value,
         text2: e.target.text2.value,
         title: e.target.graphtitle.value
@@ -124,22 +121,19 @@ export default class extends React.Component {
       </div>
       <div>
         <p>
-          Below, enter the key words that will mark the endpoints for the axes on your graphs.  You
+          Below, enter the key words that will mark the endpoints for the three axes on your graphs.  You
           can enter just one word per endpoint, but you will probably get better results if you enter
           several related words for each endpoint.
         </p>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
-        <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
+       <TextField className='axis-labels' floatingLabelText="x-axis; separate words with a space" name='xmax'/>
       </div>
       <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
-        <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
+        <TextField className='axis-labels' floatingLabelText="y-axis; separate words with a space" name='ymax'/>
       </div>
         <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
-        <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
+        <TextField className='axis-labels' floatingLabelText="z-axis; separate words with a space" name='zmax'/>
       </div>
       <div className='form-group full-width'>
         <TextField className='axis-labels'
@@ -147,8 +141,8 @@ export default class extends React.Component {
           floatingLabelText="TEXT TO ANALYZE"
           multiLine={true}
           fullWidth ={true}
-          rows={6}
-          rowsMax={6}
+          rows={5}
+          rowsMax={5}
           style = {{overflow: scroll}}
           value={entry.text}
         />
@@ -157,8 +151,8 @@ export default class extends React.Component {
           floatingLabelText="OPTIONAL: comparison text"
           multiLine={true}
           fullWidth ={true}
-          rows={6}
-          rowsMax={6}
+          rows={5}
+          rowsMax={5}
           style = {{overflow: scroll}}
         />
       </div>

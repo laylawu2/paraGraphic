@@ -55,8 +55,15 @@ body {
 
 }
 
+input {
+   margin-top: 0px !important;
+}
+
+textarea {
+  margin-top: 0px !important;
+}
+
 .axis-labels {
-  width: 45% !important;
   margin-left: 2px !important;
   text-size: 12px !important;
 }

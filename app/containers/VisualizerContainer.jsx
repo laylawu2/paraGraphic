@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 
 import Visualizer from '../components/Visualizer';
 
-const mapStateToProps = ({ labels, words, graphtitle, text2, compare }) => ({
+const mapStateToProps = ({ labels, words, graphtitle, compare }) => ({
 	labels, 
 	words,
 	graphtitle,
-	text2,
 	compare
 });
 

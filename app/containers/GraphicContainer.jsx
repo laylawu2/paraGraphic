@@ -10,7 +10,7 @@ import { ACCEL, INPUT_BO, DRUMPF, fetchSample } from '../reducers/samples';
 
 const mapDispatchToProps = (dispatch) => ({
 	getSample: () => dispatch(fetchSample(ACCEL)),
-	getCompareSample: () => dispatch(fetchSample(INPUT_BO, DRUMPF)),
+	getCompareSample: () => dispatch(fetchSample(INPUT_BO, DRUMPF))
 });
 
 export default connect(null, mapDispatchToProps)(Graphic);

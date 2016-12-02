@@ -55,7 +55,6 @@ export default class Visualizer extends Component {
   goFullscreen() {
     const canv = document.getElementsByTagName("canvas");
     canv[0] && canv[0].webkitRequestFullscreen();
-
   }
 
   /* load the words/label to scene */
@@ -72,9 +71,9 @@ export default class Visualizer extends Component {
         let mesh = new THREE.Mesh( geometry, material );
 
         //set the position for every single word
-        mesh.position.x = words[word][0] - 0.7;
-        mesh.position.y = words[word][1] - 0.7;
-        mesh.position.z = words[word][2] - 0.7;
+        mesh.position.x = words[word][0] - 0.5;
+        mesh.position.y = words[word][1] - 0.5;
+        mesh.position.z = words[word][2] - 0.5;
 
         mesh.updateMatrix();
         mesh.matrixAutoUpdate = false;
@@ -89,6 +88,7 @@ export default class Visualizer extends Component {
     let x = 0, y = 0, z = 0;
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
+      // console.log("inside load text words", idx, word);
     //properties for word
       let geometry  = new THREE.SphereGeometry( 0.005, 8, 8 );
 
@@ -111,9 +111,9 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = words[word][0] - 0.7;
-      mesh.position.y = words[word][1] - 0.7;
-      mesh.position.z = words[word][2] - 0.7;
+      mesh.position.x = words[word][0] - 0.5;
+      mesh.position.y = words[word][1] - 0.5;
+      mesh.position.z = words[word][2] - 0.5;
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
@@ -174,7 +174,7 @@ export default class Visualizer extends Component {
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
-      this.loadTextWords(false, this.props.words);
+      this.loadTextWords(false, this.props.words.text1);
     }
 
 
