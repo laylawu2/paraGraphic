@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import InputForm from './InputForm';
 import InputFormContainer from '../containers/InputFormContainer';
+import Loading from './Loading';
 
 // we will also need a component for info
 export default class extends React.Component {
@@ -13,11 +14,12 @@ export default class extends React.Component {
     }
 
     render(){
-        const {loadinfo, Infofunc} = this.props
+        const {pageStatus, loadinfo, Infofunc} = this.props
         return(
             <div >
                 {/* ternary to decide which of input or info to load*/}
-                { loadinfo?
+                { pageStatus === 'loading'? <Loading /> :
+                    loadinfo?
                     <div>
                         <InputFormContainer/>
                         <RaisedButton fullWidth={true}  type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />

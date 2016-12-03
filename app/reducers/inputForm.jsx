@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const RECEIVE_LABELS = 'RECEIVE_LABELS'
 const RECEIVE_INFO = 'RECEIVE_INFO'
+const UPDATE_PAGE_STATUS = 'UPDATE_PAGE_STATUS'
+
 const processLabels = (labels) => {
 	console.log("labels in processLabels function call", labels);
 	let result = {},
@@ -66,3 +68,16 @@ export const loadinfoReducer = (state = false, action) => {
 	}
 	return state;
 };
+
+export const updatePageStatus = (pageStatus) => ({
+	type: UPDATE_PAGE_STATUS,
+	pageStatus
+});
+
+export const pageStatusReducer = (state = 'loading', action) => {
+	switch(action.type) {
+		case UPDATE_PAGE_STATUS:
+			return action.pageStatus
+	}
+	return state;
+}

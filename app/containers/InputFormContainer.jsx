@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { loadLabels } from '../reducers/inputForm';
+import { loadLabels, updatePageStatus } from '../reducers/inputForm';
 import { getWords, getTitle, setCompare } from '../reducers/visualizer';
 import InputForm from '../components/InputForm';
 
@@ -20,7 +20,11 @@ const mapDispatchToProps = dispatch => ({
         dispatch(loadLabels(res.data));  
       })
       .catch(err => console.error(err))
-  	}
+	},
+
+  updateStatus: (status) => {
+    dispatch(updatePageStatus(status));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputForm);
