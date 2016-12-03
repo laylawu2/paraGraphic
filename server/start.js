@@ -25,7 +25,7 @@ const fs = require('fs')
 const pyRoute = code => {
   code = code.toString()  
   return (req, res, next) =>
-    axios.post('http://localhost:5000/eval', {code})
+    axios.post('http://localhost:5000/eval', {code, input: req.body})
       .then(({data}) => res.send(data)) 
       .catch(({response: {data}}) => res.status(400).send(data))
 }
@@ -55,13 +55,15 @@ module.exports = app
   // receive that data
   .post('/', (req, res, next) =>{
     //console.log(req.body)
-    axios.post('http://localhost:5000/api', req.body)    
+    axios.post('http://localhost:5000/api/PCA', req.body)    
       .then(response => {
         res.send(response.data)})
       .catch(err => console.error(err))
   })
 
+// route below will run python code in file indicated on the python server
   .post('/testPythonEndpoint', pyFile('./test.py'))
+  .post('/PCA', pyFile('../word2vec_explore/PCA.py'))
 
 if (module === require.main) {
   // Start listening only if we're the main module.

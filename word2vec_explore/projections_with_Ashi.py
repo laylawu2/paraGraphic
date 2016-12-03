@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import re
 from nltk.corpus import stopwords
 from gensim.models import word2vec
+from sklearn.decomposition import PCA
 
 # loads the pre-trained Google News model
 

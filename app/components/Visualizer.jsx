@@ -1,6 +1,8 @@
 import {connect} from 'react-redux';
 import React, { Component } from 'react';
 
+import Promise from 'bluebird';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
@@ -31,30 +33,32 @@ export default class Visualizer extends Component {
     this.intersected;
     this.mirror = true;
     this.objects = [];
-
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.buildAxes = this.buildAxes.bind(this);
+    this.buildAxis = this.buildAxis.bind(this);
   }
 
   componentDidMount() {
+    this.props.updateStatus('loading')
     this.initRenderer();
     this.init();
     this.animate();
     window.addEventListener( 'mousemove', this.onMouseMove, false );
+    //window.mousemove = this.onMouseMove
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
 
   componentDidUpdate() {
-    this.init(); // clear scene before adding new words/labels to it
-  }
 
-  goFullscreen() {
-    const canv = document.getElementsByTagName("canvas");
-    canv[0] && canv[0].webkitRequestFullscreen();
+    this.props.updateStatus('ready');
   }
 
   /* load the words/label to scene */
@@ -85,25 +89,25 @@ export default class Visualizer extends Component {
 
   /* load the words/label to scene */
   loadTextWords(compareBool, words, color) {
-    let x = 0, y = 0, z = 0;
+
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
       // console.log("inside load text words", idx, word);
     //properties for word
-      let geometry  = new THREE.SphereGeometry( 0.005, 8, 8 );
+
+      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
+
 
       if(!compareBool){
         if(idx == 0){
-          x = words[word][0];
-          y = words[word][1];
-          z = words[word][2];
+          this.x = words[word][0];
+          this.y = words[word][1];
+          this.z = words[word][2];
         }
 
-        color = new THREE.Color(
-          (words[word][0]-x)*10,
-          (words[word][1]-y)*10,
-          (words[word][2]-z)*10
-        );
+        color = new THREE.Color((words[word][0]-this.x)*10,
+        (words[word][1]-this.y)*10,
+        (words[word][2]-this.z)*10);
       }
 
       let material =  new THREE.MeshLambertMaterial( { color: color} );
@@ -111,17 +115,20 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = words[word][0] - 0.5;
-      mesh.position.y = words[word][1] - 0.5;
-      mesh.position.z = words[word][2] - 0.5;
+      mesh.position.x = words[word][0];
+      mesh.position.y = words[word][1];
+      mesh.position.z = words[word][2];
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
-      //append the word to scene
-      //var block = new THREE.Mesh(geo, material);
+      //passing down the properiteis, word & color
       mesh.word = word;
+      mesh.colors =[(words[word][0]-this.x)*10,
+        (words[word][1]-this.y)*10,
+        (words[word][2]-this.z)*10]
       this.objects.push(mesh);
+      //append the word to scene
       this.scene.add( mesh );
     })
   }
@@ -131,7 +138,6 @@ export default class Visualizer extends Component {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-
     let container = document.getElementById( 'container' );
     container.appendChild( this.renderer.domElement );
   }
@@ -155,16 +161,22 @@ export default class Visualizer extends Component {
     let light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 1, 1, 1 );
     this.scene.add( light );
-    light = new THREE.DirectionalLight( 0x002288 );
+    light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
+
+    //add axes lines
+    var axes = this.buildAxes( 10000 );
+    this.scene.add(axes);
 
     //info box to monitor code performance
     // this.stats = new Stats();
     // container.appendChild( this.stats.dom );
 
     // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
+
+    // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
+    this.loadWords({X:[1,0,0], Y:[0,1,0], Z:[0,0,1]}, 'js/optimer_bold.typeface.json', 0.05, 0.005);
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
@@ -174,9 +186,42 @@ export default class Visualizer extends Component {
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
-      this.loadTextWords(false, this.props.words.text1);
+      console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
+      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
     }
 
+  }
+
+  buildAxes( length ) {
+    var axes = new THREE.Object3D();
+
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( length, -0.5, -0.5 ), 0xffffff, false ) ); // +X
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -length, -0.5, -0.5 ), 0xffffff, false) ); // -X
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, length, -0.5 ), 0xffffff, false ) ); // +Y
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -length, -0.5), 0xffffff, false ) ); // -Y
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -0.5, length ), 0xffffff, false ) ); // +Z
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -0.5, -length ), 0xffffff, false ) ); // -Z
+
+    return axes;
+
+  }
+  buildAxis( src, dst, colorHex, dashed ) {
+    var geom = new THREE.Geometry(),
+        mat;
+    //type of line
+    if(dashed) {
+            mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
+    } else {
+            mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
+    }
+
+    geom.vertices.push( src.clone() );
+    geom.vertices.push( dst.clone() );
+    geom.computeLineDistances(); // This one is SUPER important, otherwise dashed lines will appear as simple plain lines
+
+    var axis = new THREE.Line( geom, mat, THREE.LineSegments );
+
+    return axis;
 
   }
 
@@ -198,67 +243,60 @@ export default class Visualizer extends Component {
   //plot the scene and camera to the canvas
   renderPlot() {
     // update the picking ray with the camera and mouse position
-
-
-
     this.renderer.render( this.scene, this.camera );
 
   }
 
-
+  //hover function
   onMouseMove( event ) {
       event.preventDefault();
       // calculate mouse position in normalized device coordinates
-      // (-1 to +1) for both components
-      //document.getElementById("container").offsetWidth
-      //document.getElementById("container").offsetHeight
-      this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-      // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
+      // (-1 to +1) for both components window.innerHeight
+      this.mouse.x = ( (event.clientX) /  window.innerWidth ) * 2 - 1;
+      this.mouse.y = - ( (event.clientY-64) / document.getElementById("container").offsetHeight) * 2 + 1;
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
-            // calculate objects intersecting the picking ray
+      // calculate objects intersecting the picking ray
       var intersections;
       var numObjects;
       intersections = this.raycaster.intersectObjects( this.objects );
       numObjects = this.objects.length;
       if ( intersections.length > 0 ) {
         if ( this.intersected != intersections[ 0 ].object ) {
-
-          //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
-
+          if ( this.intersected ) this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
+          //get the hover word
           this.intersected = intersections[ 0 ].object;
-          this.intersected.material.color.setHex( 0xffffff );
+          //change the color when hover
+          this.intersected.material.color.setHex( 0xffffff);
+          //add the text
           var text = document.getElementById("text");
-          text.innerHTML = this.intersected.word;
-
-          // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
+          text.innerHTML = this.intersected.word.toUpperCase();
           document.getElementById('container').appendChild(text);
-          //console.log(this.intersected.word);
         }
         document.body.style.cursor = 'pointer';
       }
       else if ( this.intersected ) {
+        //change the color back
+        this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
         this.intersected = null;
+        //reset the text
         var text = document.getElementById("text");
-          text.innerHTML = "";
+        text.innerHTML = "";
         document.body.style.cursor = 'auto';
       }
     }
 
   render () {
-    console.log("this.props inside the visualizer renderer", this);
-    // 'this' is sometimes undefined
-    return (
-      <div id="container">
-        <h1 id="graph-title">{ this && this.props.graphtitle }</h1>
-        <FlatButton
-          icon={<FontIcon className="material-icons">zoom_out_map</FontIcon>}
-          style={ styles } 
-          hoverColor={ grey900 } 
-          onClick={ this && this.goFullscreen }
-        />
-      </div>
-    );
+    if(this){
+        this.scene && this.init(); // clear scene before adding new words/labels to it
+        console.log("this.props inside the visualizer renderer", this);
+        // 'this' is sometimes undefined
+        return (
+          <div id="container">
+            <h1 id="graph-title">{ this.props.graphtitle }</h1>
+            <p id = "text"></p>
+          </div>
+        );
+      }
   }
 }

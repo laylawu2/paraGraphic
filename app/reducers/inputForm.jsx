@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const RECEIVE_LABELS = 'RECEIVE_LABELS'
 const RECEIVE_INFO = 'RECEIVE_INFO'
+const UPDATE_PAGE_STATUS = 'UPDATE_PAGE_STATUS'
+
 const processLabels = (labels) => {
 	console.log("labels in processLabels function call", labels);
 	let result = {},
@@ -24,10 +26,22 @@ const processLabels = (labels) => {
 	return result;
 }
 
+const labelAxes = (wordDataObj) => {
+	console.log('in labelAxes function ..............................')
+	let axes = {};
+	axes['x'] = wordDataObj['axis1'];
+	axes['y'] = wordDataObj['axis2'];
+	axes['z'] = wordDataObj['axis3'];
+	return axes
+}
+
+
+
+
 // action creator
 export const loadLabels = (labels) => ({
 	type: RECEIVE_LABELS,
-	labels: processLabels(labels)
+	labels: labelAxes(labels)
 })
 
 // reducer
@@ -54,3 +68,16 @@ export const loadinfoReducer = (state = false, action) => {
 	}
 	return state;
 };
+
+export const updatePageStatus = (pageStatus) => ({
+	type: UPDATE_PAGE_STATUS,
+	pageStatus
+});
+
+export const pageStatusReducer = (state = 'loading', action) => {
+	switch(action.type) {
+		case UPDATE_PAGE_STATUS:
+			return action.pageStatus
+	}
+	return state;
+}

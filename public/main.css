@@ -22,6 +22,7 @@ span {
   border: none;
   color: var(--primary-text-color);
   font-family: 'Roboto';
+  margin-bottom: 0px;
 }
 
 #graph-title {
@@ -30,7 +31,7 @@ span {
   color: #FF6F00;
 }
 #text{
-    font-size: 20px;
+    font-size: 30px;
     color: red;
     margin-top: -100px;
     margin-left: 100px;
@@ -57,18 +58,20 @@ body {
 
 input {
    margin-top: 0px !important;
+   color: blue !important;
 }
 
 textarea {
   margin-top: 0px !important;
 }
 
-.axis-labels {
-  margin-left: 2px !important;
-  text-size: 12px !important;
-}
 
 .full-width {
+  width: 100% !important;
+}
+
+
+.full-width div{
   width: 100% !important;
 }
 
@@ -95,6 +98,14 @@ textarea {
 /*    background-size:     cover;*/
 }
 
+
 .btn-close {
   float: left;
+}
+
+.col-lg-8{
+ padding-left:0px;
+}
+.container{
+  margin-top: -20px;
 }

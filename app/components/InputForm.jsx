@@ -28,33 +28,22 @@ export default class extends React.Component {
   }
 
   submitForm(e) {
+    this.props.updateStatus('loading');
 
     e.preventDefault();
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {
       span.innerHTML = "Title cannot be null!";
-    } else if(e.target.xmax.value =="") {
-      span.innerHTML = "x-max cannot be null!";
-    } else if(e.target.ymax.value =="") {
-        span.innerHTML = "y-max cannot be null!";
-    } else if(e.target.zmax.value =="") {
-        span.innerHTML = "z-max cannot be null!";
     } else if(e.target.text.value =="") {
         span.innerHTML = "Text cannot be null!";
     } else {
       span.innerHTML = "";
-      const { addTitle,addLabels, postAndGetWordData } = this.props;
-
-      var xmax = e.target.xmax.value.split(" ");
-      var ymax = e.target.ymax.value.split(" ");
-      var zmax = e.target.zmax.value.split(" ");
+      const { addTitle, postAndGetWordData } = this.props;
 
       const userInput = {
-        x: xmax,
-        y: ymax,
-        z: zmax,
+
         text: e.target.text.value,
-        text2: e.target.text2.value,
+       // text2: e.target.text2.value,
         title: e.target.graphtitle.value
       };
 
@@ -74,7 +63,6 @@ export default class extends React.Component {
 
       // dispatch all input for values
       addTitle(e.target.graphtitle.value);
-      addLabels(userInput);
       postAndGetWordData(userInput);      // call function to post request to python server
 
       // if the title already exists, attach random str to the end of the title
@@ -109,65 +97,61 @@ export default class extends React.Component {
   } // end of submitForm
 
   render() {
-    const entry = this.props.entry
+    const entry = this.props.entry;
+    const labels = this.props.labels;
     return(
-      <div>
-        <div className='btn-close'>
+    <div>
+      <div className='btn-close'>
         <ButtonClose />
         </div>
-          <form className='form-inline' onSubmit={this.submitForm }>
-            <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
-            <div className='form-group'>
-
-              <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
-            </div>
-            <div>
-              <p>
-                Below, enter the key words that will mark the endpoints for the axes on your graphs.  You
-                can enter just one word per endpoint, but you will probably get better results if you enter
-                several related words for each endpoint.
-              </p>
-            </div>
-            {/*
-            <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
-              <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
-            </div>
-            <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
-              <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
-            </div>
-              <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
-              <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
-            </div>
-            */
-          }
-            <div className='form-group full-width'>
-              <TextField className='axis-labels'
-                name='text'
-                floatingLabelText="TEXT TO ANALYZE"
-                multiLine={true}
-                fullWidth ={true}
-                rows={6}
-                rowsMax={6}
-                style = {{overflow: scroll}}
-                value={entry.text}
-              />
-                <TextField className='axis-labels'
-                name='text2'
-                floatingLabelText="OPTIONAL: comparison text"
-                multiLine={true}
-                fullWidth ={true}
-                rows={6}
-                rowsMax={6}
-                style = {{overflow: scroll}}
-              />
-            </div>
-            <div>
-              <span id = "alert" ></span>
-            </div>
-            <div>
+      <form className='form-inline' onSubmit={this.submitForm }>
+        <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
+        <div className='form-group'>
+          <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
+        </div>
+        <div>
+          <p>
+            The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
+            that cause the most variation in your data (the vectors for all the words in the text).  
+            The three words closest to those axis-defining vectors will display below.  You can think about this 
+            as the three axes representing the ideas that are most important to your text.  The x-axis represents 
+            the most important idea, then y, then z.
+          </p>
+        </div>
+        <div className='form-group full-width'>
+         <TextField name='xmax' value={'x-axis: ' + labels.x.join(', ')} />
+        </div>
+        <div className='form-group full-width'>
+          <TextField name='ymax' value={'y-axis: ' + labels.y.join(', ')} />
+        </div>
+          <div className='form-group full-width'>
+          <TextField name='zmax' value={'z-axis: ' + labels.z.join(', ')} />
+        </div>
+        <div className='form-group full-width'>
+          <TextField 
+            name='text'
+            floatingLabelText="TEXT TO ANALYZE"
+            multiLine={true}
+            fullWidth ={true}
+            rows={5}
+            rowsMax={5}
+            style = {{overflow: scroll}}
+            value={entry.text}
+          />
+          {/*  <TextField className='axis-labels'
+            name='text2'
+            floatingLabelText="OPTIONAL: comparison text"
+            multiLine={true}
+            fullWidth ={true}
+            rows={5}
+            rowsMax={5}
+            style = {{overflow: scroll}}
+          /> */}
+        </div>
+        <div>
+          <span id = "alert" ></span>
+        </div>
+           <div>
               <RaisedButton type="submit" label="SUBMIT" style={ styles } />
             </div>
             <div>
