@@ -1,6 +1,8 @@
 import {connect} from 'react-redux';
 import React, { Component } from 'react';
 
+import Promise from 'bluebird';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
@@ -42,6 +44,7 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
+    this.props.updateStatus('loading')
     this.initRenderer();
     this.init();
     this.animate();
@@ -53,12 +56,8 @@ export default class Visualizer extends Component {
   }
 
   componentDidUpdate() {
-    this.init(); // clear scene before adding new words/labels to it
-  }
 
-  goFullscreen() {
-    const canv = document.getElementsByTagName("canvas");
-    canv[0] && canv[0].webkitRequestFullscreen();
+    this.props.updateStatus('ready');
   }
 
   /* load the words/label to scene */
@@ -181,7 +180,6 @@ export default class Visualizer extends Component {
       this.loadTextWords(false, this.props.words.text1);
     }
 
-
   }
 
   // auto resize
@@ -202,9 +200,6 @@ export default class Visualizer extends Component {
   //plot the scene and camera to the canvas
   renderPlot() {
     // update the picking ray with the camera and mouse position
-
-
-
     this.renderer.render( this.scene, this.camera );
 
   }
@@ -249,14 +244,15 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    if (this) {
-      return (
-        <div id="container">
-      {/* This needs to be changed to get actual sample title */}
-        <h1 id="graph-title">{ this.props.graphtitle ? this.props.graphtitle : "Accelerate Manifesto" }</h1>
-        <p id = "text"></p>
-        </div>
-      );
-    }
+    if(this){
+        this.scene && this.init(); // clear scene before adding new words/labels to it
+        console.log("this.props inside the visualizer renderer", this);
+        // 'this' is sometimes undefined
+        return (
+          <div id="container">
+            <h1 id="graph-title">{ this.props.graphtitle }</h1>
+          </div>
+        );
+      }
   }
 }

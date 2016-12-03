@@ -27,6 +27,7 @@ export default class extends React.Component {
   }
 
   submitForm(e) {
+    this.props.updateStatus('loading');
 
     e.preventDefault();
     var span = document.getElementById("alert");

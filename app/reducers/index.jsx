@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { loadinfoReducer } from './inputForm';
+import { loadinfoReducer, pageStatusReducer } from './inputForm';
 import { text2Reducer, titleReducer, wordsReducer, titlesReducer, entryReducer } from './visualizer';
 
 const rootReducer = combineReducers({
@@ -9,7 +9,8 @@ const rootReducer = combineReducers({
 	labels: require('./inputForm').default,
 	words: wordsReducer,
 	loadinfo: loadinfoReducer,
-  entry: entryReducer
+	entry: entryReducer,
+	pageStatus: pageStatusReducer
 });
 
 export default rootReducer;
