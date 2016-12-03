@@ -36,14 +36,14 @@ export default class Visualizer extends Component {
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
+    //this.onMouseMove = this.onMouseMove.bind(this);
   }
 
   componentDidMount() {
     this.initRenderer();
     this.init();
     this.animate();
-    window.addEventListener( 'mousemove', this.onMouseMove, false );
+    //window.addEventListener( 'mousemove', this.onMouseMove, false );
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
@@ -211,45 +211,45 @@ export default class Visualizer extends Component {
   }
 
 
-  onMouseMove( event ) {
-      event.preventDefault();
-      // calculate mouse position in normalized device coordinates
-      // (-1 to +1) for both components
-      //document.getElementById("container").offsetWidth
-      //document.getElementById("container").offsetHeight
-      this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-      // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
+  // onMouseMove( event ) {
+  //     event.preventDefault();
+  //     // calculate mouse position in normalized device coordinates
+  //     // (-1 to +1) for both components
+  //     //document.getElementById("container").offsetWidth
+  //     //document.getElementById("container").offsetHeight
+  //     this.mouse.x = ( (event.clientX) / document.getElementById("container").offsetWidth ) * 2 - 1;
+  //     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  //     // console.log("x:", this.mouse.x, "  y:", this.mouse.y);
 
-      this.raycaster.setFromCamera( this.mouse, this.camera );
-            // calculate objects intersecting the picking ray
-      var intersections;
-      var numObjects;
-      intersections = this.raycaster.intersectObjects( this.objects );
-      numObjects = this.objects.length;
-      if ( intersections.length > 0 ) {
-        if ( this.intersected != intersections[ 0 ].object ) {
+  //     this.raycaster.setFromCamera( this.mouse, this.camera );
+  //           // calculate objects intersecting the picking ray
+  //     var intersections;
+  //     var numObjects;
+  //     intersections = this.raycaster.intersectObjects( this.objects );
+  //     numObjects = this.objects.length;
+  //     if ( intersections.length > 0 ) {
+  //       if ( this.intersected != intersections[ 0 ].object ) {
 
-          //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
+  //         //let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
 
-          this.intersected = intersections[ 0 ].object;
-          this.intersected.material.color.setHex( 0xffffff );
-          var text = document.getElementById("text");
-          text.innerHTML = this.intersected.word;
+  //         this.intersected = intersections[ 0 ].object;
+  //         this.intersected.material.color.setHex( 0xffffff );
+  //         var text = document.getElementById("text");
+  //         text.innerHTML = this.intersected.word;
 
-          // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
-          document.getElementById('container').appendChild(text);
-          //console.log(this.intersected.word);
-        }
-        document.body.style.cursor = 'pointer';
-      }
-      else if ( this.intersected ) {
-        this.intersected = null;
-        var text = document.getElementById("text");
-          text.innerHTML = "";
-        document.body.style.cursor = 'auto';
-      }
-    }
+  //         // text.style={color:'ea2323', fontSize:0.03,position:'absolute', marginLeft:event.clientX}
+  //         document.getElementById('container').appendChild(text);
+  //         //console.log(this.intersected.word);
+  //       }
+  //       document.body.style.cursor = 'pointer';
+  //     }
+  //     else if ( this.intersected ) {
+  //       this.intersected = null;
+  //       var text = document.getElementById("text");
+  //         text.innerHTML = "";
+  //       document.body.style.cursor = 'auto';
+  //     }
+  //   }
 
   render () {
     console.log("this.props inside the visualizer renderer", this);

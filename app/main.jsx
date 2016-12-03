@@ -66,11 +66,11 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>{
         return done()
       }
       store.dispatch(getEntry(entry))
-      store.dispatch(loadLabels(entry))
-      axios.post('http://localhost:1337', entry)
+     // store.dispatch(loadLabels(entry))
+      axios.post('http://localhost:1337/PCA', entry)
         .then(res => {
-          console.log('res.data', res.data);
-          store.dispatch(getWords(res.data))
+          store.dispatch(getWords(res.data.words))
+          store.dispatch(loadLabels(res.data))
         })
         .then(done())
         .catch(() => replace('/'))

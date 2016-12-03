@@ -25,10 +25,11 @@ const processLabels = (labels) => {
 }
 
 const labelAxes = (wordDataObj) => {
+	console.log('in labelAxes function ..............................')
 	let axes = {};
-	axes[x] = wordDataObj[axis1];
-	axes[y] = wordDataObj[axis2];
-	axes[z] = wordDataObj[axis3];
+	axes['x'] = wordDataObj['axis1'];
+	axes['y'] = wordDataObj['axis2'];
+	axes['z'] = wordDataObj['axis3'];
 	return axes
 }
 

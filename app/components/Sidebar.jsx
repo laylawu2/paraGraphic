@@ -1,5 +1,4 @@
 import React from 'react'
-const CodeMirror = require('react-codemirror')
 
 import RaisedButton from 'material-ui/RaisedButton';
 
