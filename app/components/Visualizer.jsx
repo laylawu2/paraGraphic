@@ -44,7 +44,7 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
-    this.props.updateStatus('loading')
+    this.props.updateStatus('loading');
     this.initRenderer();
     this.init();
     this.animate();
@@ -55,7 +55,6 @@ export default class Visualizer extends Component {
   }
 
   componentDidUpdate() {
-
     this.props.updateStatus('ready');
   }
 
@@ -122,9 +121,12 @@ export default class Visualizer extends Component {
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //passing down the properiteis, word & color
       mesh.word = word;
-      mesh.colors =[(words[word][0]-this.x)*10,
+      mesh.colors =[
+        (words[word][0]-this.x)*10,
         (words[word][1]-this.y)*10,
-        (words[word][2]-this.z)*10]
+        (words[word][2]-this.z)*10
+      ];
+
       this.objects.push(mesh);
       //append the word to scene
       this.scene.add( mesh );
@@ -235,8 +237,7 @@ export default class Visualizer extends Component {
           document.getElementById('container').appendChild(text);
         }
         document.body.style.cursor = 'pointer';
-      }
-      else if ( this.intersected ) {
+      } else if ( this.intersected ) {
         //change the color back
         this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
         this.intersected = null;
@@ -248,10 +249,9 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    if(this){
+    if(this) {// 'this' is sometimes undefined 
         this.scene && this.init(); // clear scene before adding new words/labels to it
         console.log("this.props inside the visualizer renderer", this);
-        // 'this' is sometimes undefined
         return (
           <div id="container">
             <h1 id="graph-title">{ this.props.graphtitle }</h1>
