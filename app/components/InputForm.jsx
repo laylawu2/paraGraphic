@@ -11,7 +11,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm';
-import { loadLabels } from '../reducers/inputForm'
 import {ButtonClose} from './Buttons'
 
 const styles = {
@@ -110,9 +109,7 @@ export default class extends React.Component {
   } // end of submitForm
 
   render() {
-
-    const entry = this.props.entry;
-
+    const entry = this.props.entry
     return(
       <div>
         <div className='btn-close'>
@@ -131,6 +128,7 @@ export default class extends React.Component {
                 several related words for each endpoint.
               </p>
             </div>
+            {/*
             <div className='form-group full-width'>
               <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
               <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
@@ -143,6 +141,8 @@ export default class extends React.Component {
               <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
               <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
             </div>
+            */
+          }
             <div className='form-group full-width'>
               <TextField className='axis-labels'
                 name='text'
