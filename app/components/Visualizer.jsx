@@ -8,7 +8,8 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
-let OrbitControls = require('three-orbit-controls')(THREE);
+//let OrbitControls = require('three-orbit-controls')(THREE);
+let FlyControls = require('three-fly-controls')(THREE);
 
 const styles = {
   position: "absolute",
@@ -149,11 +150,23 @@ export default class Visualizer extends Component {
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 10000 );
     this.camera.position.z = 1.3;
 
-    //orbit around some object
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.25;
-    this.controls.enableZoom = true;
+    
+
+
+    // ***** CONTROLS **********
+    //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    //this.controls.enableDamping = true;
+    //this.controls.dampingFactor = 0.25;
+    //this.controls.enableZoom = true;
+
+
+      this.controls = new THREE.FlyControls(this.camera, this.renderer.domElement);
+
+        this.controls.movementSpeed = 10;
+        this.controls.domElement = container;
+        //this.controls.rollSpeed = Math.PI / 24;
+        //this.controls.autoForward = false;
+        //this.controls.dragToLook = false;
 
     // lights
     let light = new THREE.DirectionalLight( 0xffffff );
@@ -252,6 +265,9 @@ export default class Visualizer extends Component {
         this.scene && this.init(); // clear scene before adding new words/labels to it
         console.log("this.props inside the visualizer renderer", this);
         // 'this' is sometimes undefined
+        let d = new THREE.Vector3();
+       // this.controls && (this.controls.movementSpeed = 0.33 * d);
+        this.controls && this.controls.update(1);}
         return (
           <div id="container">
             <h1 id="graph-title">{ this.props.graphtitle }</h1>
@@ -259,4 +275,4 @@ export default class Visualizer extends Component {
         );
       }
   }
-}
+
