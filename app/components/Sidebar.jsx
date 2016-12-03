@@ -2,14 +2,10 @@ import React from 'react'
 const CodeMirror = require('react-codemirror')
 
 import RaisedButton from 'material-ui/RaisedButton';
-<<<<<<< Updated upstream
-
 import InputForm from './InputForm';
 import InputFormContainer from '../containers/InputFormContainer';
-
-=======
 import Drawer from './Drawer'
->>>>>>> Stashed changes
+
 // we will also need a component for info
 export default class extends React.Component {
     constructor(props) {
