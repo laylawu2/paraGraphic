@@ -15,6 +15,7 @@ import SingleLinkContainer from './containers/SingleLinkContainer'
 import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
 import {loadLabels, loadInfofunc} from './reducers/inputForm'
 import ProjectsContainer from './containers/ProjectsContainer'
+import Drawer from './components/Drawer'
 // following code configures and initializes firebase database to work with app
 // may eventually want to move this to React component for home page / landing page
 // or even index.html if possible -- firebase should be working as soon as app starts
@@ -88,6 +89,7 @@ render(
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
           <Route path="projects" component={ ProjectsContainer } />
+          <Route path="drawer" component={ Drawer } />
           <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>

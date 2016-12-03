@@ -10,8 +10,13 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
+<<<<<<< Updated upstream
 import { loadLabels } from '../reducers/inputForm';
 
+=======
+import { loadLabels } from '../reducers/inputForm'
+import {ButtonClose} from './Buttons'
+>>>>>>> Stashed changes
 const styles = {
   margin: 12,
   underlineStyle: {
@@ -108,6 +113,7 @@ export default class extends React.Component {
   } // end of submitForm
 
   render() {
+<<<<<<< Updated upstream
     const entry = this.props.entry;
     return(
     <form className='form-inline' onSubmit={this.submitForm }>
@@ -160,5 +166,79 @@ export default class extends React.Component {
         <RaisedButton type="submit" label="SUBMIT" style={ styles } />
       </div>
     </form>);
+=======
+    const entry = entry? this.props.entry : {x:[],y:[],z:[],title:'', text:''}
+
+    return(
+      <div>
+        <div className='btn-close'>
+        <ButtonClose />
+        </div>
+          <form className='form-inline' onSubmit={this.submitForm }>
+            <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
+            <div className='form-group'>
+
+              <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
+            </div>
+            <div>
+              <p>
+                Below, enter the key words that will mark the endpoints for the axes on your graphs.  You
+                can enter just one word per endpoint, but you will probably get better results if you enter
+                several related words for each endpoint.
+              </p>
+            </div>
+            <div className='form-group full-width'>
+              <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
+              <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
+            </div>
+            <div className='form-group full-width'>
+              <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
+              <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
+            </div>
+              <div className='form-group full-width'>
+              <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
+              <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
+            </div>
+            <div className='form-group full-width'>
+              <TextField className='axis-labels'
+                name='text'
+                floatingLabelText="TEXT TO ANALYZE"
+                multiLine={true}
+                fullWidth ={true}
+                rows={6}
+                rowsMax={6}
+                style = {{overflow: scroll}}
+                value={entry.text}
+              />
+                <TextField className='axis-labels'
+                name='text2'
+                floatingLabelText="OPTIONAL: comparison text"
+                multiLine={true}
+                fullWidth ={true}
+                rows={6}
+                rowsMax={6}
+                style = {{overflow: scroll}}
+              />
+            </div>
+            <div>
+              <span id = "alert" ></span>
+            </div>
+            <div>
+              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+            </div>
+            <div>
+              <RaisedButton
+                backgroundColor="#FFFFFF"
+                label = 'clear'
+                style={{margin: 12}}
+                onClick={()=>{this.state={
+                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
+                }}}
+              />
+            </div>
+          </form>
+    </div>
+    )
+>>>>>>> Stashed changes
   }
 }
