@@ -10,6 +10,14 @@ import GraphicContainer from '../containers/GraphicContainer'
 import Loading from './Loading';
 
 
+const positionMe = {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: 0
+}
+
+
+
 export default class extends React.Component {
 
   constructor(props) {
@@ -26,9 +34,10 @@ handleToggle = () => this.setState({open: !this.state.open});
     return (
       <div>
          <RaisedButton
-
-          label="Toggle Drawer"
+          className="infoButton"
+          label="info"
           onTouchTap={this.handleToggle}
+          style={positionMe}
             />
         <Drawer className="drawer" width={400} openSecondary={true} open={this.state.open} >
          
