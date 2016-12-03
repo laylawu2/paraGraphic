@@ -255,6 +255,7 @@ export default class Visualizer extends Component {
         return (
           <div id="container">
             <h1 id="graph-title">{ this.props.graphtitle }</h1>
+            <p id = "text"></p>
           </div>
         );
       }
