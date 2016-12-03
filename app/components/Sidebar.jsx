@@ -36,13 +36,15 @@ export default class extends React.Component {
                             paraGraphic will render a 3D model of any text -- just copy & paste
                             it into the input form.  The words in the text appear as spheres in
                             a 3-dimensional graph, arranged according to their relationship to key
-                            words chosen as end points (labels) for the graph's axes.
+                            word groups represented by the graph's axes.
                         </p>
                         <p>
-                            paraGraphic uses Google's word2vec, a powerful natural language processor that
-                            "learns" contextual relationships between words based on their occurrence in
-                            a large volume of training material.
-
+                            paraGraphic uses Google's word2vec, a powerful natural language processor that "learns" 
+                            contextual relationships between words based on their occurrence in
+                            a large volume of training material. In paraGraphic's text analysis, word2vec provides a
+                            300-dimensional vector equivalence for each word.  Then, paraGraphic uses scikit-learn's
+                            principal component analysis function to reduce the 300-d vectors to the three dimensions
+                            that contain the most variation in the data (in our case, the word vectors).
                         </p>
                         <p className="bold-text">  {/* NOTE: why is this not working? */}
                             Check out our examples or visualizations made by others in the drop-down list
