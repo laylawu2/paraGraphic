@@ -7,14 +7,15 @@ app = Flask(__name__)
 
 from projections_with_Ashi import getPoints, news
 
+# from PCA import main
 
-# load index.html on get request to localhost:5000 - OR NOT -
-#			maybe we'll just have to deal with having an express server and a python/flask server
-
-# @app.route('/')
-# def index():
-# 	print 'in get route'
-# 	return app.send_static_file('index.html')
+@app.route('/api/PCA', methods=['POST'])
+def getData():
+	data = request.json
+	print "DATA IN INITIAL ROUTE HIT", data
+	dataToReturn = main(data)
+	print "DATA TO RETURN", dataToReturn
+	return Response(json.dumps(dataToReturn), content_type='application/json')
 
 
 
@@ -41,7 +42,7 @@ def runCode():
 		module = ModuleType('dynamic_module')
 		module.__dict__['news'] = news
 		exec(pyc, module.__dict__)
-		return module.main()
+		return module.main(request)
 	except:
 		(kind, value, trace) = sys.exc_info()
 		print traceback.format_exc()

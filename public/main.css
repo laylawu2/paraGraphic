@@ -64,12 +64,13 @@ textarea {
   margin-top: 0px !important;
 }
 
-.axis-labels {
-  margin-left: 2px !important;
-  text-size: 12px !important;
-}
 
 .full-width {
+  width: 100% !important;
+}
+
+
+.full-width div{
   width: 100% !important;
 }
 

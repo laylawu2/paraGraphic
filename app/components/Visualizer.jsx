@@ -50,7 +50,6 @@ export default class Visualizer extends Component {
     this.animate();
     window.addEventListener( 'mousemove', this.onMouseMove, false );
     //window.mousemove = this.onMouseMove
-
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
@@ -93,7 +92,9 @@ export default class Visualizer extends Component {
     words && Object.keys(words).forEach((word, idx) => {
       // console.log("inside load text words", idx, word);
     //properties for word
-      let geometry  = new THREE.SphereGeometry( 0.005, 8, 8 );
+
+      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
+
 
       if(!compareBool){
         if(idx == 0){
@@ -112,9 +113,9 @@ export default class Visualizer extends Component {
 
       //set the position for every single word
       /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
-      mesh.position.x = words[word][0] - 0.5;
-      mesh.position.y = words[word][1] - 0.5;
-      mesh.position.z = words[word][2] - 0.5;
+      mesh.position.x = words[word][0];
+      mesh.position.y = words[word][1];
+      mesh.position.z = words[word][2];
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
@@ -167,7 +168,9 @@ export default class Visualizer extends Component {
     // container.appendChild( this.stats.dom );
 
     // load everything onto the scene
-    this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
+
+    // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
+    //this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
@@ -177,7 +180,8 @@ export default class Visualizer extends Component {
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
-      this.loadTextWords(false, this.props.words.text1);
+      console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
+      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
     }
 
   }
