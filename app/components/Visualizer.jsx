@@ -41,6 +41,8 @@ export default class Visualizer extends Component {
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.buildAxes = this.buildAxes.bind(this);
+    this.buildAxis = this.buildAxis.bind(this);
   }
 
   componentDidMount() {
@@ -159,9 +161,13 @@ export default class Visualizer extends Component {
     let light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 1, 1, 1 );
     this.scene.add( light );
-    light = new THREE.DirectionalLight( 0x002288 );
+    light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( -1, -1, -1 );
     this.scene.add( light );
+
+    //add axes lines
+    var axes = this.buildAxes( 10000 );
+    this.scene.add(axes);
 
     //info box to monitor code performance
     // this.stats = new Stats();
@@ -170,7 +176,7 @@ export default class Visualizer extends Component {
     // load everything onto the scene
 
     // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
-    //this.loadWords(this.props.labels, 'js/optimer_bold.typeface.json', 0.03, 0.005);
+    this.loadWords({X:[1,0,0], Y:[0,1,0], Z:[0,0,1]}, 'js/optimer_bold.typeface.json', 0.05, 0.005);
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
@@ -183,6 +189,39 @@ export default class Visualizer extends Component {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
       this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
     }
+
+  }
+
+  buildAxes( length ) {
+    var axes = new THREE.Object3D();
+
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( length, -0.5, -0.5 ), 0xffffff, false ) ); // +X
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -length, -0.5, -0.5 ), 0xffffff, false) ); // -X
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, length, -0.5 ), 0xffffff, false ) ); // +Y
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -length, -0.5), 0xffffff, false ) ); // -Y
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -0.5, length ), 0xffffff, false ) ); // +Z
+    axes.add( this.buildAxis( new THREE.Vector3( -0.5, -0.5, -0.5 ), new THREE.Vector3( -0.5, -0.5, -length ), 0xffffff, false ) ); // -Z
+
+    return axes;
+
+  }
+  buildAxis( src, dst, colorHex, dashed ) {
+    var geom = new THREE.Geometry(),
+        mat;
+    //type of line
+    if(dashed) {
+            mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
+    } else {
+            mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
+    }
+
+    geom.vertices.push( src.clone() );
+    geom.vertices.push( dst.clone() );
+    geom.computeLineDistances(); // This one is SUPER important, otherwise dashed lines will appear as simple plain lines
+
+    var axis = new THREE.Line( geom, mat, THREE.LineSegments );
+
+    return axis;
 
   }
 
