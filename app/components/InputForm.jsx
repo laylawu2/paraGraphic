@@ -99,11 +99,9 @@ export default class extends React.Component {
   render() {
     const entry = this.props.entry;
     const labels = this.props.labels;
-    return(
+    if (labels) {
+    return( 
     <div>
-      <div className='btn-close'>
-        <ButtonClose />
-        </div>
       <form className='form-inline' onSubmit={this.submitForm }>
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
         <div className='form-group'>
@@ -117,15 +115,27 @@ export default class extends React.Component {
             as the three axes representing the ideas that are most important to your text.  The x-axis represents 
             the most important idea, then y, then z.
           </p>
+        {/* note: labels should go back to this format: 'z-axis: ' + labels.z.join(', ') */}
+        </div>
+
+        <div>
+        { labels && 
+       <div>
+        <div className='form-group full-width'>
+          x-axis
+         {labels && (<p>{labels.x.join(', ')} </p>) }
         </div>
         <div className='form-group full-width'>
-         <TextField name='xmax' value={'x-axis: ' + labels.x.join(', ')} />
-        </div>
-        <div className='form-group full-width'>
-          <TextField name='ymax' value={'y-axis: ' + labels.y.join(', ')} />
+          y-axis
+          {labels && (<p>{labels.y.join(', ')} </p>) }
         </div>
           <div className='form-group full-width'>
-          <TextField name='zmax' value={'z-axis: ' + labels.z.join(', ')} />
+          z-axis
+          {labels && (<p>{labels.z.join(', ')} </p>) }
+        </div>
+        </div> 
+        
+      }
         </div>
         <div className='form-group full-width'>
           <TextField 
@@ -138,15 +148,6 @@ export default class extends React.Component {
             style = {{overflow: scroll}}
             value={entry.text}
           />
-          {/*  <TextField className='axis-labels'
-            name='text2'
-            floatingLabelText="OPTIONAL: comparison text"
-            multiLine={true}
-            fullWidth ={true}
-            rows={5}
-            rowsMax={5}
-            style = {{overflow: scroll}}
-          /> */}
         </div>
         <div>
           <span id = "alert" ></span>
@@ -167,5 +168,6 @@ export default class extends React.Component {
           </form>
     </div>
     )
+   }
   }
 }

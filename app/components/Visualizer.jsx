@@ -98,17 +98,17 @@ export default class Visualizer extends Component {
       let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
 
 
-      if(!compareBool){
-        if(idx == 0){
-          this.x = words[word][0];
-          this.y = words[word][1];
-          this.z = words[word][2];
-        }
+      // if(!compareBool){
+      //   if(idx == 0){
+      //     this.x = words[word][0];
+      //     this.y = words[word][1];
+      //     this.z = words[word][2];
+      //   }
 
-        color = new THREE.Color((words[word][0]-this.x)*10,
-        (words[word][1]-this.y)*10,
-        (words[word][2]-this.z)*10);
-      }
+      //   color = new THREE.Color((words[word][0]-this.x)*10,
+      //   (words[word][1]-this.y)*10,
+      //   (words[word][2]-this.z)*10);
+      // }
 
       let material =  new THREE.MeshLambertMaterial( { color: color} );
       let mesh = new THREE.Mesh( geometry, material );
@@ -187,7 +187,7 @@ export default class Visualizer extends Component {
 
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
-      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1);
+      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1, 0x00ffff);
     }
 
   }

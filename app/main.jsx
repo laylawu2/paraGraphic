@@ -8,7 +8,7 @@ import firebase from 'firebase'
 import store from './store'
 import App from './components/App'
 import Home from './components/Home'
-import SidebarContainer from './containers/SidebarContainer'
+import DrawerContainer from './containers/DrawerContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
 import SingleLinkContainer from './containers/SingleLinkContainer'
@@ -89,7 +89,6 @@ render(
           <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
           <Route path="projects" component={ ProjectsContainer } />
-          <Route path="drawer" component={ Drawer } />
           <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>

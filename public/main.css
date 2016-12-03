@@ -65,6 +65,9 @@ textarea {
   margin-top: 0px !important;
 }
 
+.drawer {
+  margin-top: 80px !important;
+}
 
 .full-width {
   width: 100% !important;
