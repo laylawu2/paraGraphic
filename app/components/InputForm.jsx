@@ -110,58 +110,8 @@ export default class extends React.Component {
   } // end of submitForm
 
   render() {
+
     const entry = this.props.entry;
-    return(
-    <form className='form-inline' onSubmit={this.submitForm }>
-      <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
-      <div className='form-group'>
-
-        <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
-      </div>
-      <div>
-        <p>
-          Below, enter the key words that will mark the endpoints for the three axes on your graphs.  You
-          can enter just one word per endpoint, but you will probably get better results if you enter
-          several related words for each endpoint.
-        </p>
-      </div>
-      <div className='form-group full-width'>
-       <TextField className='axis-labels' floatingLabelText="x-axis; separate words with a space" name='xmax'/>
-      </div>
-      <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="y-axis; separate words with a space" name='ymax'/>
-      </div>
-        <div className='form-group full-width'>
-        <TextField className='axis-labels' floatingLabelText="z-axis; separate words with a space" name='zmax'/>
-      </div>
-      <div className='form-group full-width'>
-        <TextField className='axis-labels'
-          name='text'
-          floatingLabelText="TEXT TO ANALYZE"
-          multiLine={true}
-          fullWidth ={true}
-          rows={5}
-          rowsMax={5}
-          style = {{overflow: scroll}}
-          value={entry.text}
-        />
-          <TextField className='axis-labels'
-          name='text2'
-          floatingLabelText="OPTIONAL: comparison text"
-          multiLine={true}
-          fullWidth ={true}
-          rows={5}
-          rowsMax={5}
-          style = {{overflow: scroll}}
-        />
-      </div>
-      <div>
-        <span id = "alert" ></span>
-      </div>
-      <div>
-        <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-      </div>
-    </form>);
 
     return(
       <div>
@@ -233,79 +183,5 @@ export default class extends React.Component {
           </form>
     </div>
     )
-  }
->>>>>>> Stashed changes
-
-    return(
-      <div>
-        <div className='btn-close'>
-        <ButtonClose />
-        </div>
-          <form className='form-inline' onSubmit={this.submitForm }>
-            <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
-            <div className='form-group'>
-
-              <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
-            </div>
-            <div>
-              <p>
-                Below, enter the key words that will mark the endpoints for the axes on your graphs.  You
-                can enter just one word per endpoint, but you will probably get better results if you enter
-                several related words for each endpoint.
-              </p>
-            </div>
-            <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="x-min; separate words with a space" name='xmin' value={entry.x[0]}/>
-              <TextField className='axis-labels' floatingLabelText="x-max; separate words with a space" name='xmax' value={entry.x[1]}/>
-            </div>
-            <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="y-min; separate words with a space" name='ymin' value={entry.y[0]}/>
-              <TextField className='axis-labels' floatingLabelText="y-max; separate words with a space" name='ymax' value={entry.y[1]}/>
-            </div>
-              <div className='form-group full-width'>
-              <TextField className='axis-labels' floatingLabelText="z-min; separate words with a space" name='zmin' value={entry.z[0]}/>
-              <TextField className='axis-labels' floatingLabelText="z-max; separate words with a space" name='zmax' value={entry.z[1]}/>
-            </div>
-            <div className='form-group full-width'>
-              <TextField className='axis-labels'
-                name='text'
-                floatingLabelText="TEXT TO ANALYZE"
-                multiLine={true}
-                fullWidth ={true}
-                rows={6}
-                rowsMax={6}
-                style = {{overflow: scroll}}
-                value={entry.text}
-              />
-                <TextField className='axis-labels'
-                name='text2'
-                floatingLabelText="OPTIONAL: comparison text"
-                multiLine={true}
-                fullWidth ={true}
-                rows={6}
-                rowsMax={6}
-                style = {{overflow: scroll}}
-              />
-            </div>
-            <div>
-              <span id = "alert" ></span>
-            </div>
-            <div>
-              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-            </div>
-            <div>
-              <RaisedButton
-                backgroundColor="#FFFFFF"
-                label = 'clear'
-                style={{margin: 12}}
-                onClick={()=>{this.state={
-                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
-                }}}
-              />
-            </div>
-          </form>
-    </div>
-    )
->>>>>>> Stashed changes
   }
 }
