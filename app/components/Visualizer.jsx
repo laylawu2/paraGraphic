@@ -253,7 +253,7 @@ export default class Visualizer extends Component {
       // calculate mouse position in normalized device coordinates
       // (-1 to +1) for both components window.innerHeight
       this.mouse.x = ( (event.clientX) /  window.innerWidth ) * 2 - 1;
-      this.mouse.y = - ( (event.clientY-50) / document.getElementById("container").offsetHeight) * 2 + 1;
+      this.mouse.y = - ( (event.clientY-64) / document.getElementById("container").offsetHeight) * 2 + 1;
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
       // calculate objects intersecting the picking ray
