@@ -8,14 +8,8 @@ from nltk.corpus import stopwords
 from gensim.models import word2vec
 from sklearn.decomposition import PCA
 
-# loads the pre-trained Google News model
-
-# news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
-
-
-
-# NOTE: CHANGE CODE BELOW to do the desired task, then copy this whole file into test.py in server 
-#(express server folder)
+# function main takes in the request object (sent from the frontend via the express server) and calls
+# the other functions in this file to eventually return the processed text data
 
 def main(request):
 	print 'Performing PCA...'
@@ -35,11 +29,6 @@ def text_to_words(textfield, model):
  stops = set(stopwords.words("english"))
  words = [w for w in words if w in model and not w in stops]
  return words
-
-# process userInputObj that looks like this: 
-# {text1: "a long string of words",
-#  text2: "another long string, or maybe empty"}
-
 
 
 # turns a list of words into a list of 300-dimensional vectors per the GoogleNews-trained word2vec model

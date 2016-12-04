@@ -11,18 +11,13 @@ from sklearn.decomposition import PCA
 news = word2vec.Word2Vec.load_word2vec_format('bigFiles/GoogleNews-vectors-negative300.bin', binary=True)
 
 
-# following class and function used for testing purposes only; do not run in actual app
-class MockModel(object):
-    def __contains__ (self, word):
-        return True
 
-    def __getitem__ (self, word):
-        return np.random.rand(500).astype(np.float64)
 
-def get_model():
-    return news
 
-#news = MockModel()
+# the rest of the code in this file was used in earlier versions of the application and 
+# testing out the functionality of the Google News model and word2vec -- it is NOT used in the 
+# finalized app
+
 
 # takes in a long text string, removes markup, removes non-alphanumeric characters, splits into words
 # eliminates stopwords ("a", "and", "the", etc.) and words not in model (to avoid errors)
@@ -33,62 +28,6 @@ def text_to_words(textfield, model):
     stops = set(stopwords.words("english"))
     words = [w for w in words if w in model and not w in stops]
     return words
-
-
-
-# project3D: 
-# takes in the trained model, user-defined axis endpoints, and the list of words returned above
-# returns a large object where each key is a word (from the text entered by user) and each value is 
-# an array containing the x,y,z coordinates for that word 
-# 
-# example:  {'dark': [0.61010414, 0.46065113, 0.49404886],
-#            'despair': [0.61152101, 0.42039439, 0.38471106],
-#            'even': [0.51923549, 0.48055968, 0.68398511]}
-
-#
-# calculation is done by calculating the scalar projection of the target word vector along the axis
-# vector defined by the axis endpoint words (e.g. x-axis vector is defined by xmin and xmax)
-
-# see wikipedia on vector projections for better explanation of math involved
-
-# note: np.asscalar (lines 73-75) converts the number format of vector calculation result into something
-# regular python can parse
-
-
-# def OLDproject3D(model, xmin, xmax, ymin, ymax, zmin, zmax, words, words2 = None):
-#   wordCoordinates={}
-#   wordCoordinates2={}
-
-#   xminVec, xmaxVec = xmin, xmax
-#   xaxis = xmaxVec - xminVec
-
-#   yminVec, ymaxVec = ymin, ymax
-#   yaxis = ymaxVec - yminVec
-
-#   zminVec, zmaxVec = zmin, zmax
-#   zaxis = zmaxVec - zminVec
-
-#   xdenom = np.dot(xaxis, xaxis)
-#   ydenom = np.dot(yaxis, yaxis)
-#   zdenom = np.dot(zaxis, zaxis)
-
-#   for word in words:
-#       coords = []
-#       coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
-#       coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
-#       coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
-#       wordCoordinates[word] = coords
-
-#   if 'words2' in locals() and words2 != None:
-#       for word in words2:
-#           coords = []
-#           coords.append(np.asscalar(np.dot(model[word] - xminVec, xaxis) / xdenom))
-#           coords.append(np.asscalar(np.dot(model[word] - yminVec, yaxis) / ydenom))
-#           coords.append(np.asscalar(np.dot(model[word] - zminVec, zaxis) / zdenom))
-#           wordCoordinates2[word] = coords
-
-#   return {'text1': wordCoordinates, 'text2': wordCoordinates2}
-
 
 
 def project3D(model, xmax, ymax, zmax, words, words2 = None):
