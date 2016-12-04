@@ -1,7 +1,9 @@
 import React from 'react';
 
 import GraphicContainer from '../containers/GraphicContainer';
-import SidebarContainer from '../containers/SidebarContainer';
+import DrawerContainer from '../containers/DrawerContainer';
+
+
 
 export default ({}) => (
 	<div>
@@ -10,7 +12,7 @@ export default ({}) => (
 
 		</div>
 		<div className="col-lg-4">
-			 <SidebarContainer />
+			 <DrawerContainer />
 		</div>
 	</div>
 );

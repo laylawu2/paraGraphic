@@ -11,6 +11,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import { loadLabels } from '../reducers/inputForm';
+import {ButtonClose} from './Buttons'
 
 const styles = {
   margin: 12,
@@ -82,7 +83,7 @@ export default class extends React.Component {
           : input.title;
 
         const myRef = firebase.database().ref(key);
-        
+
         return myRef
           .transaction(existing => existing === null? input : undefined)
           .then(({committed, snapshot}) => {
@@ -92,63 +93,81 @@ export default class extends React.Component {
             return key;
           })
       }; // const write
-    } // else 
+    } // else
   } // end of submitForm
 
   render() {
     const entry = this.props.entry;
     const labels = this.props.labels;
-    return(
-    <form className='form-inline' onSubmit={this.submitForm }>
-      <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
-      <div className='form-group'>
-        <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
-      </div>
-      <div>
-        <p>
-          The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
-          that cause the most variation in your data (the vectors for all the words in the text).  
-          The three words closest to those axis-defining vectors will display below.  You can think about this 
-          as the three axes representing the ideas that are most important to your text.  The x-axis represents 
-          the most important idea, then y, then z.
-        </p>
-      </div>
-      <div className='form-group full-width'>
-       <TextField name='xmax' value={'x-axis: ' + labels.x.join(', ')} />
-      </div>
-      <div className='form-group full-width'>
-        <TextField name='ymax' value={'y-axis: ' + labels.y.join(', ')} />
-      </div>
+    if (labels) {
+    return( 
+    <div>
+      <form className='form-inline' onSubmit={this.submitForm }>
+        <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
+        <div className='form-group'>
+          <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
+        </div>
+        <div>
+          <p>
+            The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
+            that cause the most variation in your data (the vectors for all the words in the text).  
+            The three words closest to those axis-defining vectors will display below.  You can think about this 
+            as the three axes representing the ideas that are most important to your text.  The x-axis represents 
+            the most important idea, then y, then z.
+          </p>
+        {/* note: labels should go back to this format: 'z-axis: ' + labels.z.join(', ') */}
+        </div>
+
+        <div>
+        { labels && 
+       <div>
         <div className='form-group full-width'>
-        <TextField name='zmax' value={'z-axis: ' + labels.z.join(', ')} />
-      </div>
-      <div className='form-group full-width'>
-        <TextField 
-          name='text'
-          floatingLabelText="TEXT TO ANALYZE"
-          multiLine={true}
-          fullWidth ={true}
-          rows={5}
-          rowsMax={5}
-          style = {{overflow: scroll}}
-          value={entry.text}
-        />
-        {/*  <TextField className='axis-labels'
-          name='text2'
-          floatingLabelText="OPTIONAL: comparison text"
-          multiLine={true}
-          fullWidth ={true}
-          rows={5}
-          rowsMax={5}
-          style = {{overflow: scroll}}
-        /> */}
-      </div>
-      <div>
-        <span id = "alert" ></span>
-      </div>
-      <div>
-        <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-      </div>
-    </form>);
+          x-axis
+         {labels && (<p>{labels.x.join(', ')} </p>) }
+        </div>
+        <div className='form-group full-width'>
+          y-axis
+          {labels && (<p>{labels.y.join(', ')} </p>) }
+        </div>
+          <div className='form-group full-width'>
+          z-axis
+          {labels && (<p>{labels.z.join(', ')} </p>) }
+        </div>
+        </div> 
+        
+      }
+        </div>
+        <div className='form-group full-width'>
+          <TextField 
+            name='text'
+            floatingLabelText="TEXT TO ANALYZE"
+            multiLine={true}
+            fullWidth ={true}
+            rows={5}
+            rowsMax={5}
+            style = {{overflow: scroll}}
+            value={entry.text}
+          />
+        </div>
+        <div>
+          <span id = "alert" ></span>
+        </div>
+           <div>
+              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+            </div>
+            <div>
+              <RaisedButton
+                backgroundColor="#FFFFFF"
+                label = 'clear'
+                style={{margin: 12}}
+                onClick={()=>{this.state={
+                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
+                }}}
+              />
+            </div>
+          </form>
+    </div>
+    )
+   }
   }
 }

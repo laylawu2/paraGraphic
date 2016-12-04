@@ -11,6 +11,7 @@ import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { cyan900 } from 'material-ui/styles/colors';
 
+
 import { ACCEL, INPUT_BO, DRUMPF, fetchSample } from '../reducers/samples';
 
 const style = {
@@ -21,9 +22,11 @@ const style = {
 class Logged extends Component { 
   constructor(props) {
     super(props);
-    
   }
 
+  
+
+    
   render() {
     return (
       <IconMenu
@@ -34,7 +37,7 @@ class Logged extends Component {
         anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
       >
         <MenuItem primaryText="Accelerate Manifesto" onClick={ this.props.getSample } />
-        <MenuItem primaryText="Obama vs Trump" onClick={ this.props.getCompareSample } />
+        <MenuItem primaryText="Obama 2008 Inaugural Address" onClick={ this.props.getCompareSample } />
         <MenuItem primaryText="History" />
       </IconMenu>
     );
@@ -63,7 +66,9 @@ export default class Navbar extends Component {
           showMenuIconButton={ false }
           iconElementRight={ <Logged { ...this.props } /> }
           style={ style }
+
         />
+         
       </div>
     );
   }

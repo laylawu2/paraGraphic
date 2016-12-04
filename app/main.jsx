@@ -8,13 +8,14 @@ import firebase from 'firebase'
 import store from './store'
 import App from './components/App'
 import Home from './components/Home'
-import SidebarContainer from './containers/SidebarContainer'
+import DrawerContainer from './containers/DrawerContainer'
 import VisualizerContainer from './containers/VisualizerContainer'
 import InputFormContainer from './containers/InputFormContainer'
 import SingleLinkContainer from './containers/SingleLinkContainer'
 import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
 import {loadLabels, loadInfofunc} from './reducers/inputForm'
 import ProjectsContainer from './containers/ProjectsContainer'
+import Drawer from './components/Drawer'
 // following code configures and initializes firebase database to work with app
 // may eventually want to move this to React component for home page / landing page
 // or even index.html if possible -- firebase should be working as soon as app starts
