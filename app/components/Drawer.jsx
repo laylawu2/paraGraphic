@@ -9,8 +9,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import InputFormContainer from '../containers/InputFormContainer';
 
 // code for the "drawer" component that expands on right-hand side of the app
-
-
 const positionMe = {
     position: 'absolute',
     zIndex: 1,

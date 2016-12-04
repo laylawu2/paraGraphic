@@ -50,8 +50,6 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
-    // make sure loading circle shows when this component mounts
-    this.props.updateStatus('loading');
     this.initRenderer();
     this.init();
     this.animate();
@@ -64,7 +62,6 @@ export default class Visualizer extends Component {
     // clear scene before adding new words/labels to it
     this.init();
   }
-
   
   /* load the words (one sphere per word for text analyzed) to scene */
   loadTextWords(compareBool, words, color) {

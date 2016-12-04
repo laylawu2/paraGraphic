@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Drawer from '../components/Drawer';
-import {loadInfofunc} from '../reducers/inputForm';
-
-
+import { loadInfofunc } from '../reducers/inputForm';
 
 // Drawer needs to know what to render: app info or input form 
 const mapStateToProps = ({ loadinfo }) => ({

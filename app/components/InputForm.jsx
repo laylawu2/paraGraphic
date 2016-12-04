@@ -19,8 +19,6 @@ const styles = {
 };
 
 // the form for user input, which is rendered inside of the Drawer component
-
-
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -30,11 +28,8 @@ export default class extends React.Component {
 
 // submit function, called when user clicks submit button 
   submitForm(e) {
-    // show loading circle when new input submitted
-    this.props.updateStatus('loading');
-
     e.preventDefault();
-
+    
     // validations to make sure necessary input fields are not blank
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {

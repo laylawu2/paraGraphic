@@ -20,7 +20,6 @@ class Examples extends Component {
   
   render() {
     return (
-
       <IconMenu
         iconButtonElement={
           <IconButton><ExpandMoreIcon /></IconButton>

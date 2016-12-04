@@ -4,9 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import NavbarContainer from '../containers/NavbarContainer';
 
-
 // the skeleton for our Application
-
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
