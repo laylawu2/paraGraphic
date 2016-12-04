@@ -1,17 +1,17 @@
-'use strict';;
+'use strict';
 import React from 'react';
 import axios from 'axios';
 import {browserHistory} from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors';
+
 import { loadLabels } from '../reducers/inputForm';
-import {ButtonClose} from './Buttons'
 
 const styles = {
   margin: 12,
