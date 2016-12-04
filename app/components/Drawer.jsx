@@ -24,10 +24,10 @@ export default class extends React.Component {
     super(props);
     this.state = {open: false};
     this.info = true;
-   
+
   }
 
-handleToggle = () => this.setState({open: !this.state.open});  
+handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
     const {pageStatus, loadinfo, Infofunc} = this.props
@@ -40,7 +40,7 @@ handleToggle = () => this.setState({open: !this.state.open});
           style={positionMe}
             />
         <Drawer className="drawer" width={400} openSecondary={true} open={this.state.open} >
-         
+
 
                 <div >
                   <FlatButton
@@ -72,7 +72,7 @@ handleToggle = () => this.setState({open: !this.state.open});
                             word groups represented by the graph's axes.
                         </p>
                         <p>
-                            paraGraphic uses Google's word2vec, a powerful natural language processor that "learns" 
+                            paraGraphic uses Google's word2vec, a powerful natural language processor that "learns"
                             contextual relationships between words based on their occurrence in
                             a large volume of training material. In paraGraphic's text analysis, word2vec provides a
                             300-dimensional vector equivalence for each word.  Then, paraGraphic uses scikit-learn's
@@ -91,7 +91,6 @@ handleToggle = () => this.setState({open: !this.state.open});
 
 
         </Drawer>
-        <GraphicContainer />
       </div>
     );
   }
