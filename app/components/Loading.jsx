@@ -2,6 +2,8 @@ import React from 'react';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import CircularProgress from 'material-ui/CircularProgress';
 
+// Loading icon
+
 const style = {
   container: {
     position: 'relative',

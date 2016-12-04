@@ -8,6 +8,8 @@ import Graphic from '../components/Graphic';
 
 import { ACCEL, BO_INAUG, fetchSample } from '../reducers/samples'
 
+// can render sample data
+
 const mapDispatchToProps = (dispatch) => ({
 	getSample: () => dispatch(fetchSample(BO_INAUG)),
 	getCompareSample: () => dispatch(fetchSample(ACCEL)),

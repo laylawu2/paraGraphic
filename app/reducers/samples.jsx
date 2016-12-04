@@ -12,18 +12,21 @@ export const BO_INAUG = {
  title: "Obama 2008 Inaugural Address"
 }
 
+// functions to load sample data
+
+
 export const fetchSample = (t1) => {       
 return (dispatch) => {                               // axios call to python server
-    axios.post('http://localhost:1337/PCA', t1)     // returns the plottable points 
+    axios.post('http://localhost:1337/PCA', t1)     // returns the plottable points and axis data
       .then(res => {   
        dispatch(getVisInfo({
-       	words: res.data.words,
+       	words: res.data.words,						// dispatches data returned to update store
        	labels: {
        		x: res.data.axis1,
        		y: res.data.axis2,
        		z: res.data.axis3
        	},
-       	graphtitle: t1.title
+       	graphtitle: t1.title						// dispatches title to update store
        }));
        dispatch(updatePageStatus('ready'));
       })

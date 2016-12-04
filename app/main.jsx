@@ -16,9 +16,8 @@ import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/v
 import {loadLabels, loadInfofunc} from './reducers/inputForm'
 import ProjectsContainer from './containers/ProjectsContainer'
 import Drawer from './components/Drawer'
-// following code configures and initializes firebase database to work with app
-// may eventually want to move this to React component for home page / landing page
-// or even index.html if possible -- firebase should be working as soon as app starts
+
+// onfigure and initialize firebase database to work with app
 var config = {
   apiKey: "AIzaSyAYtUtOUzlgE-B50zlFX9JZs1OS_s3E-Sw",
   authDomain: "capstone-b9f6c.firebaseapp.com",
@@ -28,12 +27,14 @@ var config = {
 };
 
 firebase.initializeApp(config);
-// load an example to start
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 var data, title, entry, t2;
+
+// get most recent 20 user-entered visualizations from database and make them
+// available on the "projects" page
 const onAppEnter = () => {
   firebase.database().ref('/')
     .limitToLast(20)
@@ -79,6 +80,7 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>{
     })
 }
 
+
 render(
   <MuiThemeProvider >
     <Provider store={ store }>
@@ -86,7 +88,6 @@ render(
         <Route path="/" component={ App } onEnter={ onAppEnter }>
           <IndexRedirect to="/home" />
           <Route path="home" component={ Home } />
-          <Route path="tmp" component={ VisualizerContainer } />
           <Route path="input" component={ InputFormContainer } />
           <Route path="projects" component={ ProjectsContainer } />
           <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>

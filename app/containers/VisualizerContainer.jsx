@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Visualizer from '../components/Visualizer';
 import { updatePageStatus } from '../reducers/inputForm'
 
-const mapStateToProps = ({ pageStatus, visInfo }) => ({
-	pageStatus,
+const mapStateToProps = ({ pageStatus, visInfo }) => ({      // needs access to this info on store & updates
+	pageStatus,												 // to this info
 	visInfo
 });
 

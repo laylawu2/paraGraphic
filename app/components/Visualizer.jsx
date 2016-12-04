@@ -20,6 +20,11 @@ const styles = {
   transition: "none"
 }
 
+
+// the "work horse" for our application.  This is the component that renders the text analysis
+// data as a 3D graph using three js
+
+
 export default class Visualizer extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +91,7 @@ export default class Visualizer extends Component {
     });
   }
 
-  /* load the words/label to scene */
+  /* load the words (one sphere per word for text analyzed) to scene */
   loadTextWords(compareBool, words, color) {
 
     //for every word create an object called Mesh
