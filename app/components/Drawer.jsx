@@ -2,9 +2,9 @@ import React from 'react';
 
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+import { fullWhite } from 'material-ui/styles/colors';
 
 import InputFormContainer from '../containers/InputFormContainer';
 
@@ -12,11 +12,10 @@ import InputFormContainer from '../containers/InputFormContainer';
 const positionMe = {
     position: 'absolute',
     zIndex: 1,
-    marginTop: 0
+    right: 0
 }
 
 export default class extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {open: false};
@@ -30,10 +29,12 @@ export default class extends React.Component {
     const { loadinfo, Infofunc } = this.props
     return (
       <div>
-        {/* button on main page which shows drawer when clicked */}     
+        {/* button on main page which shows drawer when clicked */}
         <RaisedButton
           className="infoButton"
-          label="info"
+          icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>}
           onTouchTap={this.handleToggle}
           style={positionMe}
         />
@@ -43,7 +44,9 @@ export default class extends React.Component {
                 <FlatButton
                     backgroundColor="#FFFFF"
                     hoverColor="#8AA62F"
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>}
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                          </svg>}
                     style={{margin: 12}}
                     onClick={this.handleToggle}
                 />
