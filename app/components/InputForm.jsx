@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {orange500, blue500} from 'material-ui/styles/colors';
+import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
 
 import { loadLabels } from '../reducers/inputForm';
 
@@ -157,7 +157,6 @@ export default class extends React.Component {
             </div>
             <div>
               <RaisedButton
-                backgroundColor="#FFFFFF"
                 label = 'clear'
                 style={{margin: 12}}
                 onClick={ ()=>{ 
