@@ -16,8 +16,6 @@ const positionMe = {
     marginTop: 0
 }
 
-
-
 export default class extends React.Component {
 
   constructor(props) {
@@ -27,7 +25,7 @@ export default class extends React.Component {
    
   }
 
-handleToggle = () => this.setState({open: !this.state.open});  
+  handleToggle = () => this.setState({open: !this.state.open});  
 
   render() {
     const {pageStatus, loadinfo, Infofunc} = this.props

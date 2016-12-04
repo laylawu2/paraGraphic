@@ -142,10 +142,10 @@ export default class extends React.Component {
             name='text'
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
-            fullWidth ={true}
+            fullWidth={true}
             rows={5}
             rowsMax={5}
-            style = {{overflow: scroll}}
+            style={{overflow: scroll}}
             value={entry.text}
           />
         </div>
@@ -160,9 +160,12 @@ export default class extends React.Component {
                 backgroundColor="#FFFFFF"
                 label = 'clear'
                 style={{margin: 12}}
-                onClick={()=>{this.state={
-                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
-                }}}
+                onClick={ ()=>{ 
+                  this.setState({
+                    labels: {}, 
+                    entry: {text: '', title: ''}
+                  });
+                }}
               />
             </div>
           </form>
