@@ -8,6 +8,8 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
+import Loading from './Loading';
+
 let OrbitControls = require('three-orbit-controls')(THREE);
 
 const styles = {
@@ -60,8 +62,7 @@ export default class Visualizer extends Component {
   }
 
   componentDidUpdate() {
-
-    this.props.updateStatus('ready');
+    this.init();
   }
 
   /* load the words/label to scene */
@@ -193,14 +194,14 @@ export default class Visualizer extends Component {
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
-    if(this.props.words.text2 && (Object.keys(this.props.words.text2).length > 1)) {
-      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
-      this.loadTextWords(true, this.props.words.text2, 0xff3300);
+    if(this.props.visInfo.words.text2 && (Object.keys(this.props.visInfo.words.text2).length > 1)) {
+      this.loadTextWords(true, this.props.visInfo.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.visInfo.words.text2, 0xff3300);
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
-      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1, 0x00ffff);
+      this.props.visInfo.words.text1 && this.loadTextWords(false, this.props.visInfo.words.text1, 0x00ffff);
     }
 
   }
@@ -223,9 +224,9 @@ export default class Visualizer extends Component {
         mat;
     //type of line
     if(dashed) {
-            mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
+      mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
     } else {
-            mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
+      mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
     }
 
     geom.vertices.push( src.clone() );
@@ -301,12 +302,19 @@ export default class Visualizer extends Component {
 
   render () {
     if(this){
-        this.scene && this.init(); // clear scene before adding new words/labels to it
+        // this.scene && // clear scene before adding new words/labels to it
         console.log("this.props inside the visualizer renderer", this);
         // 'this' is sometimes undefined
         return (
           <div id="container">
-            <h4 id="graph-title">{ this.props.graphtitle }</h4>
+            <h4 id="graph-title">
+            { 
+              this.props.pageStatus === 'loading'?
+              <Loading />
+              :
+              this.props.visInfo.graphtitle 
+            }
+            </h4>
             <p id = "text"></p>
           </div>
         );

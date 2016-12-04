@@ -1,16 +1,13 @@
 import { combineReducers } from 'redux';
 import { loadinfoReducer, pageStatusReducer } from './inputForm';
-import { text2Reducer, titleReducer, wordsReducer, titlesReducer, entryReducer } from './visualizer';
+import { text2Reducer, titleReducer, wordsReducer, titlesReducer, entryReducer, visReducer } from './visualizer';
 
 const rootReducer = combineReducers({
-	// text2: text2Reducer,
-	graphtitle: titleReducer,
 	titles: titlesReducer,
-	labels: require('./inputForm').default,
-	words: wordsReducer,
 	loadinfo: loadinfoReducer,
 	entry: entryReducer,
-	pageStatus: pageStatusReducer
+	pageStatus: pageStatusReducer,
+	visInfo: visReducer
 });
 
 export default rootReducer;

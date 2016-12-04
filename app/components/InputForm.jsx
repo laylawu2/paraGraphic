@@ -38,7 +38,7 @@ export default class extends React.Component {
         span.innerHTML = "Text cannot be null!";
     } else {
       span.innerHTML = "";
-      const { addTitle, postAndGetWordData } = this.props;
+      const { postAndGetWordData } = this.props;
 
       const userInput = {
 
@@ -62,8 +62,9 @@ export default class extends React.Component {
       //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
 
       // dispatch all input for values
-      addTitle(e.target.graphtitle.value);
-      postAndGetWordData(userInput);      // call function to post request to python server
+      postAndGetWordData(userInput, e.target.graphtitle.value);
+      // addTitle(e.target.graphtitle.value);
+      // postAndGetWordData(userInput);      // call function to post request to python server
 
       // if the title already exists, attach random str to the end of the title
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
@@ -98,7 +99,8 @@ export default class extends React.Component {
 
   render() {
     const entry = this.props.entry;
-    const labels = this.props.labels;
+    const labels = this.props.visInfo.labels;
+    
     if (labels) {
     return( 
     <div>

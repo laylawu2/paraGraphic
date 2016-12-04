@@ -30,7 +30,7 @@ export default class extends React.Component {
 handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
-    const {pageStatus, loadinfo, Infofunc} = this.props
+    const { loadinfo, Infofunc } = this.props
     return (
       <div>
          <RaisedButton
@@ -51,7 +51,7 @@ handleToggle = () => this.setState({open: !this.state.open});
                     onClick={this.handleToggle}
                   />
                 {/* ternary to decide which of input or info to load*/}
-                { pageStatus === 'loading'? <Loading /> :
+                {
                     loadinfo?
                     <div>
                         <InputFormContainer/>

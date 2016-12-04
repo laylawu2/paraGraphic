@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-const RECEIVE_LABELS = 'RECEIVE_LABELS'
 const RECEIVE_INFO = 'RECEIVE_INFO'
 const UPDATE_PAGE_STATUS = 'UPDATE_PAGE_STATUS'
 
@@ -34,24 +33,6 @@ const labelAxes = (wordDataObj) => {
 	axes['z'] = wordDataObj['axis3'];
 	return axes
 }
-
-
-
-
-// action creator
-export const loadLabels = (labels) => ({
-	type: RECEIVE_LABELS,
-	labels: labelAxes(labels)
-})
-
-// reducer
-export default (state={}, action) => {
-  switch(action.type) {
-    case RECEIVE_LABELS:
-      return action.labels
-  }
-  return state
-};
 
 // action creator
 // loadinfo is a boolean

@@ -2,22 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { loadLabels, updatePageStatus } from '../reducers/inputForm';
-import { getWords, getTitle, setCompare } from '../reducers/visualizer';
+import { updatePageStatus } from '../reducers/inputForm';
+import { getVisInfo } from '../reducers/visualizer';
 import InputForm from '../components/InputForm';
 
-const mapStateToProps = ({ entry, labels }) => ({ entry, labels });
+const mapStateToProps = ({ entry, visInfo }) => ({ entry, visInfo });
 
 const mapDispatchToProps = dispatch => ({
-  addTitle: (graphtitle)=>{
-      dispatch(getTitle(graphtitle));
-  },
 
-	postAndGetWordData: (input) => {                            // axios call to python server
+	postAndGetWordData: (input, title) => {                            // axios call to python server
     return axios.post('http://localhost:1337/PCA', input)    	// returns the plottable points
       .then(res => {
-        dispatch(getWords(res.data.words));
-        dispatch(loadLabels(res.data));  
+        dispatch(getVisInfo(
+          { words: res.data.words, 
+            labels: {
+              x: res.data.axis1,
+              y: res.data.axis2,
+              z: res.data.axis3
+            }, 
+          graphtitle: title }
+        ));
+        dispatch(updatePageStatus('ready')); 
       })
       .catch(err => console.error(err))
 	},
