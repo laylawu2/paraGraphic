@@ -13,23 +13,24 @@ export const BO_INAUG = {
 }
 
 // functions to load sample data
-
-
-export const fetchSample = (t1) => {       
-return (dispatch) => {                               // axios call to python server
-    axios.post('http://localhost:1337/PCA', t1)     // returns the plottable points and axis data
-      .then(res => {   
-       dispatch(getVisInfo({
-       	words: res.data.words,						// dispatches data returned to update store
-       	labels: {
-       		x: res.data.axis1,
-       		y: res.data.axis2,
-       		z: res.data.axis3
-       	},
-       	graphtitle: t1.title						// dispatches title to update store
-       }));
-      })
-      .then(() => dispatch(updatePageStatus('ready')))
-      .catch(err => console.error(err))  
+export const fetchData = (input, title) => {       
+	return (dispatch) => {
+		// set loading circle indicator off
+	    dispatch(updatePageStatus('loading'));                           // axios call to python server 
+	    return axios.post('http://localhost:1337/PCA', input)    	     // (via express server)
+	      .then(res => {                                                 // returns plottable points 
+	        dispatch(getVisInfo(                                         // and axis data;
+	          { words: res.data.words,                                   // dispatches returned data to
+	            labels: {                                                // update store
+	              x: res.data.axis1,
+	              y: res.data.axis2,
+	              z: res.data.axis3
+	            }, 
+		        graphtitle: title 
+	          } // updates title on store so it can be rendered with text model
+	        ));
+	      })
+	      .then(() => dispatch(updatePageStatus('ready'))) // hide loading circle to display data received
+	      .catch(err => console.error(err))
     }
 }
