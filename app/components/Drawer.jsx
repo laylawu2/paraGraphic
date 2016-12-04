@@ -1,13 +1,14 @@
 import React from 'react';
+
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+
 import InputForm from './InputForm';
 import InputFormContainer from '../containers/InputFormContainer'
 import GraphicContainer from '../containers/GraphicContainer'
-import Loading from './Loading';
 
 
 const positionMe = {
@@ -49,7 +50,7 @@ export default class extends React.Component {
                     onClick={this.handleToggle}
                 />
                 {/* ternary to decide which of input or info to load*/}
-                { pageStatus === 'loading'? <Loading /> :
+                { 
                     loadinfo?
                     <div>
                         <InputFormContainer/>

@@ -134,7 +134,6 @@ export default class extends React.Component {
           {labels && (<p>{labels.z.join(', ')} </p>) }
         </div>
         </div>
-
       }
         </div>
         <div className='form-group full-width'>
@@ -164,7 +163,6 @@ export default class extends React.Component {
                     labels: {},
                     entry: {text: '', title: ''}
                   });
-
                     document.getElementById("form1").innerHTML="x-axis";
                     document.getElementById("form2").innerHTML="y-axis";
                     document.getElementById("form3").innerHTML="z-axis";

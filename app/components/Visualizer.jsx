@@ -8,6 +8,8 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
+import Loading from './Loading';
+
 let OrbitControls = require('three-orbit-controls')(THREE);
 
 const styles = {
@@ -293,7 +295,14 @@ export default class Visualizer extends Component {
         // 'this' is sometimes undefined
         return (
           <div id="container">
-            <h4 id="graph-title">{ this.props.graphtitle }</h4>
+            <h4 id="graph-title">
+            { 
+              this.props.pageStatus === 'loading'?
+              <Loading />
+              :
+              this.props.graphtitle 
+            }
+            </h4>
             <p id = "text"></p>
           </div>
         );

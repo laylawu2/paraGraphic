@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import Drawer from '../components/Drawer';
 import {loadInfofunc} from '../reducers/inputForm';
 
-const mapStateToProps = ({ loadinfo, pageStatus, labels }) => ({
-    loadinfo, 
-    pageStatus,
+const mapStateToProps = ({ loadinfo, labels }) => ({
+    loadinfo,
     labels
 });
 

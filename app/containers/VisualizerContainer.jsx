@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import Visualizer from '../components/Visualizer';
 import { updatePageStatus } from '../reducers/inputForm'
 
-const mapStateToProps = ({ labels, words, graphtitle, compare }) => ({
+const mapStateToProps = ({ labels, words, graphtitle, pageStatus }) => ({
 	labels, 
 	words,
 	graphtitle,
-	compare
+	pageStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
