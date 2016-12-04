@@ -3,6 +3,8 @@ import { Link } from 'react-router'
 import images from '../../public/projects-images'
 import _ from 'lodash'
 
+
+{/* component page to display links to visualizations made users */}
 export default class extends React.Component {
   render(){
     // var rand = Math.floor(Math.random()) * 20;

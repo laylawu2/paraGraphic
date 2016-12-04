@@ -12,8 +12,8 @@ const style = {
   backgroundColor: cyan900
 };
 
-
-class Logged extends Component { 
+{/* define drop-down menu indicated by icon to display at right of navbar */}
+class Examples extends Component { 
   constructor(props) {
     super(props);
   }
@@ -35,20 +35,27 @@ class Logged extends Component {
   }
 }
 
-Logged.muiName = 'IconMenu';
+Examples.muiName = 'IconMenu';
 
+{/* navbar component, incorporates drop-down menu defined above */}
 export default class Navbar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.getCompareSample();
+  }
+
   render() {
     return (
       <div>
         <AppBar
           title="paraGraphic"
           showMenuIconButton={ false }
-          iconElementRight={ <Logged { ...this.props } /> }
+          iconElementRight={ <Examples { ...this.props } /> }
           style={ style }
-
         />
-         
       </div>
     );
   }

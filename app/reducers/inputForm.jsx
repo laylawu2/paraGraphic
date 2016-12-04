@@ -4,7 +4,6 @@ const RECEIVE_INFO = 'RECEIVE_INFO'
 const UPDATE_PAGE_STATUS = 'UPDATE_PAGE_STATUS'
 
 const labelAxes = (wordDataObj) => {
-	console.log('in labelAxes function ..............................')
 	let axes = {};
 	axes['x'] = wordDataObj['axis1'];
 	axes['y'] = wordDataObj['axis2'];
@@ -13,13 +12,13 @@ const labelAxes = (wordDataObj) => {
 }
 
 // action creator
-// loadinfo is a boolean
+// loadinfo is a boolean that controls whether app info or input form is rendered in the Drawer component
 export const loadInfofunc = (loadinfo) => ({
     type: RECEIVE_INFO,
     loadinfo
 })
 
-// reducer
+// reducer for loadinfo
 export const loadinfoReducer = (state = false, action) => {
 	switch(action.type) {
 		case RECEIVE_INFO:

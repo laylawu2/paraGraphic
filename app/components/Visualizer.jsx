@@ -20,6 +20,11 @@ const styles = {
   transition: "none"
 }
 
+
+// the "work horse" for our application.  This is the component that renders the text analysis
+// data as a 3D graph using three js
+
+
 export default class Visualizer extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +42,6 @@ export default class Visualizer extends Component {
     this.objects = [];
 
     this.onWindowResize = this.onWindowResize.bind(this);
-    this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -46,7 +50,6 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
-    this.props.updateStatus('loading');
     this.initRenderer();
     this.init();
     this.animate();
@@ -59,34 +62,8 @@ export default class Visualizer extends Component {
     // clear scene before adding new words/labels to it
     this.init();
   }
-
-  /* load the words/label to scene */
-  loadWords(words, fontFile, size, height) {
-    //need to load the font first
-    let loader = new THREE.FontLoader();
-    loader.load(fontFile, (font) => {
-
-      //for every word create an object called Mesh
-      words && Object.keys(words).forEach((word) => {
-        //properties for word
-        let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
-        let mesh = new THREE.Mesh( geometry, material );
-
-        //set the position for every single word
-        mesh.position.x = words[word][0] - 0.5;
-        mesh.position.y = words[word][1] - 0.5;
-        mesh.position.z = words[word][2] - 0.5;
-
-        mesh.updateMatrix();
-        mesh.matrixAutoUpdate = false;
-        //append the word to scene
-        this.scene.add( mesh );
-      });
-    });
-  }
-
-  /* load the words/label to scene */
+  
+  /* load the words (one sphere per word for text analyzed) to scene */
   loadTextWords(compareBool, words, color) {
 
     //for every word create an object called Mesh
@@ -118,7 +95,6 @@ export default class Visualizer extends Component {
       let mesh = new THREE.Mesh( geometry, material );
 
       //set the position for every single word
-      /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
       mesh.position.x = words[word][0];
       mesh.position.y = words[word][1];
       mesh.position.z = words[word][2];
@@ -182,18 +158,14 @@ export default class Visualizer extends Component {
 
     // load everything onto the scene
 
-    // NO LABELS FOR NOW!!!!!!!!  -----   REFACTOR SOON!!!!!!
-    this.loadWords({X:[1,0,0], Y:[0,1,0], Z:[0,0,1]}, 'js/optimer_bold.typeface.json', 0.05, 0.005);
-
+    
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
     if(this.props.visInfo.words.text2 && (Object.keys(this.props.visInfo.words.text2).length > 1)) {
       this.loadTextWords(true, this.props.visInfo.words.text1, 0x00ffff);
       this.loadTextWords(true, this.props.visInfo.words.text2, 0xff3300);
-      console.log("this.props.text2++++++++++++", this.props.words.text2);
-
+      
     } else {
-      console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
       this.props.visInfo.words.text1 && 
       this.loadTextWords(false, this.props.visInfo.words.text1, 0x00ffff);
     }
@@ -252,7 +224,6 @@ export default class Visualizer extends Component {
   renderPlot() {
     // update the picking ray with the camera and mouse position
     this.renderer.render( this.scene, this.camera );
-
   }
 
   //hover function
