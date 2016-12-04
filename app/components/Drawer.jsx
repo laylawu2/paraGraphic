@@ -6,7 +6,6 @@ import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import InputForm from './InputForm';
 import InputFormContainer from '../containers/InputFormContainer'
 import GraphicContainer from '../containers/GraphicContainer'
 
@@ -25,7 +24,6 @@ export default class extends React.Component {
     this.info = true;
 
   }
-
 
   handleToggle = () => this.setState({open: !this.state.open});
 

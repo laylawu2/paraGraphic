@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { loadinfoReducer, pageStatusReducer } from './inputForm';
-import { text2Reducer, titleReducer, wordsReducer, titlesReducer, entryReducer, visReducer } from './visualizer';
+import { titlesReducer, entryReducer, visReducer } from './visualizer';
 
 const rootReducer = combineReducers({
 	titles: titlesReducer,

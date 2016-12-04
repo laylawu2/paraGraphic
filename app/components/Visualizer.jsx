@@ -35,12 +35,7 @@ export default class Visualizer extends Component {
     this.intersected;
     this.mirror = true;
     this.objects = [];
-    this.xmin = 0;
-    this.xmax = 0;
-    this.ymin = 0;
-    this.ymax = 0;
-    this.zmin = 0;
-    this.zmax = 0;
+
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
@@ -56,12 +51,12 @@ export default class Visualizer extends Component {
     this.init();
     this.animate();
     window.addEventListener( 'mousemove', this.onMouseMove, false );
-    //window.mousemove = this.onMouseMove
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
 
   componentDidUpdate() {
+    // clear scene before adding new words/labels to it
     this.init();
   }
 
@@ -105,8 +100,7 @@ export default class Visualizer extends Component {
 
     })
     words && Object.keys(words).forEach((word, idx) => {
-      // console.log("inside load text words", idx, word);
-    //properties for word
+      //properties for word
 
       let geometry  = new THREE.SphereGeometry( 0.02, 8, 8 );
       var diffx = 1-this.xmin;
@@ -114,15 +108,11 @@ export default class Visualizer extends Component {
       var diffz = 1-this.zmin;
 
       if(!compareBool){
-        // if(idx == 0){
-        //   this.x = words[word][0];
-        //   this.y = words[word][1];
-        //   this.z = words[word][2];
-        // }
-
-        color = new THREE.Color(1.3*(words[word][0]-this.xmin)/diffx,
-        1.3*(words[word][1]-this.ymin)/diffy,
-        1.3*(words[word][2]-this.zmin)/diffz);
+        color = new THREE.Color(
+          1.3*(words[word][0]-this.xmin)/diffx,
+          1.3*(words[word][1]-this.ymin)/diffy,
+          1.3*(words[word][2]-this.zmin)/diffz
+        );
       }
       let material =  new THREE.MeshLambertMaterial( { color: color} );
       let mesh = new THREE.Mesh( geometry, material );
@@ -138,9 +128,12 @@ export default class Visualizer extends Component {
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //passing down the properiteis, word & color
       mesh.word = word;
-      mesh.colors =[1.3*(words[word][0]-this.xmin)/diffx,
+      mesh.colors =[
+        1.3*(words[word][0]-this.xmin)/diffx,
         1.3*(words[word][1]-this.ymin)/diffy,
-        1.3*(words[word][2]-this.zmin)/diffz]
+        1.3*(words[word][2]-this.zmin)/diffz
+      ];
+
       this.objects.push(mesh);
       //append the word to scene
       this.scene.add( mesh );
@@ -201,7 +194,8 @@ export default class Visualizer extends Component {
 
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
-      this.props.visInfo.words.text1 && this.loadTextWords(false, this.props.visInfo.words.text1, 0x00ffff);
+      this.props.visInfo.words.text1 && 
+      this.loadTextWords(false, this.props.visInfo.words.text1, 0x00ffff);
     }
 
   }
@@ -219,9 +213,9 @@ export default class Visualizer extends Component {
     return axes;
 
   }
+
   buildAxis( src, dst, colorHex, dashed ) {
-    var geom = new THREE.Geometry(),
-        mat;
+    var geom = new THREE.Geometry(), mat;
     //type of line
     if(dashed) {
       mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
@@ -301,10 +295,9 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    if(this){
-        // this.scene && // clear scene before adding new words/labels to it
+    if(this) {// 'this' is sometimes undefined
         console.log("this.props inside the visualizer renderer", this);
-        // 'this' is sometimes undefined
+        
         return (
           <div id="container">
             <h4 id="graph-title">

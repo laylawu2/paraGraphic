@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import axios from 'axios';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
@@ -10,8 +10,6 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
-
-import { loadLabels } from '../reducers/inputForm';
 
 const styles = {
   margin: 12,
@@ -41,9 +39,7 @@ export default class extends React.Component {
       const { postAndGetWordData } = this.props;
 
       const userInput = {
-
         text: e.target.text.value,
-       // text2: e.target.text2.value,
         title: e.target.graphtitle.value
       };
 
@@ -63,9 +59,7 @@ export default class extends React.Component {
 
       // dispatch all input for values
       postAndGetWordData(userInput, e.target.graphtitle.value);
-      // addTitle(e.target.graphtitle.value);
-      // postAndGetWordData(userInput);      // call function to post request to python server
-
+      
       // if the title already exists, attach random str to the end of the title
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
       'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -165,9 +159,9 @@ export default class extends React.Component {
                     labels: {},
                     entry: {text: '', title: ''}
                   });
-                    document.getElementById("form1").innerHTML="x-axis";
-                    document.getElementById("form2").innerHTML="y-axis";
-                    document.getElementById("form3").innerHTML="z-axis";
+                  document.getElementById("form1").innerHTML="x-axis";
+                  document.getElementById("form2").innerHTML="y-axis";
+                  document.getElementById("form3").innerHTML="z-axis";
                 }}
               />
             </div>
