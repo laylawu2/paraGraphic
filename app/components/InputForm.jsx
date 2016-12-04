@@ -100,7 +100,7 @@ export default class extends React.Component {
     const entry = this.props.entry;
     const labels = this.props.labels;
     if (labels) {
-    return( 
+    return(
     <div>
       <form className='form-inline' onSubmit={this.submitForm }>
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
@@ -110,35 +110,35 @@ export default class extends React.Component {
         <div>
           <p>
             The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
-            that cause the most variation in your data (the vectors for all the words in the text).  
-            The three words closest to those axis-defining vectors will display below.  You can think about this 
-            as the three axes representing the ideas that are most important to your text.  The x-axis represents 
+            that cause the most variation in your data (the vectors for all the words in the text).
+            The three words closest to those axis-defining vectors will display below.  You can think about this
+            as the three axes representing the ideas that are most important to your text.  The x-axis represents
             the most important idea, then y, then z.
           </p>
         {/* note: labels should go back to this format: 'z-axis: ' + labels.z.join(', ') */}
         </div>
 
         <div>
-        { labels && 
+        { labels &&
        <div>
-        <div className='form-group full-width'>
+        <div className='form-group full-width' id="form1" >
           x-axis
          {labels && (<p>{labels.x.join(', ')} </p>) }
         </div>
-        <div className='form-group full-width'>
+        <div className='form-group full-width' id="form2">
           y-axis
           {labels && (<p>{labels.y.join(', ')} </p>) }
         </div>
-          <div className='form-group full-width'>
+          <div className='form-group full-width' id="form3">
           z-axis
           {labels && (<p>{labels.z.join(', ')} </p>) }
         </div>
-        </div> 
-        
+        </div>
+
       }
         </div>
         <div className='form-group full-width'>
-          <TextField 
+          <TextField
             name='text'
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
@@ -159,11 +159,15 @@ export default class extends React.Component {
               <RaisedButton
                 label = 'clear'
                 style={{margin: 12}}
-                onClick={ ()=>{ 
+                onClick={ ()=>{
                   this.setState({
-                    labels: {}, 
+                    labels: {},
                     entry: {text: '', title: ''}
                   });
+
+                    document.getElementById("form1").innerHTML="x-axis";
+                    document.getElementById("form2").innerHTML="y-axis";
+                    document.getElementById("form3").innerHTML="z-axis";
                 }}
               />
             </div>
