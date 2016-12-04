@@ -35,9 +35,12 @@ export default class Visualizer extends Component {
     this.intersected;
     this.mirror = true;
     this.objects = [];
-    this.x = 0;
-    this.y = 0;
-    this.z = 0;
+    this.xmin = 0;
+    this.xmax = 0;
+    this.ymin = 0;
+    this.ymax = 0;
+    this.zmin = 0;
+    this.zmax = 0;
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
@@ -94,24 +97,34 @@ export default class Visualizer extends Component {
 
     //for every word create an object called Mesh
     words && Object.keys(words).forEach((word, idx) => {
+      this.xmin = this.xmin<words[word][0]?this.xmin:words[word][0];
+      this.ymin = this.ymin<words[word][1]?this.ymin:words[word][1];
+      this.zmin = this.zmin<words[word][2]?this.zmin:words[word][2];
+      this.xmax = this.xmax>words[word][0]?this.xmax:words[word][0];
+      this.ymax = this.ymax>words[word][1]?this.ymax:words[word][1];
+      this.zmax = this.zmax>words[word][2]?this.zmax:words[word][2];
+
+    })
+    words && Object.keys(words).forEach((word, idx) => {
       // console.log("inside load text words", idx, word);
     //properties for word
 
-      let geometry  = new THREE.SphereGeometry( 0.01, 8, 8 );
-
+      let geometry  = new THREE.SphereGeometry( 0.02, 8, 8 );
+      var diffx = 1-this.xmin;
+      var diffy = 1-this.ymin;
+      var diffz = 1-this.zmin;
 
       if(!compareBool){
-        if(idx == 0){
-          this.x = words[word][0];
-          this.y = words[word][1];
-          this.z = words[word][2];
-        }
+        // if(idx == 0){
+        //   this.x = words[word][0];
+        //   this.y = words[word][1];
+        //   this.z = words[word][2];
+        // }
 
-        color = new THREE.Color(Math.abs((words[word][0]-this.x)*10),
-        Math.abs((words[word][1]-this.y)*10),
-        Math.abs((words[word][2]-this.z)*10));
+        color = new THREE.Color(1.3*(words[word][0]-this.xmin)/diffx,
+        1.3*(words[word][1]-this.ymin)/diffy,
+        1.3*(words[word][2]-this.zmin)/diffz);
       }
-
       let material =  new THREE.MeshLambertMaterial( { color: color} );
       let mesh = new THREE.Mesh( geometry, material );
 
@@ -126,9 +139,9 @@ export default class Visualizer extends Component {
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //passing down the properiteis, word & color
       mesh.word = word;
-      mesh.colors =[(words[word][0]-this.x)*10,
-        (words[word][1]-this.y)*10,
-        (words[word][2]-this.z)*10]
+      mesh.colors =[1.3*(words[word][0]-this.xmin)/diffx,
+        1.3*(words[word][1]-this.ymin)/diffy,
+        1.3*(words[word][2]-this.zmin)/diffz]
       this.objects.push(mesh);
       //append the word to scene
       this.scene.add( mesh );
