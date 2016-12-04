@@ -58,12 +58,16 @@ body {
 
 input {
    margin-top: 0px !important;
+   color: blue !important;
 }
 
 textarea {
   margin-top: 0px !important;
 }
 
+.drawer {
+  margin-top: 80px !important;
+}
 
 .full-width {
   width: 100% !important;
@@ -96,10 +100,18 @@ textarea {
     background-repeat:   no-repeat;
 /*    background-size:     cover;*/
 }
+.btn-close {
+  float: left;
+}
 
 .col-lg-8{
  padding-left:0px;
 }
 .container{
   margin-top: -20px;
+}
+
+.infoButton {
+  top: 0;
+  right: 0;
 }

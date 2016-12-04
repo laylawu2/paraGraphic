@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Sidebar from '../components/Sidebar';
+import Drawer from '../components/Drawer';
 import {loadInfofunc} from '../reducers/inputForm';
 
-const mapStateToProps = ({ loadinfo, pageStatus }) => ({
-    loadinfo, 
-    pageStatus
+const mapStateToProps = ({ loadinfo }) => ({
+    loadinfo
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -15,4 +14,4 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps,mapDispatchToProps)(Drawer);
