@@ -1,17 +1,17 @@
-'use strict';;
+'use strict';
 import React from 'react';
 import axios from 'axios';
 import {browserHistory} from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {orange500, blue500} from 'material-ui/styles/colors';
+import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
+
 import { loadLabels } from '../reducers/inputForm';
-import {ButtonClose} from './Buttons'
 
 const styles = {
   margin: 12,
@@ -142,10 +142,10 @@ export default class extends React.Component {
             name='text'
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
-            fullWidth ={true}
+            fullWidth={true}
             rows={5}
             rowsMax={5}
-            style = {{overflow: scroll}}
+            style={{overflow: scroll}}
             value={entry.text}
           />
         </div>
@@ -157,12 +157,14 @@ export default class extends React.Component {
             </div>
             <div>
               <RaisedButton
-                backgroundColor="#FFFFFF"
                 label = 'clear'
                 style={{margin: 12}}
-                onClick={()=>{this.state={
-                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
-                }}}
+                onClick={ ()=>{ 
+                  this.setState({
+                    labels: {}, 
+                    entry: {text: '', title: ''}
+                  });
+                }}
               />
             </div>
           </form>

@@ -100,8 +100,6 @@ textarea {
     background-repeat:   no-repeat;
 /*    background-size:     cover;*/
 }
-
-
 .btn-close {
   float: left;
 }
@@ -111,4 +109,9 @@ textarea {
 }
 .container{
   margin-top: -20px;
+}
+
+.infoButton {
+  top: 0;
+  right: 0;
 }
