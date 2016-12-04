@@ -106,7 +106,7 @@ export default class extends React.Component {
         <div>
           <p>
             The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
-            that cause the most variation in your data (the vectors for all the words in the text).
+            that cause the most variation in your data.
             The three words closest to those axis-defining vectors will display below.  You can think about this
             as the three axes representing the ideas that are most important to your text.  The x-axis represents
             the most important idea, then y, then z.
@@ -138,8 +138,8 @@ export default class extends React.Component {
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
             fullWidth={true}
-            rows={5}
-            rowsMax={5}
+            rows={4}
+            rowsMax={4}
             style={{overflow: scroll}}
             value={entry.text}
           />
@@ -151,19 +151,15 @@ export default class extends React.Component {
               <RaisedButton type="submit" label="SUBMIT" style={ styles } />
             </div>
             <div>
-              <RaisedButton
-                label = 'clear'
-                style={{margin: 12}}
-                onClick={ ()=>{
-                  this.setState({
-                    labels: {},
-                    entry: {text: '', title: ''}
-                  });
-                  document.getElementById("form1").innerHTML="x-axis";
-                  document.getElementById("form2").innerHTML="y-axis";
-                  document.getElementById("form3").innerHTML="z-axis";
-                }}
-              />
+              <p>
+              Navigate your model!  Zoom (two fingers or mousewheel), rotate (click and drag), or move
+              model on the screen (two fingers click and drag).  Hover over a sphere to see the word it 
+              represents.
+              </p>
+              <p>
+              To render a new text model, simply enter a new title & text to analyze.  Button at top
+              will close form drawer.
+              </p>
             </div>
           </form>
     </div>

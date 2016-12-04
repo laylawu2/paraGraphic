@@ -55,6 +55,15 @@ body {
   padding: 5px;
 
 }
+.form-group p {
+  color: blue !important;
+  margin-right: 2px !important;
+  margin-left: 2px !important;
+}
+.form-inline {
+  margin-right: 4px !important;
+  margin-left: 4px !important;
+}
 
 input {
    margin-top: 0px !important;
@@ -63,6 +72,7 @@ input {
 
 textarea {
   margin-top: 0px !important;
+  color: blue !important;
 }
 
 .drawer {
