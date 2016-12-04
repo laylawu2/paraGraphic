@@ -50,7 +50,8 @@ export default class Visualizer extends Component {
   }
 
   componentDidMount() {
-    this.props.updateStatus('loading')
+    // make sure loading circle shows when this component mounts
+    this.props.updateStatus('loading');
     this.initRenderer();
     this.init();
     this.animate();
@@ -97,7 +98,6 @@ export default class Visualizer extends Component {
       let mesh = new THREE.Mesh( geometry, material );
 
       //set the position for every single word
-      /**** change range to 0 to 1 in camera (i.e. set positions to the word coordinate values) ****/
       mesh.position.x = words[word][0];
       mesh.position.y = words[word][1];
       mesh.position.z = words[word][2];
@@ -227,7 +227,6 @@ export default class Visualizer extends Component {
   renderPlot() {
     // update the picking ray with the camera and mouse position
     this.renderer.render( this.scene, this.camera );
-
   }
 
   //hover function

@@ -28,8 +28,8 @@ return (dispatch) => {                               // axios call to python ser
        	},
        	graphtitle: t1.title						// dispatches title to update store
        }));
-       dispatch(updatePageStatus('ready'));
       })
+      .then(() => dispatch(updatePageStatus('ready')))
       .catch(err => console.error(err))  
     }
 }

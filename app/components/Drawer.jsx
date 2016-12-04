@@ -6,9 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import InputFormContainer from '../containers/InputFormContainer'
-import GraphicContainer from '../containers/GraphicContainer'
-
+import InputFormContainer from '../containers/InputFormContainer';
 
 // code for the "drawer" component that expands on right-hand side of the app
 

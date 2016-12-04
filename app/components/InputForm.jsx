@@ -30,6 +30,7 @@ export default class extends React.Component {
 
 // submit function, called when user clicks submit button 
   submitForm(e) {
+    // show loading circle when new input submitted
     this.props.updateStatus('loading');
 
     e.preventDefault();
@@ -38,8 +39,10 @@ export default class extends React.Component {
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {
       span.innerHTML = "Title cannot be null!";
+
     } else if(e.target.text.value =="") {
         span.innerHTML = "Text cannot be null!";
+
     } else {
       span.innerHTML = "";
       const { postAndGetWordData } = this.props;
@@ -122,15 +125,15 @@ export default class extends React.Component {
        <div>
         <div className='form-group full-width' id="form1" >
           x-axis
-         {labels && (<p>{labels.x.join(', ')} </p>) }
+         { labels.x && (<p>{labels.x.join(', ')} </p>) }
         </div>
         <div className='form-group full-width' id="form2">
           y-axis
-          {labels && (<p>{labels.y.join(', ')} </p>) }
+          { labels.y && (<p>{labels.y.join(', ')} </p>) }
         </div>
           <div className='form-group full-width' id="form3">
           z-axis
-          {labels && (<p>{labels.z.join(', ')} </p>) }
+          { labels.z && (<p>{labels.z.join(', ')} </p>) }
         </div>
         </div>
       }
@@ -151,26 +154,25 @@ export default class extends React.Component {
         <div>
           <span id = "alert" ></span>
         </div>
-           <div>
-              {/* submit button to send user input as request to server */}
-              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-            </div>
-            <div>
-              <RaisedButton
-                label = 'clear'
-                style={{margin: 12}}
-                onClick={ ()=>{
-                  this.setState({
-                    labels: {},
-                    entry: {text: '', title: ''}
-                  });
-                  document.getElementById("form1").innerHTML="x-axis";
-                  document.getElementById("form2").innerHTML="y-axis";
-                  document.getElementById("form3").innerHTML="z-axis";
-                }}
-              />
-            </div>
-          </form>
+        <div>
+          {/* submit button to send user input as request to server */}
+          <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+        </div>
+        <div>
+          <RaisedButton
+            label = 'clear'
+            style={{margin: 12}}
+            onClick={ ()=>{
+              this.setState({
+                entry: {text: '', title: ''}
+              });
+              document.getElementById("form1").innerHTML="x-axis";
+              document.getElementById("form2").innerHTML="y-axis";
+              document.getElementById("form3").innerHTML="z-axis";
+            }}
+          />
+        </div>
+      </form>
     </div>
     )
    }

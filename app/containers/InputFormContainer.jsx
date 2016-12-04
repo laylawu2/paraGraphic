@@ -25,8 +25,8 @@ const mapDispatchToProps = dispatch => ({
             }, 
           graphtitle: title }          // updates title on store so it can be rendered with text model
         ));
-        dispatch(updatePageStatus('ready')); 
       })
+      .then(() => dispatch(updatePageStatus('ready')))
       .catch(err => console.error(err))
 	},
 
