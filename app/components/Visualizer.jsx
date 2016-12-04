@@ -8,6 +8,8 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { amber50, amber400, fullWhite, grey50, grey900 } from 'material-ui/styles/colors';
 
+import Loading from './Loading';
+
 let OrbitControls = require('three-orbit-controls')(THREE);
 
 const styles = {
@@ -33,12 +35,7 @@ export default class Visualizer extends Component {
     this.intersected;
     this.mirror = true;
     this.objects = [];
-    this.xmin = 0;
-    this.xmax = 0;
-    this.ymin = 0;
-    this.ymax = 0;
-    this.zmin = 0;
-    this.zmax = 0;
+
     this.onWindowResize = this.onWindowResize.bind(this);
     this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
@@ -54,14 +51,13 @@ export default class Visualizer extends Component {
     this.init();
     this.animate();
     window.addEventListener( 'mousemove', this.onMouseMove, false );
-    //window.mousemove = this.onMouseMove
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }
 
   componentDidUpdate() {
-
-    this.props.updateStatus('ready');
+    // clear scene before adding new words/labels to it
+    this.init();
   }
 
   /* load the words/label to scene */
@@ -104,8 +100,7 @@ export default class Visualizer extends Component {
 
     })
     words && Object.keys(words).forEach((word, idx) => {
-      // console.log("inside load text words", idx, word);
-    //properties for word
+      //properties for word
 
       let geometry  = new THREE.SphereGeometry( 0.02, 8, 8 );
       var diffx = 1-this.xmin;
@@ -113,15 +108,11 @@ export default class Visualizer extends Component {
       var diffz = 1-this.zmin;
 
       if(!compareBool){
-        // if(idx == 0){
-        //   this.x = words[word][0];
-        //   this.y = words[word][1];
-        //   this.z = words[word][2];
-        // }
-
-        color = new THREE.Color(1.3*(words[word][0]-this.xmin)/diffx,
-        1.3*(words[word][1]-this.ymin)/diffy,
-        1.3*(words[word][2]-this.zmin)/diffz);
+        color = new THREE.Color(
+          1.3*(words[word][0]-this.xmin)/diffx,
+          1.3*(words[word][1]-this.ymin)/diffy,
+          1.3*(words[word][2]-this.zmin)/diffz
+        );
       }
       let material =  new THREE.MeshLambertMaterial( { color: color} );
       let mesh = new THREE.Mesh( geometry, material );
@@ -137,9 +128,12 @@ export default class Visualizer extends Component {
       mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
       //passing down the properiteis, word & color
       mesh.word = word;
-      mesh.colors =[1.3*(words[word][0]-this.xmin)/diffx,
+      mesh.colors =[
+        1.3*(words[word][0]-this.xmin)/diffx,
         1.3*(words[word][1]-this.ymin)/diffy,
-        1.3*(words[word][2]-this.zmin)/diffz]
+        1.3*(words[word][2]-this.zmin)/diffz
+      ];
+
       this.objects.push(mesh);
       //append the word to scene
       this.scene.add( mesh );
@@ -193,14 +187,15 @@ export default class Visualizer extends Component {
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
-    if(this.props.words.text2 && (Object.keys(this.props.words.text2).length > 1)) {
-      this.loadTextWords(true, this.props.words.text1, 0x00ffff);
-      this.loadTextWords(true, this.props.words.text2, 0xff3300);
+    if(this.props.visInfo.words.text2 && (Object.keys(this.props.visInfo.words.text2).length > 1)) {
+      this.loadTextWords(true, this.props.visInfo.words.text1, 0x00ffff);
+      this.loadTextWords(true, this.props.visInfo.words.text2, 0xff3300);
       console.log("this.props.text2++++++++++++", this.props.words.text2);
 
     } else {
       console.log("LOADING TEXT WERDZ!!!!!!!!!!!!!!!!!!!!!!")
-      this.props.words.text1 && this.loadTextWords(false, this.props.words.text1, 0x00ffff);
+      this.props.visInfo.words.text1 && 
+      this.loadTextWords(false, this.props.visInfo.words.text1, 0x00ffff);
     }
 
   }
@@ -218,14 +213,14 @@ export default class Visualizer extends Component {
     return axes;
 
   }
+
   buildAxis( src, dst, colorHex, dashed ) {
-    var geom = new THREE.Geometry(),
-        mat;
+    var geom = new THREE.Geometry(), mat;
     //type of line
     if(dashed) {
-            mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
+      mat = new THREE.LineDashedMaterial({ linewidth: 1, color: colorHex, dashSize: 3, gapSize: 3 });
     } else {
-            mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
+      mat = new THREE.LineBasicMaterial({ linewidth: 1, color: colorHex });
     }
 
     geom.vertices.push( src.clone() );
@@ -300,13 +295,19 @@ export default class Visualizer extends Component {
     }
 
   render () {
-    if(this){
-        this.scene && this.init(); // clear scene before adding new words/labels to it
+    if(this) {// 'this' is sometimes undefined
         console.log("this.props inside the visualizer renderer", this);
-        // 'this' is sometimes undefined
+        
         return (
           <div id="container">
-            <h4 id="graph-title">{ this.props.graphtitle }</h4>
+            <h4 id="graph-title">
+            { 
+              this.props.pageStatus === 'loading'?
+              <Loading />
+              :
+              this.props.visInfo.graphtitle 
+            }
+            </h4>
             <p id = "text"></p>
           </div>
         );

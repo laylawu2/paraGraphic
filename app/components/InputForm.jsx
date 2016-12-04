@@ -1,17 +1,15 @@
-'use strict';;
+'use strict';
 import React from 'react';
 import axios from 'axios';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {orange500, blue500} from 'material-ui/styles/colors';
-import { loadLabels } from '../reducers/inputForm';
-import {ButtonClose} from './Buttons'
+import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
 
 const styles = {
   margin: 12,
@@ -38,12 +36,10 @@ export default class extends React.Component {
         span.innerHTML = "Text cannot be null!";
     } else {
       span.innerHTML = "";
-      const { addTitle, postAndGetWordData } = this.props;
+      const { postAndGetWordData } = this.props;
 
       const userInput = {
-
         text: e.target.text.value,
-       // text2: e.target.text2.value,
         title: e.target.graphtitle.value
       };
 
@@ -62,9 +58,8 @@ export default class extends React.Component {
       //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
 
       // dispatch all input for values
-      addTitle(e.target.graphtitle.value);
-      postAndGetWordData(userInput);      // call function to post request to python server
-
+      postAndGetWordData(userInput, e.target.graphtitle.value);
+      
       // if the title already exists, attach random str to the end of the title
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
       'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -98,9 +93,10 @@ export default class extends React.Component {
 
   render() {
     const entry = this.props.entry;
-    const labels = this.props.labels;
+    const labels = this.props.visInfo.labels;
+    
     if (labels) {
-    return( 
+    return(
     <div>
       <form className='form-inline' onSubmit={this.submitForm }>
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
@@ -110,42 +106,41 @@ export default class extends React.Component {
         <div>
           <p>
             The text you enter is rendered in a 3D-graph where the x, y, and z axes represent the three vectors
-            that cause the most variation in your data (the vectors for all the words in the text).  
-            The three words closest to those axis-defining vectors will display below.  You can think about this 
-            as the three axes representing the ideas that are most important to your text.  The x-axis represents 
+            that cause the most variation in your data (the vectors for all the words in the text).
+            The three words closest to those axis-defining vectors will display below.  You can think about this
+            as the three axes representing the ideas that are most important to your text.  The x-axis represents
             the most important idea, then y, then z.
           </p>
         {/* note: labels should go back to this format: 'z-axis: ' + labels.z.join(', ') */}
         </div>
 
         <div>
-        { labels && 
+        { labels &&
        <div>
-        <div className='form-group full-width'>
+        <div className='form-group full-width' id="form1" >
           x-axis
          {labels && (<p>{labels.x.join(', ')} </p>) }
         </div>
-        <div className='form-group full-width'>
+        <div className='form-group full-width' id="form2">
           y-axis
           {labels && (<p>{labels.y.join(', ')} </p>) }
         </div>
-          <div className='form-group full-width'>
+          <div className='form-group full-width' id="form3">
           z-axis
           {labels && (<p>{labels.z.join(', ')} </p>) }
         </div>
-        </div> 
-        
+        </div>
       }
         </div>
         <div className='form-group full-width'>
-          <TextField 
+          <TextField
             name='text'
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
-            fullWidth ={true}
+            fullWidth={true}
             rows={5}
             rowsMax={5}
-            style = {{overflow: scroll}}
+            style={{overflow: scroll}}
             value={entry.text}
           />
         </div>
@@ -157,12 +152,17 @@ export default class extends React.Component {
             </div>
             <div>
               <RaisedButton
-                backgroundColor="#FFFFFF"
                 label = 'clear'
                 style={{margin: 12}}
-                onClick={()=>{this.state={
-                  xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: [], text:'', title:''
-                }}}
+                onClick={ ()=>{
+                  this.setState({
+                    labels: {},
+                    entry: {text: '', title: ''}
+                  });
+                  document.getElementById("form1").innerHTML="x-axis";
+                  document.getElementById("form2").innerHTML="y-axis";
+                  document.getElementById("form3").innerHTML="z-axis";
+                }}
               />
             </div>
           </form>
