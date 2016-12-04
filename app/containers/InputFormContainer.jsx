@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
+import { fetchData } from '../reducers/getData';
 import InputForm from '../components/InputForm';
 
 // parts of store needed by connected component:  entry (data from Firebase, if any)

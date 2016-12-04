@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GraphicContainer from '../containers/GraphicContainer';
+import VisualizerContainer from '../containers/VisualizerContainer';
 import DrawerContainer from '../containers/DrawerContainer';
 
 // main application page with containers for two components: Graphic (which renders our image) and 
@@ -8,7 +8,7 @@ import DrawerContainer from '../containers/DrawerContainer';
 export default ({}) => (
 	<div>
 		<div className="col-lg-8">
-            <GraphicContainer />
+            <VisualizerContainer />
 
 		</div>
 		<div className="col-lg-4">

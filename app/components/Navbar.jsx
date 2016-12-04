@@ -40,6 +40,14 @@ Examples.muiName = 'IconMenu';
 
 {/* navbar component, incorporates drop-down menu defined above */}
 export default class Navbar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.getCompareSample();
+  }
+
   render() {
     return (
       <div>
