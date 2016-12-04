@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -12,6 +12,9 @@ const style = {
   backgroundColor: cyan900
 };
 
+const linkToProjects = () => {
+  browserHistory.push('/projects')
+}
 
 {/* define drop-down menu indicated by icon to display at right of navbar */}
 class Logged extends Component { 
@@ -31,7 +34,7 @@ class Logged extends Component {
       >
         <MenuItem primaryText="Accelerate Manifesto" onClick={ this.props.getSample } />
         <MenuItem primaryText="Obama 2008 Inaugural Address" onClick={ this.props.getCompareSample } />
-        <MenuItem primaryText="History" />
+        <MenuItem primaryText="History" onClick={linkToProjects}/>
       </IconMenu>
     );
   }
