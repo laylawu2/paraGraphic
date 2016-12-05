@@ -1,5 +1,4 @@
 import React from 'react';
-import RefreshIndicator from 'material-ui/RefreshIndicator';
 import CircularProgress from 'material-ui/CircularProgress';
 
 const style = {

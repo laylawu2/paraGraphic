@@ -1,15 +1,11 @@
 'use strict';
 import React from 'react';
-import axios from 'axios';
-import { browserHistory } from 'react-router';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
+import { orange500 } from 'material-ui/styles/colors';
 
 const styles = {
   margin: 12,
@@ -22,7 +18,6 @@ const styles = {
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: []};
     this.submitForm = this.submitForm.bind(this);
   }
 
@@ -56,7 +51,7 @@ export default class extends React.Component {
       // sends request object to server, then dispatches visualization info received back
       // (text data and axis info); dispatches title
       // See function description in InputFormContainer
-      postAndGetWordData(userInput, e.target.graphtitle.value);
+      postAndGetWordData(userInput);
 
 
       // preparing data for Firebase submission
@@ -165,25 +160,10 @@ export default class extends React.Component {
               will close form drawer.
               </p>
             </div>
-          </form>
 
         <div>
           {/* submit button to send user input as request to server */}
           <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-        </div>
-        <div>
-          <RaisedButton
-            label = 'clear'
-            style={{margin: 12}}
-            onClick={ ()=>{
-              this.setState({
-                entry: {text: '', title: ''}
-              });
-              document.getElementById("form1").innerHTML="x-axis";
-              document.getElementById("form2").innerHTML="y-axis";
-              document.getElementById("form3").innerHTML="z-axis";
-            }}
-          />
         </div>
       </form>
 

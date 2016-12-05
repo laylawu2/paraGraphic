@@ -2,8 +2,6 @@ import React from 'react';
 
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
-import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import InputFormContainer from '../containers/InputFormContainer';
