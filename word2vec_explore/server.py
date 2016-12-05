@@ -3,33 +3,18 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
 import json
 app = Flask(__name__)
 
-# import our nice vector functions from other file
+# import Google-News-trained word2vec model
 
-from projections_with_Ashi import getPoints, news
-
-# from PCA import main
-
-@app.route('/api/PCA', methods=['POST'])
-def getData():
-	data = request.json
-	print "DATA IN INITIAL ROUTE HIT", data
-	dataToReturn = main(data)
-	print "DATA TO RETURN", dataToReturn
-	return Response(json.dumps(dataToReturn), content_type='application/json')
+from projections_with_Ashi import news
 
 
+# code below configures server to receive python code from a file and execute that code
 
-# *where the magic happens*
-# takes user input sent from front end as object, passes to lovely vector function imported line 7
-# formats the result of getPointsFromWords as json and sends back to front end
+# this was necessary during development because loading the model takes a few minutes and thus
+# restarting the server for every code change was highly inefficient
 
+# code that python server runs is located in PCA.py file
 
-@app.route('/api', methods=['POST'])
-def getAndSendWordData():
-	data = request.json
-	dataToReturn = getPoints(data)
- 	return Response(json.dumps(dataToReturn), content_type='application/json')
- 	
 from types import ModuleType
 import sys
 import traceback

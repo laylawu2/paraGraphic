@@ -6,6 +6,7 @@ const style = {
   container: {
     position: 'relative',
   },
+
   refresh: {
     display: 'inline-block',
     position: 'relative',
@@ -14,6 +15,7 @@ const style = {
   },
 };
 
+// Loading icon
 const Loading = () => (
   <div style={style.container}>
     <CircularProgress size={80} thickness={5} style={ style.refresh } />

@@ -18,6 +18,7 @@ const styles = {
   }
 };
 
+// the form for user input, which is rendered inside of the Drawer component
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -25,41 +26,40 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
+// submit function, called when user clicks submit button
   submitForm(e) {
-    this.props.updateStatus('loading');
-
     e.preventDefault();
+
+    // validations to make sure necessary input fields are not blank
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {
       span.innerHTML = "Title cannot be null!";
+
     } else if(e.target.text.value =="") {
         span.innerHTML = "Text cannot be null!";
+
     } else {
       span.innerHTML = "";
       const { postAndGetWordData } = this.props;
 
+      // constructing the request object to send to the server and Firebase database
       const userInput = {
         text: e.target.text.value,
         title: e.target.graphtitle.value
       };
 
-      // y: [e.target.ymin.value.trim(), e.target.ymax.value.trim()],
-      // myRef is how we can access table in firebase
-      // userInput is an object derived from user's text entries which will be a) sent to database table
-      // and b) sent to python server to be converted into plottable points
-
+      // send user input to database
       const myRef = firebase.database().ref('/');
-      const newRef = myRef.push(userInput);     // send user input to database
-
+      const newRef = myRef.push(userInput);
       const id = newRef.key;
-      console.log("ID FROM FIREBASE", id);
-      // this is the database key for entry just pushed
 
-      //***** WE STILL NEED TO DO SOMETHING WITH THE KEY! ******//
-
-      // dispatch all input for values
+      // sends request object to server, then dispatches visualization info received back
+      // (text data and axis info); dispatches title
+      // See function description in InputFormContainer
       postAndGetWordData(userInput, e.target.graphtitle.value);
-      
+
+
+      // preparing data for Firebase submission
       // if the title already exists, attach random str to the end of the title
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
       'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -94,14 +94,16 @@ export default class extends React.Component {
   render() {
     const entry = this.props.entry;
     const labels = this.props.visInfo.labels;
-    
+    const title = this.props.visInfo.graphtitle;
+
     if (labels) {
     return(
     <div>
       <form className='form-inline' onSubmit={this.submitForm }>
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
         <div className='form-group'>
-          <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
+          {/* user input field: title for text visualization */}
+          <TextField hintText="please enter a title for your graph" name='graphtitle' value={title}/>
         </div>
         <div>
           <p>
@@ -111,27 +113,28 @@ export default class extends React.Component {
             as the three axes representing the ideas that are most important to your text.  The x-axis represents
             the most important idea, then y, then z.
           </p>
-        {/* note: labels should go back to this format: 'z-axis: ' + labels.z.join(', ') */}
         </div>
 
         <div>
+      {/* render axis labels with data returned from server */}
         { labels &&
        <div>
         <div className='form-group full-width' id="form1" >
           x-axis
-         {labels && (<p>{labels.x.join(', ')} </p>) }
+         { labels.x && (<p>{labels.x.join(', ')} </p>) }
         </div>
         <div className='form-group full-width' id="form2">
           y-axis
-          {labels && (<p>{labels.y.join(', ')} </p>) }
+          { labels.y && (<p>{labels.y.join(', ')} </p>) }
         </div>
           <div className='form-group full-width' id="form3">
           z-axis
-          {labels && (<p>{labels.z.join(', ')} </p>) }
+          { labels.z && (<p>{labels.z.join(', ')} </p>) }
         </div>
         </div>
       }
         </div>
+      {/* user input field: text to analyze */}
         <div className='form-group full-width'>
           <TextField
             name='text'
@@ -147,6 +150,7 @@ export default class extends React.Component {
         <div>
           <span id = "alert" ></span>
         </div>
+
            <div>
               <RaisedButton type="submit" label="SUBMIT" style={ styles } />
             </div>
@@ -162,6 +166,27 @@ export default class extends React.Component {
               </p>
             </div>
           </form>
+
+        <div>
+          {/* submit button to send user input as request to server */}
+          <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+        </div>
+        <div>
+          <RaisedButton
+            label = 'clear'
+            style={{margin: 12}}
+            onClick={ ()=>{
+              this.setState({
+                entry: {text: '', title: ''}
+              });
+              document.getElementById("form1").innerHTML="x-axis";
+              document.getElementById("form2").innerHTML="y-axis";
+              document.getElementById("form3").innerHTML="z-axis";
+            }}
+          />
+        </div>
+      </form>
+
     </div>
     )
    }

@@ -6,10 +6,9 @@ import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import InputFormContainer from '../containers/InputFormContainer'
-import GraphicContainer from '../containers/GraphicContainer'
+import InputFormContainer from '../containers/InputFormContainer';
 
-
+// code for the "drawer" component that expands on right-hand side of the app
 const positionMe = {
     position: 'absolute',
     zIndex: 1,
@@ -31,6 +30,7 @@ export default class extends React.Component {
     const { loadinfo, Infofunc } = this.props
     return (
       <div>
+        {/* button on main page which shows drawer when clicked */}     
         <RaisedButton
           className="infoButton"
           label="info"
@@ -38,8 +38,8 @@ export default class extends React.Component {
           style={positionMe}
         />
         <Drawer className="drawer" width={400} openSecondary={true} open={this.state.open} >
-
             <div>
+                {/* button on drawer which hides draw when clicked */}
                 <FlatButton
                     backgroundColor="#FFFFF"
                     hoverColor="#8AA62F"
@@ -52,6 +52,7 @@ export default class extends React.Component {
                     loadinfo?
                     <div>
                         <InputFormContainer/>
+                    {/* button to toggle drawer component text between App info & input form */}
                         <RaisedButton fullWidth={true} type="submit" label="Info" primary={true} onClick={ () => { console.log("show input" ); Infofunc(false);  } } />
                     </div>
                     :
@@ -76,10 +77,12 @@ export default class extends React.Component {
                             principal component analysis function to reduce the 300-d vectors to the three dimensions
                             that contain the most variation in the data (in our case, the word vectors).
                         </p>
-                        <p className="bold-text">  {/* NOTE: why is this not working? */}
+                        <p> 
                             Check out our examples or visualizations made by others in the drop-down list
                             on the navbar, or select "input" to enter a text of your choosing!
                         </p>
+                        
+                     {/* button to toggle drawer component text between App info & input form */}
                         <RaisedButton fullWidth={true}  type="submit" label="Input" primary={true} onClick={ () => { console.log("show input" ); Infofunc(true);  } } />
                     </div>
                 }

@@ -22,6 +22,8 @@ if (!pkg.isProduction && !pkg.isTesting) {
 
 const fs = require('fs')
 
+// sends code to the /eval route on the python server (in word2vec_explore/server.py)
+//  -- /eval is prepared to receive code from a file
 const pyRoute = code => {
   code = code.toString()  
   return (req, res, next) =>
@@ -30,15 +32,11 @@ const pyRoute = code => {
       .catch(({response: {data}}) => res.status(400).send(data))
 }
 
+// specifies which file to send to python server, used below (line 52)
 const pyFile = filename => pyRoute(fs.readFileSync(__dirname + '/' + filename))
 
 module.exports = app
-  // We'll store the whole session in a cookie
-  // .use(require('cookie-session') ({
-  //   name: 'session',
-  //   keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
-  // }))
-
+ 
   // Body parsing middleware
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
@@ -51,18 +49,7 @@ module.exports = app
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
 
 
-  // post request receive from axios on front end should send another axios call to python backend, 
-  // receive that data
-  .post('/', (req, res, next) =>{
-    //console.log(req.body)
-    axios.post('http://localhost:5000/api/PCA', req.body)    
-      .then(response => {
-        res.send(response.data)})
-      .catch(err => console.error(err))
-  })
-
 // route below will run python code in file indicated on the python server
-  .post('/testPythonEndpoint', pyFile('./test.py'))
   .post('/PCA', pyFile('../word2vec_explore/PCA.py'))
 
 if (module === require.main) {
