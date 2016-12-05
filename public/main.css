@@ -14,9 +14,11 @@ html {
 a {
   color: var(--link-text-color);
 }
+
 span {
   color: red;
 }
+
 .myNavBar {
   background-color: var(--primary-color);
   border: none;
@@ -30,6 +32,7 @@ span {
   margin: 80px;
   color: #FF6F00;
 }
+
 #text{
     font-size: 30px;
     color: red;
@@ -55,6 +58,15 @@ body {
   padding: 5px;
 
 }
+.form-group p {
+  color: blue !important;
+  margin-right: 2px !important;
+  margin-left: 2px !important;
+}
+.form-inline {
+  margin-right: 4px !important;
+  margin-left: 4px !important;
+}
 
 input {
    margin-top: 0px !important;
@@ -63,6 +75,7 @@ input {
 
 textarea {
   margin-top: 0px !important;
+  color: blue !important;
 }
 
 .drawer {
@@ -96,10 +109,9 @@ textarea {
     width:  300px;
     height: 300px;
     margin-bottom: 50px;
-/*    background-position: 50% 50%;*/
     background-repeat:   no-repeat;
-/*    background-size:     cover;*/
 }
+
 .btn-close {
   float: left;
 }
@@ -107,6 +119,7 @@ textarea {
 .col-lg-8{
  padding-left:0px;
 }
+
 .container{
   margin-top: -20px;
 }

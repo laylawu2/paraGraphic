@@ -1,15 +1,11 @@
 'use strict';
 import React from 'react';
-import axios from 'axios';
-import { browserHistory } from 'react-router';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import firebase from 'firebase';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import { orange500, blue500, fullWhite } from 'material-ui/styles/colors';
+import { orange500 } from 'material-ui/styles/colors';
 
 const styles = {
   margin: 12,
@@ -55,7 +51,7 @@ export default class extends React.Component {
       // sends request object to server, then dispatches visualization info received back
       // (text data and axis info); dispatches title
       // See function description in InputFormContainer
-      postAndGetWordData(userInput, e.target.graphtitle.value);
+      postAndGetWordData(userInput);
 
 
       // preparing data for Firebase submission
@@ -140,8 +136,8 @@ export default class extends React.Component {
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
             fullWidth={true}
-            rows={5}
-            rowsMax={5}
+            rows={4}
+            rowsMax={4}
             style={{overflow: scroll}}
             value={entry.text}
           />
@@ -149,25 +145,28 @@ export default class extends React.Component {
         <div>
           <span id = "alert" ></span>
         </div>
+
+           <div>
+              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+            </div>
+            <div>
+              <p>
+              Navigate your model!  Zoom (two fingers or mousewheel), rotate (click and drag), or move
+              model on the screen (two fingers click and drag).  Hover over a sphere to see the word it 
+              represents.
+              </p>
+              <p>
+              To render a new text model, simply enter a new title & text to analyze.  Button at top
+              will close form drawer.
+              </p>
+            </div>
+
         <div>
           {/* submit button to send user input as request to server */}
           <RaisedButton type="submit" label="SUBMIT" style={ styles } />
         </div>
-        <div>
-          <RaisedButton
-            label = 'clear'
-            style={{margin: 12}}
-            onClick={ ()=>{
-              this.setState({
-                entry: {text: '', title: ''}
-              });
-              document.getElementById("form1").innerHTML="x-axis";
-              document.getElementById("form2").innerHTML="y-axis";
-              document.getElementById("form3").innerHTML="z-axis";
-            }}
-          />
-        </div>
       </form>
+
     </div>
     )
    }

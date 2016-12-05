@@ -5,17 +5,15 @@ import { render } from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import axios from 'axios'
 import firebase from 'firebase'
+
 import store from './store'
 import App from './components/App'
 import Home from './components/Home'
-import DrawerContainer from './containers/DrawerContainer'
-import VisualizerContainer from './containers/VisualizerContainer'
-import InputFormContainer from './containers/InputFormContainer'
-import SingleLinkContainer from './containers/SingleLinkContainer'
-import {getWords, getCompText, getTitle, getTitles, getEntry} from './reducers/visualizer'
-import {loadLabels, loadInfofunc} from './reducers/inputForm'
 import ProjectsContainer from './containers/ProjectsContainer'
-import Drawer from './components/Drawer'
+
+import { getTitles, getEntry, getVisInfo } from './reducers/visualizer'
+import { loadInfofunc } from './reducers/inputForm'
+import { fetchData } from './reducers/getData'
 
 // onfigure and initialize firebase database to work with app
 var config = {
@@ -59,24 +57,19 @@ const onSingleLinkEnterWithKey = (next, replace, done) =>{
     .child(next.params.key)
     .once('value')
     .then(snap => {
-      entry = snap.val()
+      entry = snap.val();
 
       if (!entry) {
         console.log('entry was null, will redirect')
         // Key not found, redirect
-        replace({}, '/')
-        return done()
+        replace({}, '/');
+        return done();
       }
-      store.dispatch(getEntry(entry))
-     // store.dispatch(loadLabels(entry))
-      axios.post('http://localhost:1337/PCA', entry)
-        .then(res => {
-          store.dispatch(getWords(res.data.words))
-          store.dispatch(loadLabels(res.data))
-        })
-        .then(done())
-        .catch(() => replace('/'))
-      setTimeout(done, 113)
+      // update entry to store
+      store.dispatch(getEntry(entry));
+      // fetch data with given entry to display
+      store.dispatch(fetchData(entry));
+      setTimeout(done, 113);
     })
 }
 
@@ -88,9 +81,8 @@ render(
         <Route path="/" component={ App } onEnter={ onAppEnter }>
           <IndexRedirect to="/home" />
           <Route path="home" component={ Home } />
-          <Route path="input" component={ InputFormContainer } />
           <Route path="projects" component={ ProjectsContainer } />
-          <Route path=":key" component={ SingleLinkContainer } onEnter={ onSingleLinkEnterWithKey }/>
+          <Route path=":key" component={ Home } onEnter={ onSingleLinkEnterWithKey }/>
         </Route>
       </Router>
     </Provider>

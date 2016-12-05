@@ -54,7 +54,8 @@ export default class Visualizer extends Component {
     this.initRenderer();
     this.init();
     this.animate();
-    window.addEventListener( 'mousemove', this.onMouseMove, false );
+    document.getElementsByTagName('canvas')[0]
+      .addEventListener( 'mousemove', this.onMouseMove, false );
     window.addEventListener( 'resize', this.onWindowResize, false );
     window.requestAnimationFrame(this.render);
   }

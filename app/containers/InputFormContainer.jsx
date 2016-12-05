@@ -10,7 +10,7 @@ const mapStateToProps = ({ entry, visInfo }) => ({ entry, visInfo });
 
 const mapDispatchToProps = dispatch => ({
   // send user input and title to get data
-	postAndGetWordData: (input, title) => dispatch(fetchData(input, title))
+	postAndGetWordData: (input) => dispatch(fetchData(input))
 
 });
 
