@@ -26,10 +26,10 @@ export default class extends React.Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
-// submit function, called when user clicks submit button 
+// submit function, called when user clicks submit button
   submitForm(e) {
     e.preventDefault();
-    
+
     // validations to make sure necessary input fields are not blank
     var span = document.getElementById("alert");
     if(e.target.graphtitle.value =="" ) {
@@ -50,15 +50,15 @@ export default class extends React.Component {
 
       // send user input to database
       const myRef = firebase.database().ref('/');
-      const newRef = myRef.push(userInput);     
+      const newRef = myRef.push(userInput);
       const id = newRef.key;
-  
+
       // sends request object to server, then dispatches visualization info received back
-      // (text data and axis info); dispatches title 
-      // See function description in InputFormContainer 
+      // (text data and axis info); dispatches title
+      // See function description in InputFormContainer
       postAndGetWordData(userInput, e.target.graphtitle.value);
 
-      
+
       // preparing data for Firebase submission
       // if the title already exists, attach random str to the end of the title
       const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
@@ -94,7 +94,8 @@ export default class extends React.Component {
   render() {
     const entry = this.props.entry;
     const labels = this.props.visInfo.labels;
-    
+    const title = this.props.visInfo.graphtitle;
+
     if (labels) {
     return(
     <div>
@@ -102,7 +103,7 @@ export default class extends React.Component {
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
         <div className='form-group'>
           {/* user input field: title for text visualization */}
-          <TextField hintText="please enter a title for your graph" name='graphtitle' value={entry.title}/>
+          <TextField hintText="please enter a title for your graph" name='graphtitle' value={title}/>
         </div>
         <div>
           <p>
