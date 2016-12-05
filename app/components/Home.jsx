@@ -9,7 +9,6 @@ export default ({}) => (
 	<div>
 		<div className="col-lg-8">
             <VisualizerContainer />
-
 		</div>
 		<div className="col-lg-4">
 			 <DrawerContainer />
