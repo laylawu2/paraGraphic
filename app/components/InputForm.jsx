@@ -141,8 +141,8 @@ export default class extends React.Component {
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
             fullWidth={true}
-            rows={5}
-            rowsMax={5}
+            rows={4}
+            rowsMax={4}
             style={{overflow: scroll}}
             value={entry.text}
           />
@@ -150,6 +150,23 @@ export default class extends React.Component {
         <div>
           <span id = "alert" ></span>
         </div>
+
+           <div>
+              <RaisedButton type="submit" label="SUBMIT" style={ styles } />
+            </div>
+            <div>
+              <p>
+              Navigate your model!  Zoom (two fingers or mousewheel), rotate (click and drag), or move
+              model on the screen (two fingers click and drag).  Hover over a sphere to see the word it 
+              represents.
+              </p>
+              <p>
+              To render a new text model, simply enter a new title & text to analyze.  Button at top
+              will close form drawer.
+              </p>
+            </div>
+          </form>
+
         <div>
           {/* submit button to send user input as request to server */}
           <RaisedButton type="submit" label="SUBMIT" style={ styles } />
@@ -169,6 +186,7 @@ export default class extends React.Component {
           />
         </div>
       </form>
+
     </div>
     )
    }
