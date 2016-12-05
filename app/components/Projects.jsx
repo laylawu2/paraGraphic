@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 
 {/* component page to display links to visualizations made users */}
-export default class extends React.Component {
+export default class Projects extends React.Component {
   render(){
     // var rand = Math.floor(Math.random()) * 20;
     const titles = this.props.titles
@@ -23,7 +23,9 @@ export default class extends React.Component {
                   style={{
                     background: `url(${img})`,
                   }}
-                  to={title.key}><h4>{title.title}</h4></Link>
+                  to={title.key}
+                  key={title.key}
+                  ><h4>{title.title}</h4></Link>
               })
             } </div></div>
 

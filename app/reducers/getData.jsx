@@ -13,7 +13,7 @@ export const BO_INAUG = {
 }
 
 // functions to load sample data
-export const fetchData = (input, title) => {       
+export const fetchData = (input) => {       
 	return (dispatch) => {
 		// set loading circle indicator off
 	    dispatch(updatePageStatus('loading'));                           // axios call to python server 
@@ -26,7 +26,7 @@ export const fetchData = (input, title) => {
 	              y: res.data.axis2,
 	              z: res.data.axis3
 	            }, 
-		        graphtitle: title 
+		        graphtitle: input.title 
 	          } // updates title on store so it can be rendered with text model
 	        ));
 	      })
