@@ -283,8 +283,7 @@ export default class Visualizer extends Component {
           document.getElementById('container').appendChild(text);
         }
         document.body.style.cursor = 'pointer';
-      }
-      else if ( this.intersected ) {
+      } else if ( this.intersected ) {
         //change the color back
         this.intersected.material.color.setRGB(this.intersected.colors[0],this.intersected.colors[1],this.intersected.colors[2]);
         this.intersected = null;

@@ -125,6 +125,6 @@ textarea {
 }
 
 .infoButton {
-  top: 0;
-  right: 0;
+  /* override material UI inline styles*/
+  min-width: 50px !important;
 }
