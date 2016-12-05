@@ -22,7 +22,6 @@ const styles = {
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {xmin: [], ymin: [], zmin: [], xmax: [], ymax: [], zmax: []};
     this.submitForm = this.submitForm.bind(this);
   }
 
