@@ -152,7 +152,7 @@ export default class extends React.Component {
             <div>
               <p>
               Navigate your model!  Zoom (two fingers or mousewheel), rotate (click and drag), or move
-              model on the screen (two fingers click and drag).  Hover over a sphere to see the word it 
+              model on the screen (two fingers click and drag).  Hover over a sphere to see the word it
               represents.
               </p>
               <p>
@@ -160,11 +160,6 @@ export default class extends React.Component {
               will close form drawer.
               </p>
             </div>
-
-        <div>
-          {/* submit button to send user input as request to server */}
-          <RaisedButton type="submit" label="SUBMIT" style={ styles } />
-        </div>
       </form>
 
     </div>
