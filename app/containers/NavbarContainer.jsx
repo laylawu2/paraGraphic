@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
-import { loadLabels } from '../reducers/inputForm';
-import { getWords, getTitle } from '../reducers/visualizer';
 import Navbar from '../components/Navbar';
 
-import { ACCEL, INPUT_BO, fetchSample } from '../reducers/samples';
+import { ACCEL, BO_INAUG, fetchData } from '../reducers/getData';
 
 const mapDispatchToProps = (dispatch) => ({
-	getSample: () => dispatch(fetchSample(ACCEL)),
-	getCompareSample: () => dispatch(fetchSample(INPUT_BO)),
+	getSample: () => dispatch(fetchData(ACCEL, ACCEL.title)),
+	getCompareSample: () => dispatch(fetchData(BO_INAUG, BO_INAUG.title))
 });
 
 export default connect(null, mapDispatchToProps)(Navbar);
