@@ -42,7 +42,6 @@ export default class Visualizer extends Component {
     this.objects = [];
 
     this.onWindowResize = this.onWindowResize.bind(this);
-    this.loadWords = this.loadWords.bind(this);
     this.loadTextWords = this.loadTextWords.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -64,53 +63,39 @@ export default class Visualizer extends Component {
     this.init();
   }
 
-    /* load axis */
-  loadWords(words, fontFile, size, height) {
-    //need to load the font first
-    let loader = new THREE.FontLoader();
-    loader.load(fontFile, (font) => {
-
-      //for every word create an object called Mesh
-      words && Object.keys(words).forEach((word) => {
-        //properties for word
-        let geometry  = new THREE.TextGeometry(word,{size, font, height});
-        let material =  new THREE.MeshBasicMaterial( { color: 0xffffff } );
-        let mesh = new THREE.Mesh( geometry, material );
-
-        //set the position for every single word
-        mesh.position.x = words[word][0] - 0.5;
-        mesh.position.y = words[word][1] - 0.5;
-        mesh.position.z = words[word][2] - 0.5;
-
-        mesh.updateMatrix();
-        mesh.matrixAutoUpdate = false;
-        //append the word to scene
-        this.scene.add( mesh );
-      });
-    });
-  }
+  
 
   /* load the words (one sphere per word for text analyzed) to scene */
   loadTextWords(compareBool, words, color) {
 
-    //for every word create an object called Mesh
+    //for every word, we will create a spherical mesh object in three js
+    // each sphere will be assigned color via RGB values
+
+
+    // find the minimum value of x,y,z over the entire data set
     words && Object.keys(words).forEach((word, idx) => {
       this.xmin = this.xmin<words[word][0]?this.xmin:words[word][0];
       this.ymin = this.ymin<words[word][1]?this.ymin:words[word][1];
       this.zmin = this.zmin<words[word][2]?this.zmin:words[word][2];
-      this.xmax = this.xmax>words[word][0]?this.xmax:words[word][0];
-      this.ymax = this.ymax>words[word][1]?this.ymax:words[word][1];
-      this.zmax = this.zmax>words[word][2]?this.zmax:words[word][2];
-
     })
-    words && Object.keys(words).forEach((word, idx) => {
-      //properties for word
 
-      let geometry  = new THREE.SphereGeometry( 0.02, 8, 8 );
+      // difference between 1 and the minimum coordinate value; 
+      // will be used to assign RGB values for each sphere object
       var diffx = 1-this.xmin;
       var diffy = 1-this.ymin;
       var diffz = 1-this.zmin;
 
+    words && Object.keys(words).forEach((word, idx) => {
+      //properties for word
+
+      // create a sphere object for each word
+      let geometry  = new THREE.SphereGeometry( 0.02, 8, 8 );
+   
+
+      // to determine R (x-coord), G (y-coord), B (z-coord) color values, 
+      // calculate difference between x, y, z values and the minimum coordinate values as a 
+      // percentage of the value range
+      // multiplying by 1.3 made the resulting colors brighter 
       if(!compareBool){
         color = new THREE.Color(
           1.3*(words[word][0]-this.xmin)/diffx,
@@ -128,8 +113,8 @@ export default class Visualizer extends Component {
 
       mesh.updateMatrix();
       mesh.matrixAutoUpdate = false;
-      mesh.name = words[word]; // hopefully can use this for "mouse over" word info!
-      //passing down the properiteis, word & color
+      mesh.name = words[word]; // property used for "mouse over" word info
+      //passing down the properties, word & color
       mesh.word = word;
       mesh.colors =[
         1.3*(words[word][0]-this.xmin)/diffx,
@@ -186,7 +171,6 @@ export default class Visualizer extends Component {
     // load everything onto the scene
 
 
-    this.loadWords({X:[1,0,0], Y:[0,1,0], Z:[0,0,1]}, 'js/optimer_bold.typeface.json', 0.05, 0.005);
 
     // check if the text2 exists, if so check the length of its object keys,
     // if greater than 1, then we have a second set of text to load
