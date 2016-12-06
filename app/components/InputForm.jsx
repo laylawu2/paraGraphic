@@ -98,7 +98,7 @@ export default class extends React.Component {
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
         <div className='form-group'>
           {/* user input field: title for text visualization */}
-          <TextField hintText="please enter a title for your graph" name='graphtitle' value={title}/>
+          <TextField hintText="please enter a title for your graph" name='graphtitle' defaultValue={entry.title}/>
         </div>
         <div>
           <p>
@@ -139,7 +139,7 @@ export default class extends React.Component {
             rows={4}
             rowsMax={4}
             style={{overflow: scroll}}
-            value={entry.text}
+            defaultValue={entry.text}
           />
         </div>
         <div>
