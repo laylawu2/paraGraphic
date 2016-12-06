@@ -35,11 +35,16 @@ span {
 
 #text{
     font-size: 30px;
-    color: red;
-    margin-top: -100px;
+    color: black;
+    margin-top: -130px;
     margin-left: 100px;
     z-index: 1;
     position: absolute;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: white;
 }
 
 body {
@@ -103,6 +108,7 @@ textarea {
   text-align: right;
 }
 
+
 .img {
     position: relative;
     float: left;
@@ -128,3 +134,11 @@ textarea {
   /* override material UI inline styles*/
   min-width: 50px !important;
 }
+
+ canvas{
+
+ }
+ #nav{
+    position: absolute;
+    width: 100%;
+ }
