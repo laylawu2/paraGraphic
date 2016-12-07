@@ -17,11 +17,11 @@ const linkToProjects = () => {
 }
 
 {/* define drop-down menu indicated by icon to display at right of navbar */}
-class Examples extends Component { 
+class Examples extends Component {
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     return (
       <IconMenu
@@ -53,7 +53,7 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <div>
+      <div id = "nav">
         <AppBar
           title="paraGraphic"
           showMenuIconButton={ false }

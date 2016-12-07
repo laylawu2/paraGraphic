@@ -93,7 +93,7 @@ export default class extends React.Component {
 
     if (labels) {
     return(
-    <div>
+    <div id = "inputform">
       <form className='form-inline' onSubmit={this.submitForm }>
         <h4>DETAILS FOR YOUR 3D VISUALIZATION</h4>
         <div className='form-group'>
@@ -136,8 +136,8 @@ export default class extends React.Component {
             floatingLabelText="TEXT TO ANALYZE"
             multiLine={true}
             fullWidth={true}
-            rows={4}
-            rowsMax={4}
+            rows={3}
+            rowsMax={3}
             style={{overflow: scroll}}
             defaultValue={entry.text}
           />
