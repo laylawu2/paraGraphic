@@ -17,7 +17,7 @@ export const fetchData = (input) => {
 	return (dispatch) => {
 		// set loading circle indicator off
 	    dispatch(updatePageStatus('loading'));                           // axios call to python server 
-	    return axios.post('http://localhost:1337/PCA', input)    	     // (via express server)
+	    return axios.post('/PCA', input)    	     // (via express server)
 	      .then(res => {                                                 // returns plottable points 
 	        dispatch(getVisInfo(                                         // and axis data;
 	          { words: res.data.words,                                   // dispatches returned data to

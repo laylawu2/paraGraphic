@@ -49,6 +49,7 @@
     "lodash": "^4.17.2",
     "material-design-icons": "^3.0.1",
     "material-ui": "^0.16.4",
+    "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github2": "^0.1.10",
