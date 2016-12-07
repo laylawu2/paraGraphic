@@ -1,4 +1,4 @@
-# paraGraphic[paraGraphic.us](paraGraphic.us)
+# paraGraphic [paraGraphic.us](http://paraGraphic.us)
 #### Elaine Chang([ljc391](https://github.com/ljc391)), Tiffany Liu([jiayuliu27](https://github.com/jiayuliu27)), Cara Weber([CaraWeber](https://github.com/CaraWeber)), Layla Wu([laylawu2](https://github.com/laylawu2))
 
 paraGraphic is a visual text analysis tool that renders a 3D model of relationships between words.  Drawing on machine learning and statistical analysis, paraGraphic determines the three ideas that make the most difference to the text, and then plots each word in relation to those ideas.  
