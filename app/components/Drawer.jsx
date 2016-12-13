@@ -19,7 +19,6 @@ export default class extends React.Component {
     super(props);
     this.state = {open: false};
     this.info = true;
-
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
